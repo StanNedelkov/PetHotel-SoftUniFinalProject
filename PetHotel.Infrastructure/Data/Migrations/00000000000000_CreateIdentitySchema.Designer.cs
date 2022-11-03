@@ -10,7 +10,7 @@ using System;
 
 namespace PetHotel.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(PetHotelDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {

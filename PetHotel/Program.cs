@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Core.Models;
+using PetHotel.Infrastructure.Data.Entities;
 
 namespace PetHotel
 {
@@ -12,14 +13,27 @@ namespace PetHotel
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+                throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+            builder.Services.AddDbContext<PetHotelDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<User>(options => 
+            { 
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireDigit = true;
+            })
+                .AddEntityFrameworkStores<PetHotelDbContext>();
             builder.Services.AddControllersWithViews();
+            //need to set login path here
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/User/Login";
+            });
 
             var app = builder.Build();
 
