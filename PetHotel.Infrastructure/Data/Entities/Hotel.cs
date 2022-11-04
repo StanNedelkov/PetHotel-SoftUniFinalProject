@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PetHotel.Common.EntityConstants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Infrastructure.Data.Entities
 {
@@ -16,8 +12,10 @@ namespace PetHotel.Infrastructure.Data.Entities
             this.Schedules = new HashSet<Schedule>();
             
         }
-
+        [Key]
         public int Id { get; set; }
+        [Required]
+        [MinLength(HotelConstants.HotelNameMax)]
         public string Name { get; set; } = null!;
 
         public int CapacityID { get; set; }

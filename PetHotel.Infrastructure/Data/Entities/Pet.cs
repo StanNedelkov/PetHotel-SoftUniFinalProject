@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PetHotel.Common.EntityConstants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using PetHotel.Common.EntityConstants;
 
 namespace PetHotel.Infrastructure.Data.Entities
 {
@@ -14,12 +14,13 @@ namespace PetHotel.Infrastructure.Data.Entities
         [Required]
         [Range(PetConstants.AgeMin, PetConstants.DogAgeMax)]
         public int Age { get; set; }
+        [MinLength(PetConstants.AlergiesMaxLength)]
         public string Alergies { get; set; } = null!;
         public int PetTypeID { get; set; }
         [Required]
         [ForeignKey(nameof(PetTypeID))]
         public PetType PetType { get; set; } = null!;
-        public int UserID { get; set; }
+        public string UserID { get; set; } = null!;
         [Required]
         [ForeignKey(nameof(UserID))]
         public User User { get; set; } = null!;

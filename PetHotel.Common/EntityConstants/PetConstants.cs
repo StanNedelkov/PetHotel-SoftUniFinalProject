@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetHotel.Common.EntityConstants
+﻿namespace PetHotel.Common.EntityConstants
 {
     public class PetConstants
     {
@@ -16,5 +10,10 @@ namespace PetHotel.Common.EntityConstants
         public const int GatorAgeMax = 90;
         public const int AlergiesMinLength = 4;
         public const int AlergiesMaxLength = 20;
+        public const int PetTypeNameMIn = 3;
+        public const int PetTypeNameMax = 9;
+        public const int DogMaxCapacity = 20;
+        public const int CatMaxCapacity = 25;
+        public const int GatorMaxCapacity = 3;
     }
 }

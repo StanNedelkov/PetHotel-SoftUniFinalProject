@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PetHotel.Common.EntityConstants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Infrastructure.Data.Entities
 {
@@ -16,8 +12,10 @@ namespace PetHotel.Infrastructure.Data.Entities
         [Required]
         public int PetID { get; set; }
         [Required]
+        [MinLength(PetConstants.NameMax)]
         public string PetName { get; set; } = null!;
         [Required]
+        
         public DateTime AdmissionDate { get; set; }
         [Required]
         public DateTime DepartureDate { get; set; }

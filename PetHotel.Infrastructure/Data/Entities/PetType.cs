@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PetHotel.Common.EntityConstants;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Infrastructure.Data.Entities
 {
@@ -16,6 +12,7 @@ namespace PetHotel.Infrastructure.Data.Entities
         [Key]
         public int Id { get; set; }
         [Required]
+        [MinLength(PetConstants.PetTypeNameMax)]
         public string Name { get; set; } = null!;
 
         public ICollection<Pet> Pets { get; set; }

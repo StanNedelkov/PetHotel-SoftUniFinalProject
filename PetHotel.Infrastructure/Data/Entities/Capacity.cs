@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PetHotel.Common.EntityConstants;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Infrastructure.Data.Entities
 {
@@ -12,22 +7,23 @@ namespace PetHotel.Infrastructure.Data.Entities
     {
         [Key]
         public int Id { get; set; }
-
+        [Range(PetConstants.DogMaxCapacity, 0)]
         public int CurCapacityDogs { get; set; }
         [Required]
+        [Range(PetConstants.DogMaxCapacity, 0)]
         public int MaxCapacityDogs { get; set; }
-
+        [Range(PetConstants.CatMaxCapacity, 0)]
         public int CurCapacityCats { get; set; }
         [Required]
+        [Range(PetConstants.CatMaxCapacity, 0)]
         public int MaxCapacityCats { get; set; }
-
+        [Range(PetConstants.GatorMaxCapacity, 0)]
         public int CurCapacityGator { get; set; }
         [Required]
+        [Range(PetConstants.GatorMaxCapacity, 0)]
         public int MaxCapacityGator { get; set; }
 
         public int HotelID { get; set; }
-        [Required]
-        [ForeignKey(nameof(HotelID))]
-        public Hotel Hotel { get; set; } = null!;
+       
     }
 }

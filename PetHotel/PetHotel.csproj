@@ -14,11 +14,23 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PetHotel.Core\PetHotel.Core.csproj" />
     <ProjectReference Include="..\PetHotel.Infrastructure\PetHotel.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\LoggedInUser\Controllers\" />
+    <Folder Include="Areas\LoggedInUser\Data\" />
+    <Folder Include="Areas\LoggedInUser\Models\" />
+    <Folder Include="Areas\LoggedInUser\Views\" />
   </ItemGroup>
 
 </Project>

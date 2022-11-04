@@ -10,5 +10,7 @@
 
         public const string DateTimeFormatConst = "dd/MM/yyyy";
 
+        public const string PetHotelName = "Dogs Croks and Cats Hotel";
+
     }
 }
