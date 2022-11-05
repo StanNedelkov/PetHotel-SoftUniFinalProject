@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PetHotel.Common\PetHotel.Common.csproj" />
-    <ProjectReference Include="..\PetHotel.Core\PetHotel.Core.csproj" />
   </ItemGroup>
 
 </Project>

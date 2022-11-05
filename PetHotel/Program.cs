@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Core.Models;
 using PetHotel.Infrastructure.Data.Entities;
+using PetHotel.Core.Contracts;
+using PetHotel.Core.Services;
 
 namespace PetHotel
 {
@@ -24,8 +26,13 @@ namespace PetHotel
             builder.Services.AddDefaultIdentity<User>(options => 
             { 
                 options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequiredLength = 5;
-                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PetHotelDbContext>();
@@ -35,6 +42,8 @@ namespace PetHotel
             {
                 options.LoginPath = "/User/Login";
             });
+
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 
@@ -68,7 +77,7 @@ namespace PetHotel
             app.Run();
         }
 
-        private async Task CreateRoles(IServiceProvider serviceProvider)
+        /*private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -109,6 +118,6 @@ namespace PetHotel
 
                 }
             }
-        }
+        }*/
     }
 }

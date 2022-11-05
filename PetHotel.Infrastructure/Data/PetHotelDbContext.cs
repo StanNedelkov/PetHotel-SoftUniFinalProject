@@ -64,7 +64,7 @@ namespace PetHotel.Infrastructure.Data
         }
         private void SeedAdminUsers()
         {
-            var hasher = new PasswordHasher<IdentityUser>();
+            var hasher = new PasswordHasher<User>();
             this.AdminUser = new User()
             {
                 Id = adminId,
