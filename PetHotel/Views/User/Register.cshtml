@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Register";
 }
-<style>
+@*<style>
     .form-group {
         border: 1px solid #ced4da;
         padding: 5px;
@@ -26,7 +26,7 @@
 
             .form-group input:focus {
                 box-shadow: none;
-            }</style>
+            }</style>*@
 <h1 class="text-center">@ViewData["Title"]</h1>
 
 <div class="row">
@@ -36,13 +36,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.UserName">Username</label>
-                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.UserName" />
+                <input class="form-control " autocomplete="username" aria-required="true" placeholder="username"asp-for="@Model.UserName" />
                 <span asp-validation-for="@Model.UserName" class="text-danger"></span>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.FirstName">First Name</label>
-                <input class="form-control " autocomplete="First Name" aria-required="true" asp-for="@Model.FirstName" />
+                <input class="form-control " autocomplete="on" aria-required="true" asp-for="@Model.FirstName" />
                 <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

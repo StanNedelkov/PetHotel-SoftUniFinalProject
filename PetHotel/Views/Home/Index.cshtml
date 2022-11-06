@@ -4,5 +4,21 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <section class="home-page">
+        @if (this.User?.Identity?.IsAuthenticated ?? false)
+        {
+            <h1 class="display-4">@this.User.Identity.Name</h1>
+
+            @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
+            {
+                <h1 class="display-4"> You have admin rights</h1>
+            }
+            @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
+            {
+                <h1 class="display-4"> You have user rights</h1>
+            }
+
+        }
+    </section>
+  
 </div>

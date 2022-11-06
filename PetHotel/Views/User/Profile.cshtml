@@ -1,0 +1,13 @@
+﻿@model PetHotel.Core.Models.UserModels.ProfileViewModel
+
+<p>User: @Model.UserName</p>
+<p>Name: @Model.FirstName</p>
+<p>Last name: @Model.LastName</p>
+<p>Email: @Model.Email</p>
+<p>Phone: @Model.PhoneNumber</p>
+<p>Password: @Model.PasswordHidden</p>
+@foreach (var pet in Model.Pets)
+{
+    <p>@pet.PetType</p>
+    <p>@pet.Name</p>
+}

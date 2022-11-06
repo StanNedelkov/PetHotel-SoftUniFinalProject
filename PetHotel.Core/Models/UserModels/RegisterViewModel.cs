@@ -8,7 +8,7 @@ namespace PetHotel.Core.Models.UserModels
     {
         //TODO add validation for unique username
         [Required]
-        [StringLength(UserConstants.UserNameMax, MinimumLength = UserConstants.UserNameMin, ErrorMessage = ErrorMessagesConstants.firstNameInvalid)]
+        [StringLength(UserConstants.UserNameMax, MinimumLength = UserConstants.UserNameMin, ErrorMessage = ErrorMessagesConstants.usernameInvalid)]
         public string UserName { get; set; } = null!;
 
         [Required]
