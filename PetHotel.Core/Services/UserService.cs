@@ -1,18 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 using PetHotel.Common;
 using PetHotel.Core.Contracts;
+using PetHotel.Core.Models.PetModels;
 using PetHotel.Core.Models.UserModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using PetHotel.Core.Models.PetModels;
 
 namespace PetHotel.Core.Services
 {

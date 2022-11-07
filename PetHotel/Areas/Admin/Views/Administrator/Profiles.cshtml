@@ -1,0 +1,26 @@
+﻿@model IEnumerable<PetHotel.Core.Models.UserModels.ProfileViewModel>
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    
+}
+    @foreach (var item in Model)
+{
+    <p>User: @item.UserName</p>
+    <p>Name: @item.FirstName</p>
+    <p>Last name: @item.LastName</p>
+    <p>Email: @item.Email</p>
+    <p>Phone: @item.PhoneNumber</p>
+    <p>Password: @item.PasswordHidden</p>
+    @foreach (var pet in item.Pets)
+    {
+        <p>@pet.PetType</p>
+        <p>@pet.Name</p>
+    }
+
+}
+<div>
+    <a class="btn-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+</div>
+
+

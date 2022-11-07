@@ -23,6 +23,7 @@ namespace PetHotel
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+            //todo add real requirments and move them to js file. Stamo said so.
             builder.Services.AddDefaultIdentity<User>(options => 
             { 
                 options.SignIn.RequireConfirmedAccount = false;
@@ -37,13 +38,16 @@ namespace PetHotel
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PetHotelDbContext>();
             builder.Services.AddControllersWithViews();
-            //need to set login path here
+
+            //Set login path here
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/User/Login";
             });
 
+            //Declare services
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
             var app = builder.Build();
 
@@ -67,10 +71,29 @@ namespace PetHotel
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
+            //Map for the Areas folder configuration
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+              name: "default",
+              pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                  name: "areas",
+                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
+            name: "MyAreaAdmin",
+            areaName: "Admin",
+            pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+
+            });
+            /* app.MapAreaControllerRoute(
+              name: "MyAreaAdmin",
+              areaName: "Admin",
+              pattern: "Admin/{controller=Home}/{action=Index}/{id?}");*/
+
+          /*  
+            app.MapRazorPages();*/
             
             
 

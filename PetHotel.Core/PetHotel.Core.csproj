@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Models\HotelModels\" />
-    <Folder Include="Models\AdminModels\" />
     <Folder Include="Models\ScheduleModels\" />
   </ItemGroup>
 
