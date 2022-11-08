@@ -51,21 +51,20 @@ namespace PetHotel.Core.Services
                 PasswordHidden = "******"
 
             };
-            List <PetViewModel> pets = new List<PetViewModel> ();
-            foreach (var pet in user.Pets)
-            {
-                var userPet = new PetViewModel() 
+          
+            var petsInDB = await context
+                .Pets
+                .Where(x => x.UserID == userId)
+                .Select(x => new PetViewModel()
                 {
-                    Id = pet.Id,
-                    PetType = pet.PetType.Name,
-                    Age = pet.Age,
-                    Name = pet.Name,
-                    Alergies = pet.Alergies
-                };
-                pets.Add(userPet);
-            }
+                    Id = x.Id,
+                    PetType = x.PetType.Name,
+                    Age = x.Age,
+                    Name = x.Name,
+                    Alergies = x.Alergies
+                }).ToListAsync();
 
-            userProfile.Pets = pets;
+            userProfile.Pets = petsInDB;
             return userProfile;
         }
 

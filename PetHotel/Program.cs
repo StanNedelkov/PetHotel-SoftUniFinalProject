@@ -39,15 +39,19 @@ namespace PetHotel
                 .AddEntityFrameworkStores<PetHotelDbContext>();
             builder.Services.AddControllersWithViews();
 
+            //caching to save form data if model validation fails
+            builder.Services.AddMemoryCache();
+
             //Set login path here
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/User/Login";
             });
 
-            //Declare services
+            //Add services
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IPetService, PetService>();
 
             var app = builder.Build();
 
@@ -85,17 +89,13 @@ namespace PetHotel
             areaName: "Admin",
             pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapAreaControllerRoute(
+           name: "MyAreaClient",
+           areaName: "Client",
+           pattern: "Client/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
 
             });
-            /* app.MapAreaControllerRoute(
-              name: "MyAreaAdmin",
-              areaName: "Admin",
-              pattern: "Admin/{controller=Home}/{action=Index}/{id?}");*/
-
-          /*  
-            app.MapRazorPages();*/
-            
-            
 
             app.Run();
         }

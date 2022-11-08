@@ -96,7 +96,7 @@ namespace PetHotel.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
             
             try
             {

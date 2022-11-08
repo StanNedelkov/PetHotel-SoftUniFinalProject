@@ -14,7 +14,7 @@ namespace PetHotel.Infrastructure.Data.Entities
         [Required]
         [Range(PetConstants.AgeMin, PetConstants.DogAgeMax)]
         public int Age { get; set; }
-        [MinLength(PetConstants.AlergiesMaxLength)]
+        [MinLength(PetConstants.AlergiesMinLength)]
         public string Alergies { get; set; } = null!;
         public int PetTypeID { get; set; }
         [Required]

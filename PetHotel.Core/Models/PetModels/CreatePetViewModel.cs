@@ -1,16 +1,9 @@
 ﻿using PetHotel.Common.EntityConstants;
-using PetHotel.Infrastructure.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Core.Models.PetModels
 {
-    public class PetViewModel
+    public class CreatePetViewModel
     {
         public int Id { get; set; }
         [Required]
@@ -22,8 +15,5 @@ namespace PetHotel.Core.Models.PetModels
         [MinLength(PetConstants.AlergiesMinLength)]
         public string Alergies { get; set; } = null!;
         public int PetTypeID { get; set; }
-        
-        public string PetType { get; set; } = null!;
-        public string UserID { get; set; } = null!;
     }
 }

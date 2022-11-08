@@ -42,6 +42,7 @@ namespace PetHotel.Core.Services
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     Email = item.Email,
+                    PhoneNumber = item.PhoneNumber
                 };
 
                 var petList = new List<PetViewModel>();

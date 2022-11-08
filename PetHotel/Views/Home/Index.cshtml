@@ -16,6 +16,7 @@
             @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
             {
                 <h1 class="display-4"> You have user rights</h1>
+                <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create">Add a pet</a>
             }
 
         }
