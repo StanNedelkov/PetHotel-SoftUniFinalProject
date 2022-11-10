@@ -57,6 +57,24 @@ namespace PetHotel.Core.Services
            
         }
 
+        public async Task EditPetAsync(CreatePetViewModel model)
+        {
+            var pet = await context
+                .Pets
+                .FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (pet == null)
+            {
+                throw new ArgumentNullException();
+            }
+            pet.Age = model.Age;
+            pet.Alergies = model.Alergies;
+            pet.Name = model.Name;
+            pet.PetTypeID = model.PetTypeID;
+
+            await context.SaveChangesAsync();
+            
+        }
+
         public async Task<IEnumerable<PetTypeViewModel>> GetAllPetTypesAsync()
         {
             var petTypes = await context
@@ -65,6 +83,27 @@ namespace PetHotel.Core.Services
                 .ToListAsync();
 
             return petTypes;
+        }
+
+        public async Task<CreatePetViewModel> GetPetAsync(int Id)
+        {
+            var pet = await context
+               .Pets
+               .Include(x => x.PetType)
+               .FirstOrDefaultAsync(x => x.Id == Id);
+            if (pet == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new CreatePetViewModel()
+            {
+                Id = pet.Id,
+                Name = pet.Name,
+                Age = pet.Age,
+                Alergies = pet.Alergies,
+                PetTypeID = pet.PetTypeID
+            };
         }
     }
 }

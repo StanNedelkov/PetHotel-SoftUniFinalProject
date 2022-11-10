@@ -29,7 +29,7 @@ namespace PetHotel.Areas.Client.Controllers
         public async Task<IActionResult> Create()
         {
 
-            ViewData["PetTypeId"] = new SelectList(await service.GetAllPetTypesAsync(), "Id", "Name");
+            ViewData["PetTypeId"] = new SelectList(await GetTypes(), "Id", "Name");
 
            /* cache.Set("PetTypeId", types);*/
             return View();
@@ -42,7 +42,7 @@ namespace PetHotel.Areas.Client.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewData["PetTypeId"] = new SelectList(await service.GetAllPetTypesAsync(), "Id", "Name");
+                ViewData["PetTypeId"] = new SelectList(await GetTypes(), "Id", "Name");
                 return View(model);
             }
 
@@ -68,6 +68,49 @@ namespace PetHotel.Areas.Client.Controllers
             }
             return RedirectToAction("Profile", "User");
         }
+        [Route("Edit")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            try
+            {
+                var model = await service.GetPetAsync(Id);
+                ViewData["PetTypeId"] = new SelectList(await GetTypes(), "Id", "Name");
+                return View(model);
+            }
+            //todo
+            catch (ArgumentNullException)
+            {
+               return BadRequest();
+            }
+            
+        }
 
+        [Route("Edit")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(CreatePetViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["PetTypeId"] = new SelectList(await GetTypes(), "Id", "Name");
+                return View(model); 
+            }
+            try
+            {
+                await service.EditPetAsync(model);
+                return RedirectToAction("Profile", "User");
+            }
+            catch (ArgumentNullException)
+            {
+
+                return BadRequest();
+            }
+           
+        }
+
+
+        private async Task<IEnumerable<PetTypeViewModel>> GetTypes() 
+            => await service.GetAllPetTypesAsync();
+        
     }
 }
