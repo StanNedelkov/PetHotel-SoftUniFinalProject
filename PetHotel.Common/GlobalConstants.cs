@@ -8,7 +8,7 @@
 
         public const string UserRoleName = "User";
 
-        public const string DateTimeFormatConst = "dd/MM/yyyy";
+        public const string DateTimeFormatConst = "dd/MM/yyyy HH:mm";
 
         public const string PetHotelName = "Dogs Crocs and Cats Hotel";
 

@@ -39,7 +39,7 @@ namespace PetHotel
                 .AddEntityFrameworkStores<PetHotelDbContext>();
             builder.Services.AddControllersWithViews();
 
-            //caching to save form data if model validation fails
+            //caching to save data 
             builder.Services.AddMemoryCache();
 
             //Set login path here
@@ -52,6 +52,7 @@ namespace PetHotel
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IPetService, PetService>();
+            builder.Services.AddScoped<IHotelService, HotelService>();
 
             var app = builder.Build();
 
