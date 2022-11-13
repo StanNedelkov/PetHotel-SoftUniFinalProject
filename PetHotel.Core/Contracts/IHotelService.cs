@@ -15,6 +15,6 @@ namespace PetHotel.Core.Contracts
         Task<GuestOwnerViewModel> GetGuestOwnerAsync(int id);
 
         Task AddGuestAsync(AddGuestViewModel model);
-        Task<AddGuestViewModel> GetGustToAddAsync(int id);
+        Task<AddGuestViewModel> GetGuestToAddAsync(int id);
     }
 }

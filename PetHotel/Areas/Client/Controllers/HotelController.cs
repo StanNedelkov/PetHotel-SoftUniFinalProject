@@ -24,7 +24,7 @@ namespace PetHotel.Areas.Client.Controllers
         [HttpGet]
         public async Task<IActionResult>Add(int Id)
         {
-            return View(await service.GetGustToAddAsync(Id));
+            return View(await service.GetGuestToAddAsync(Id));
         }
 
         [Route("Add")]

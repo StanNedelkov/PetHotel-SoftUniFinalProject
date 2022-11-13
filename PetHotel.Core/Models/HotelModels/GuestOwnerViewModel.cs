@@ -8,7 +8,7 @@ namespace PetHotel.Core.Models.HotelModels
 {
     public class GuestOwnerViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = null!;
         public string UserName { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
