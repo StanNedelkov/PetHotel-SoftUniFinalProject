@@ -16,5 +16,11 @@ namespace PetHotel.Core.Contracts
 
         Task AddGuestAsync(AddGuestViewModel model);
         Task<AddGuestViewModel> GetGuestToAddAsync(int id);
+
+        Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId);
+
+        Task CancelHotelStayAsync(int id);
+
+
     }
 }

@@ -61,6 +61,20 @@ namespace PetHotel.Core.Services
 
           
         }
+
+        //TODO
+        public async Task CancelHotelStayAsync(int id)
+        {
+            var petToCancel = await context.Schedules
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (petToCancel == null) throw new ArgumentNullException();
+
+            //TODO change checkout date and move to new table archive or create bool inactive or delete
+        }
+
+
+
         /// <summary>
         /// List of all pets in the hotel.
         /// To be used by the employee account.
@@ -98,6 +112,8 @@ namespace PetHotel.Core.Services
 
            return petDto;
         }
+
+
         /// <summary>
         ///Owner of pet in hotel details.
         ///To be used by the employee account
@@ -127,8 +143,11 @@ namespace PetHotel.Core.Services
 
             return user;
         }
+
+
         /// <summary>
         /// Checks if pet is in DB and sends a DTO to be filled/edited
+        /// by the client user.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -154,6 +173,66 @@ namespace PetHotel.Core.Services
             };
         }
 
+
+        /// <summary>
+        /// List of all user's pets in hotel.
+        /// To be used by clients.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId)
+        {
+            List<int> guestsId = await context
+                 .Schedules
+                 .Select(x => x.PetID)
+                 .ToListAsync();
+
+            if (guestsId == null) return Enumerable.Empty<GuestBasicViewModel>().ToList();
+
+            var petDto = await context
+                .Pets
+                .Where(x => guestsId.Contains(x.Id) && x.UserID == userId)
+                .Include(x => x.User)
+                .Include(x => x.PetType)
+                .AsNoTracking()
+                .Select(x => new GuestBasicViewModel()
+                {
+                    PetId = x.Id,
+                    OwnerId = x.UserID,
+                    OwnerName = x.User.FirstName,
+                    PetName = x.Name,
+                    PetType = x.PetType.Name,
+                })
+                .ToListAsync();
+
+            if (petDto == null) return Enumerable.Empty<GuestBasicViewModel>().ToList();
+
+            foreach (var pet in petDto)
+            {
+                string? checkIn = await context
+                .Schedules
+                .Where(x => x.PetID == pet.PetId)
+                .Select(x => x.AdmissionDate.ToString())
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+                string? checkOut = await context
+                .Schedules
+                .Where(x => x.PetID == pet.PetId)
+                .Select(x => x.DepartureDate.ToString())
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+                pet.CheckInDate = checkIn ?? null!;
+                pet.CheckOutDate = checkOut ?? null!;
+
+            }
+
+            return petDto;
+        }
+
+
         public async Task<PetViewModel> GuestDetailsAsync(int id)
         {
             var petDto = await context.Pets
@@ -169,7 +248,8 @@ namespace PetHotel.Core.Services
                     PetType = x.PetType.Name,
                     PetTypeID = x.PetTypeID,
                     UserID = x.UserID
-                }).FirstOrDefaultAsync();
+                })
+                .FirstOrDefaultAsync();
 
             if (petDto == null) throw new ArgumentNullException();
 

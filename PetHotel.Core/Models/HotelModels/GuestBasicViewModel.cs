@@ -14,5 +14,9 @@ namespace PetHotel.Core.Models.HotelModels
         public string OwnerName { get; set; } = null!;
 
         public string PetType { get; set; } = null!;
+
+        public string CheckInDate { get; set; } = null!;
+
+        public string CheckOutDate { get; set; } = null!;
     }
 }

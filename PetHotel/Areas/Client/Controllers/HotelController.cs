@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.HotelModels;
+using System.Security.Claims;
 
 namespace PetHotel.Areas.Client.Controllers
 {
@@ -36,6 +37,15 @@ namespace PetHotel.Areas.Client.Controllers
             await service.AddGuestAsync(model);
 
             return RedirectToAction("Profile","User");
+        }
+
+        [Route("AllMine")]
+        /*[HttpPost]*/
+        public async Task<IActionResult> AllMine()
+        {
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            var allMyPetsInHotel = await service.GetMyAllGuestsAsync(userId);
+            return View(allMyPetsInHotel);
         }
     }
 }
