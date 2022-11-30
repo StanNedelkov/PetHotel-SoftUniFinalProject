@@ -34,9 +34,17 @@ namespace PetHotel.Areas.Client.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            await service.AddGuestAsync(model);
+            try
+            {
+                await service.AddGuestAsync(model);
 
-            return RedirectToAction("Profile","User");
+                return RedirectToAction("Profile", "User");
+            }
+            catch (ArgumentException)
+            {
+                return View(model);
+            }
+            
         }
 
         [Route("AllMine")]

@@ -4,12 +4,13 @@ using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.UserModels;
 using System.Security.Claims;
 
-namespace PetHotel.Controllers
+namespace PetHotel.Areas.Client.Controllers
 {
     /// <summary>
     /// UserController handles login, register and logout functions by calling UserService.
     /// </summary>
     [Authorize]
+    [Area("Client")]
     public class UserController : Controller
     {
         private readonly IUserService service;
@@ -22,18 +23,20 @@ namespace PetHotel.Controllers
             return View();
         }
         [HttpGet]
+        [Route("Register")]
         [AllowAnonymous]
         public IActionResult Register()
         {
             return View(new RegisterViewModel());
         }
         [HttpPost]
+        [Route("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View( model);
+                return View(model);
             }
 
             try
@@ -45,11 +48,12 @@ namespace PetHotel.Controllers
                 ModelState.AddModelError(string.Empty, ae.Message);
                 return View(model);
             }
-            
+
             return RedirectToAction(nameof(Login));
         }
 
         [HttpGet]
+        [Route("Login")]
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -57,8 +61,9 @@ namespace PetHotel.Controllers
         }
 
         [HttpPost]
+        [Route("Login")]
         [AllowAnonymous]
-        public async Task<IActionResult>Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -82,6 +87,7 @@ namespace PetHotel.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await service.SignOutUserAsync();
@@ -94,10 +100,11 @@ namespace PetHotel.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("Profile")]
         public async Task<IActionResult> Profile()
         {
             string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            
+
             try
             {
                 var userProfile = await service.GetProfileAsync(userId!); //userId can't be null because the user is logged

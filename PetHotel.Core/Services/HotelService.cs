@@ -62,7 +62,8 @@ namespace PetHotel.Core.Services
           
         }
 
-        //TODO
+        //TODO add date time to collect your pet, update the dto. Return it or redirect to pets in hotel list
+        //
         public async Task CancelHotelStayAsync(int id)
         {
             var petToCancel = await context.Schedules
@@ -90,11 +91,11 @@ namespace PetHotel.Core.Services
                 .Select(x => x.PetID)
                 .ToListAsync();
 
-            if (guests == null) return new List<GuestBasicViewModel>();
+            if (guests == null) Enumerable.Empty<GuestBasicViewModel>().ToList();
 
             var petDto = await context
                 .Pets
-                .Where(x => guests.Contains(x.Id))
+                .Where(x => guests!.Contains(x.Id))
                 .Include(x => x.User)
                 .Include(x => x.PetType)
                 .AsNoTracking()
@@ -206,7 +207,7 @@ namespace PetHotel.Core.Services
                 })
                 .ToListAsync();
 
-            if (petDto == null) return Enumerable.Empty<GuestBasicViewModel>().ToList();
+            if (petDto == null) throw new ArgumentException();
 
             foreach (var pet in petDto)
             {
