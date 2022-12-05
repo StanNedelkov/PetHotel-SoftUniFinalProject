@@ -112,7 +112,5 @@ namespace PetHotel.Core.Services
 
         public async Task SignOutUserAsync()
             => await signInManager.SignOutAsync();
-        
-        
     }
 }

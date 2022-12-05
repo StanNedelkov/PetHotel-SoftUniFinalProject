@@ -42,10 +42,11 @@ namespace PetHotel
             //caching to save data 
             builder.Services.AddMemoryCache();
 
-            //Set login path here
+            //Set login/register/access denied path here
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/User/Login";
+                options.LoginPath = "/Login";
+                options.LogoutPath= "/Logout";
             });
 
             //Add services

@@ -71,6 +71,19 @@ namespace PetHotel.Core.Services
 
             if (petToCancel == null) throw new ArgumentNullException();
 
+            if (petToCancel.AdmissionDate > DateTime.Now)
+            {
+                try
+                {
+                    context.Schedules.Remove(petToCancel);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
             //TODO change checkout date and move to new table archive or create bool inactive or delete
         }
 
@@ -255,6 +268,44 @@ namespace PetHotel.Core.Services
             if (petDto == null) throw new ArgumentNullException();
 
             return petDto;
+        }
+        /// <summary>
+        /// Change collection date to an earlier time
+        /// </summary>
+        /// <param name="bookedId"></param>
+        /// <param name="newCollectionDate"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task PickUpearly(int bookedId, string newCollectionDate)
+        {
+            var petToCancel = await context.Schedules
+               .FirstOrDefaultAsync(x => x.Id == bookedId);
+
+            if (petToCancel == null) throw new ArgumentNullException(); // check if pet guest exists
+
+            if (petToCancel.AdmissionDate > DateTime.Now && 
+                petToCancel.DepartureDate == DateTime.Now) throw new ArgumentException(); // check if pet guest is staying in the hotel
+
+
+
+            DateTime departureDate;
+                bool isDeparture = DateTime
+                    .TryParseExact(newCollectionDate,
+                    GlobalConstants.DateTimeFormatConst,
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out departureDate);
+
+                if (!isDeparture) throw new ArgumentException(); // check if new collection date format is ok
+
+            if (petToCancel.AdmissionDate > departureDate &&
+           petToCancel.DepartureDate == departureDate &&
+           departureDate >= DateTime.Now) throw new ArgumentException(); // check if new collection date is not earlier or later
+                                                                         // than the stay in the hotel
+
+            petToCancel.DepartureDate = departureDate;
+            await context.SaveChangesAsync();
         }
     }
 }

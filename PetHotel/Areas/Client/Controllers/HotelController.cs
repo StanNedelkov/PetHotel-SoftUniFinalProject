@@ -55,5 +55,15 @@ namespace PetHotel.Areas.Client.Controllers
             var allMyPetsInHotel = await service.GetMyAllGuestsAsync(userId);
             return View(allMyPetsInHotel);
         }
+
+        //todo edit the basicpetviewmodel to have the schedule Id in order to use it here
+
+        [Route("Cancel")]
+        public async Task <IActionResult> Cancel(int id)
+        {
+            await service.CancelHotelStayAsync(id);
+
+            return RedirectToAction(nameof(AllMine));
+        }
     }
 }
