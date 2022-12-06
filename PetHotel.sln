@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHotel.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHotel.Core", "PetHotel.Core\PetHotel.Core.csproj", "{42C64E47-20F7-4B67-9D18-5FD8A0C56796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHotel.Common", "PetHotel.Common\PetHotel.Common.csproj", "{7E3EE544-BDD9-4389-80D6-765A8F7B22DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHotel.Common", "PetHotel.Common\PetHotel.Common.csproj", "{7E3EE544-BDD9-4389-80D6-765A8F7B22DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

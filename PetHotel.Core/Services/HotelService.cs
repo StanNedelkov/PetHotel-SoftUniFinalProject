@@ -73,15 +73,9 @@ namespace PetHotel.Core.Services
 
             if (petToCancel.AdmissionDate > DateTime.Now)
             {
-                try
-                {
                     context.Schedules.Remove(petToCancel);
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+                    await context.SaveChangesAsync();
+               
             }
 
             //TODO change checkout date and move to new table archive or create bool inactive or delete
@@ -96,6 +90,7 @@ namespace PetHotel.Core.Services
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
 
+        //todo new DTO for more details
         public async Task<ICollection<GuestBasicViewModel>> GetAllGuestsAsync()
         {
 
@@ -109,14 +104,13 @@ namespace PetHotel.Core.Services
             var petDto = await context
                 .Pets
                 .Where(x => guests!.Contains(x.Id))
-                .Include(x => x.User)
+                .Include(x => x.Hotel)
+                .ThenInclude(x => x.Schedules)
                 .Include(x => x.PetType)
                 .AsNoTracking()
                 .Select(x => new GuestBasicViewModel()
                 {
                     PetId = x.Id,
-                    OwnerId = x.UserID,
-                    OwnerName = x.User.FirstName,
                     PetName = x.Name,
                     PetType = x.PetType.Name
                 })
@@ -197,53 +191,56 @@ namespace PetHotel.Core.Services
         /// <exception cref="NotImplementedException"></exception>
         public async Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId)
         {
-            List<int> guestsId = await context
-                 .Schedules
-                 .Select(x => x.PetID)
-                 .ToListAsync();
-
-            if (guestsId == null) return Enumerable.Empty<GuestBasicViewModel>().ToList();
-
-            var petDto = await context
+            List<int> petsOwnedByUser = await context
                 .Pets
-                .Where(x => guestsId.Contains(x.Id) && x.UserID == userId)
-                .Include(x => x.User)
-                .Include(x => x.PetType)
-                .AsNoTracking()
+                .Where(x => x.UserID == userId)
+                .Select(x => x.Id)
+                .ToListAsync();
+
+            if (petsOwnedByUser == null) return Enumerable
+                   .Empty<GuestBasicViewModel>()
+                   .ToList();
+
+
+            var reservedPets = await context
+                .Schedules
+                .Where(x => petsOwnedByUser.Contains(x.PetID))
                 .Select(x => new GuestBasicViewModel()
                 {
-                    PetId = x.Id,
-                    OwnerId = x.UserID,
-                    OwnerName = x.User.FirstName,
-                    PetName = x.Name,
-                    PetType = x.PetType.Name,
+                    ReservationId = x.Id,
+                    PetId= x.PetID,
+                    CheckInDate = x.AdmissionDate.ToString(),
+                    CheckOutDate= x.DepartureDate.ToString()
                 })
                 .ToListAsync();
 
-            if (petDto == null) throw new ArgumentException();
 
-            foreach (var pet in petDto)
+
+            if (reservedPets == null)  return Enumerable
+                    .Empty<GuestBasicViewModel>()
+                    .ToList();
+
+
+
+            foreach (var pet in reservedPets)
             {
-                string? checkIn = await context
-                .Schedules
-                .Where(x => x.PetID == pet.PetId)
-                .Select(x => x.AdmissionDate.ToString())
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
+                string? name = await context
+                    .Pets
+                    .Where(x => x.Id == pet.PetId)
+                    .Select(x => x.Name)
+                    .FirstOrDefaultAsync();
+                pet.PetName = name!;
 
-                string? checkOut = await context
-                .Schedules
-                .Where(x => x.PetID == pet.PetId)
-                .Select(x => x.DepartureDate.ToString())
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
-
-                pet.CheckInDate = checkIn ?? null!;
-                pet.CheckOutDate = checkOut ?? null!;
-
+                string? type = await context
+                    .Pets
+                    .Include(x => x.PetType)
+                    .Where(x => x.Id == pet.PetId)
+                    .Select(x => x.PetType.Name)
+                    .FirstOrDefaultAsync();
+                pet.PetType = type!;
             }
 
-            return petDto;
+            return reservedPets;
         }
 
 

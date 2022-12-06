@@ -9,6 +9,10 @@
     <ul class="list-group">
         <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
     </ul>
+    <form asp-area="Client" asp-controller="Hotel" asp-action="Cancel">
+        <input type="hidden" asp-for="@pet.ReservationId" name="id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
 }
 
 
