@@ -195,6 +195,26 @@ namespace PetHotel.Core.Services
             };
         }
 
+        public async Task<AddGuestViewModel> GetGuestToEditAsync(int id)
+        {
+            var pet = await context
+              .Schedules
+              .AsNoTracking()
+              .FirstOrDefaultAsync(x => x.PetID == id);
+            if (pet == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new AddGuestViewModel()
+            {
+                Id = id,
+                Name = pet.PetName,
+                CheckInDate = pet.AdmissionDate.ToString(GlobalConstants.DateTimeFormatConst),
+                CheckOutDate = pet.DepartureDate.ToString(GlobalConstants.DateTimeFormatConst)
+            };
+        }
+
 
         /// <summary>
         /// List of all user's pets in hotel.

@@ -98,7 +98,7 @@ namespace PetHotel.Areas.Client.Controllers
         public async Task<IActionResult> Edit(int Id) //this is the id of the pet
         {   //check if pet is owned by logged in user.
            // if (!await userService.UserOwnsPet(this.loggedUserId, Id)) return RedirectToAction(nameof(AllMine));
-            return View(await service.GetGuestToAddAsync(Id));
+            return View(await service.GetGuestToEditAsync(Id));
         }
 
         [Route("EditReservation")]
