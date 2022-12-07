@@ -22,7 +22,9 @@ namespace PetHotel.Core.Contracts
         Task CancelHotelStayAsync(int bookedId);
 
         Task PickUpearly(int bookedId, string newCollectionDate);
-    
+
+        Task EditGuestAsync(AddGuestViewModel model);
+
 
     }
 }

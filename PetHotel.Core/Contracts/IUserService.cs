@@ -11,5 +11,7 @@ namespace PetHotel.Core.Contracts
         Task SignOutUserAsync();
 
         Task<ProfileViewModel> GetProfileAsync(string userId);
+
+        Task<bool> UserOwnsPet(string userId, int petId);
     }
 }

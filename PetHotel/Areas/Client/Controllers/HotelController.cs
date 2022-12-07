@@ -11,11 +11,15 @@ namespace PetHotel.Areas.Client.Controllers
     public class HotelController : Controller
     {
         private readonly IHotelService service;
-        public HotelController(IHotelService _service)
+        private readonly IUserService userService;
+        
+        public HotelController(IHotelService _service, IUserService _userService)
         {
             this.service = _service;
+            this.userService = _userService;
+          
         }
-        
+
         public IActionResult Index()
         {
             return View();
@@ -23,8 +27,12 @@ namespace PetHotel.Areas.Client.Controllers
 
         [Route("Add")]
         [HttpGet]
-        public async Task<IActionResult>Add(int Id)
+        public async Task<IActionResult> Add(int Id)
         {
+            //check if pet is owned by logged in user.
+            string loggedUserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            if (!await userService.UserOwnsPet(loggedUserId, Id)) return RedirectToAction(nameof(AllMine));
+
             return View(await service.GetGuestToAddAsync(Id));
         }
 
@@ -44,14 +52,14 @@ namespace PetHotel.Areas.Client.Controllers
             {
                 return View(model);
             }
-            
+
         }
 
         [Route("AllMine")]
         /*[HttpPost]*/
         public async Task<IActionResult> AllMine()
         {
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value; ;
             try
             {
                 var allMyPetsInHotel = await service.GetMyAllGuestsAsync(userId);
@@ -62,19 +70,20 @@ namespace PetHotel.Areas.Client.Controllers
                 //todo something
                 throw;
             }
-            
+
         }
 
-        
 
         [Route("Cancel")]
-        
-        public async Task <IActionResult> Cancel(int id)
+
+        public async Task<IActionResult> Cancel(int id) //this is the id of the reservation
         {
+            //check if pet is owned by logged in user.
+           // if (!await userService.UserOwnsPet(this.loggedUserId, id)) return RedirectToAction(nameof(AllMine));
+
             try
             {
                 await service.CancelHotelStayAsync(id);
-
                 return RedirectToAction(nameof(AllMine));
             }
             catch (Exception)
@@ -82,7 +91,33 @@ namespace PetHotel.Areas.Client.Controllers
                 //todo something
                 throw;
             }
-            
+        }
+
+        [Route("EditReservation")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id) //this is the id of the pet
+        {   //check if pet is owned by logged in user.
+           // if (!await userService.UserOwnsPet(this.loggedUserId, Id)) return RedirectToAction(nameof(AllMine));
+            return View(await service.GetGuestToAddAsync(Id));
+        }
+
+        [Route("EditReservation")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddGuestViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            try
+            {
+                await service.EditGuestAsync(model);
+
+                return RedirectToAction("Profile", "User");
+            }
+            catch (ArgumentException)
+            {
+                return View(model);
+            }
+
         }
     }
 }

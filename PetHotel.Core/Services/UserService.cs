@@ -7,6 +7,7 @@ using PetHotel.Core.Models.PetModels;
 using PetHotel.Core.Models.UserModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
+using System.Security.Claims;
 
 namespace PetHotel.Core.Services
 {
@@ -112,5 +113,16 @@ namespace PetHotel.Core.Services
 
         public async Task SignOutUserAsync()
             => await signInManager.SignOutAsync();
+
+        public async Task<bool> UserOwnsPet(string userId, int petId)
+            => await context
+                .Pets
+                .Where(x => x.Id == petId)
+                .AsNoTracking()
+                .AnyAsync(x => x.UserID == userId);
+                
+
+            
+        
     }
 }

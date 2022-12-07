@@ -24,28 +24,25 @@ namespace PetHotel.Core.Services
             this.context = _context;
         }
 
-        public async Task AddGuestAsync(AddGuestViewModel model)
+        private static DateTime CheckDateFormat(string checkinDate)
         {
             DateTime admissionDate;
             bool isAdmissonDate = DateTime
-                .TryParseExact(model.CheckInDate,
+                .TryParseExact(checkinDate,
                 GlobalConstants.DateTimeFormatConst,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
                 out admissionDate);
 
             if (!isAdmissonDate) throw new ArgumentException();
-            
+            return admissionDate;
+        }
 
-            DateTime departureDate;
-            bool isDeparture = DateTime
-                .TryParseExact(model.CheckOutDate,
-                GlobalConstants.DateTimeFormatConst,
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out departureDate);
+        public async Task AddGuestAsync(AddGuestViewModel model)
+        {
+            DateTime admissionDate = CheckDateFormat(model.CheckInDate);
 
-            if (!isDeparture) throw new ArgumentException();
+            DateTime departureDate = CheckDateFormat(model.CheckOutDate);
 
             var schedule = new Schedule()
             {
@@ -79,6 +76,23 @@ namespace PetHotel.Core.Services
             }
 
             //TODO change checkout date and move to new table archive or create bool inactive or delete
+        }
+
+        public async Task EditGuestAsync(AddGuestViewModel model)
+        {
+            DateTime admissionDate = CheckDateFormat(model.CheckInDate);
+
+            DateTime departureDate = CheckDateFormat(model.CheckOutDate);
+
+            var guest = await context
+                .Schedules
+                .Where(x => x.PetID == model.Id)
+                .FirstOrDefaultAsync();
+
+            guest!.AdmissionDate = admissionDate;
+            guest!.DepartureDate = departureDate;
+
+            await context.SaveChangesAsync();
         }
 
 
@@ -286,15 +300,7 @@ namespace PetHotel.Core.Services
 
 
 
-            DateTime departureDate;
-                bool isDeparture = DateTime
-                    .TryParseExact(newCollectionDate,
-                    GlobalConstants.DateTimeFormatConst,
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out departureDate);
-
-                if (!isDeparture) throw new ArgumentException(); // check if new collection date format is ok
+            DateTime departureDate = CheckDateFormat(newCollectionDate); // check if new collection date format is ok
 
             if (petToCancel.AdmissionDate > departureDate &&
            petToCancel.DepartureDate == departureDate &&
