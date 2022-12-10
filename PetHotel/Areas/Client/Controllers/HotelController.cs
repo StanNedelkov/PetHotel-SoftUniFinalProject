@@ -59,7 +59,7 @@ namespace PetHotel.Areas.Client.Controllers
         /*[HttpPost]*/
         public async Task<IActionResult> AllMine()
         {
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value; ;
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value; 
             try
             {
                 var allMyPetsInHotel = await service.GetMyAllGuestsAsync(userId);
@@ -79,7 +79,7 @@ namespace PetHotel.Areas.Client.Controllers
         public async Task<IActionResult> Cancel(int id) //this is the id of the reservation
         {
             //check if pet is owned by logged in user.
-           // if (!await userService.UserOwnsPet(this.loggedUserId, id)) return RedirectToAction(nameof(AllMine));
+            
 
             try
             {
@@ -96,8 +96,10 @@ namespace PetHotel.Areas.Client.Controllers
         [Route("EditReservation")]
         [HttpGet]
         public async Task<IActionResult> Edit(int Id) //this is the id of the pet
+
         {   //check if pet is owned by logged in user.
-           // if (!await userService.UserOwnsPet(this.loggedUserId, Id)) return RedirectToAction(nameof(AllMine));
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            if (!await userService.UserOwnsPet(userId, Id)) return RedirectToAction(nameof(AllMine));
             return View(await service.GetGuestToEditAsync(Id));
         }
 

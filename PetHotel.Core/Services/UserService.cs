@@ -120,9 +120,6 @@ namespace PetHotel.Core.Services
                 .Where(x => x.Id == petId)
                 .AsNoTracking()
                 .AnyAsync(x => x.UserID == userId);
-                
-
-            
         
     }
 }

@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Drag And Drop Your Pictures</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="~/css/dropzone.min.css" rel="stylesheet" />
+    </head>
+    <body>
+        <form id="form" method="post" enctype="multipart/form-data"
+        data-pasley-validate class="form-horizontal form-label-left">
+        <div class="form-group">
+            <label class="control-label col-md-2" for="first-name">
+                Upload picture<span class="required">*</span>
+            </label>
+            <div class="col-md-6" id="dropzone">
+                <div action="/upload" class="dropzone" id="uploader">
+                    Drop Files Here Or Click To Upload<br />
+                    </div>
+            </div>
+        </div>
+    </form>
+        <script src="~/js/dropzone.min.js"></script>
+    </body>
+</html>

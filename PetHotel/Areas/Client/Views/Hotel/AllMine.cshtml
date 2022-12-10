@@ -1,8 +1,22 @@
-﻿@model IEnumerable<PetHotel.Core.Models.HotelModels.GuestBasicViewModel>
+﻿@using PetHotel.Core.Models.HotelModels;
+@model IEnumerable<PetHotel.Core.Models.HotelModels.GuestBasicViewModel>
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    HashSet<GuestBasicViewModel> future = new HashSet<GuestBasicViewModel>();
+    HashSet<GuestBasicViewModel> current = new HashSet<GuestBasicViewModel>();
+    HashSet<GuestBasicViewModel> past = new HashSet<GuestBasicViewModel>();
 }
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+</head>
 
 @foreach (var pet in Model)
 {
@@ -18,5 +32,41 @@
         <input type="submit" value="Edit" class="btn btn-outline-info" />
     </form>
 }
+<body>
+    <div class="container">
+        <h2>Dynamic Tabs</h2>
+        <p>The <strong>show</strong> method shows the tab.</p>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" class="btn btn-info" role="button">Home</a></li>
+            <li><a href="#menu1" class="btn btn-info" role="button">Menu 1</a></li>
+            <li><a href="#menu2" class="btn btn-info" role="button">Menu 2</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <h3>Currently in hotel</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <h3>Reservations</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <h3>Previous stays</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".nav-tabs a").click(function () {
+                $(this).tab('show');
+            });
+        });
+    </script>
+
+</body>
+
 
 
