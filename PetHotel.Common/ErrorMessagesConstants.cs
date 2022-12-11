@@ -18,5 +18,6 @@
         public const string dateInvalid = "Invalid Date.";
         public const string firstNameInvalid = "Invalid First Namme. Required atleast 2 characters WITHOUT digits/symbols";
         public const string lastNameInvalid = "Invalid Last Name. Required atleast 2 characters WITHOUT digits/symbols";
+        public const string fileExtentionInvalid = "You need to add a photo file.";
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using PetHotel.Core.Contracts;
+using PetHotel.Core.Models.GalleryModels;
 
 namespace PetHotel.Areas.Client.Controllers
 {
@@ -9,9 +11,11 @@ namespace PetHotel.Areas.Client.Controllers
     public class GalleryController : Controller
     {
         private IWebHostEnvironment hostingEnv;
-        public GalleryController(IWebHostEnvironment _hostingEnv)
+        private readonly IGalleryService service;
+        public GalleryController(IWebHostEnvironment _hostingEnv, IGalleryService _service)
         {
             this.hostingEnv = _hostingEnv;
+            this.service = _service;
         }
         [Route("Index")]
         public IActionResult Index()
@@ -41,27 +45,12 @@ namespace PetHotel.Areas.Client.Controllers
           }*/
 
         [Route("Upload")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(UploadModel Upload)
         {
-            string fileDic = 
-                "UploadedFiles";
+            
+            await service.UploadFileAsync(Upload.File);
 
-            string filePath = 
-                Path.Combine(hostingEnv.WebRootPath, fileDic);
-
-            if (!Directory.Exists(filePath)) 
-                Directory.CreateDirectory(filePath);
-
-            string fileName = 
-                file.FileName;
-
-            filePath= 
-                Path.Combine(filePath, fileName);
-
-            using (FileStream stream = System.IO.File.Create(filePath))
-                await file.CopyToAsync(stream);
-
-                return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

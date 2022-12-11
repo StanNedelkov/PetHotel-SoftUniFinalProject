@@ -1,4 +1,5 @@
-﻿@{
+﻿@model PetHotel.Core.Models.GalleryModels.UploadModel
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
@@ -10,15 +11,19 @@
     </head>
     <body>
         <form id="form" method="post" enctype="multipart/form-data"
-        data-pasley-validate class="form-horizontal form-label-left">
+        data-pasley-validate class="form-horizontal form-label-left"
+        asp-action="Upload" asp-area="Client">
         <div class="form-group">
             <label class="control-label col-md-2" for="first-name">
                 Upload picture<span class="required">*</span>
             </label>
             <div class="col-md-6" id="dropzone">
-                <div action="/upload" class="dropzone" id="uploader">
+                <div asp-validation-summary="ModelOnly" class="dropzone" id="uploader">
                     Drop Files Here Or Click To Upload<br />
                     </div>
+                    <input asp-for="File" />
+                    <span asp-validation-for="File" class="text-danger"></span>
+                    <input type="submit" value="Upload"/>
             </div>
         </div>
     </form>
