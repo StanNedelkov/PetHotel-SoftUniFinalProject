@@ -2,6 +2,7 @@ USE [master]
 GO
 /****** Object:  Database [PetHotelDB]    Script Date: 12.12.2022 г. 11:58:37 ******/
 CREATE DATABASE [PetHotelDB]
+/*PLEASE CHANGE FILE PATHS*/
  CONTAINMENT = NONE
  ON  PRIMARY 
 ( NAME = N'PetHotelDB', FILENAME = N'F:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\PetHotelDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
