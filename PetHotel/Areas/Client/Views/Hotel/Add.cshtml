@@ -2,6 +2,9 @@
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
+<head>
+   
+</head>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Add">
@@ -12,21 +15,48 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CheckInDate" class="control-label"></label>
-                <input asp-for="CheckInDate" class="form-control" />
-                <span asp-validation-for="CheckInDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CheckOutDate" class="control-label"></label>
-                <input asp-for="CheckOutDate" class="form-control" />
-                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
-            </div>
 
+            <label asp-for="CheckInDate" class="control-label"></label>
+            <input type="datetime" asp-for="CheckInDate" class="form-control">
+            <span asp-validation-for="CheckInDate" class="text-danger"></span>
 
+            <label asp-for="CheckOutDate" class="control-label"></label>
+            <input type="datetime" asp-for="CheckOutDate" class="form-control">
+            <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+            
+            
             <div class="form-group">
                 <input type="submit" value="Add" asp-area="Client" asp-controller="Hotel" class="btn btn-primary" />
             </div>
+           
         </form>
     </div>
 </div>
+
+@*<div class="container">
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker6'>
+                <label asp-for="CheckInDate" class="control-label"></label>
+                <input asp-for="CheckInDate" class="form-control" />
+                <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker7'>
+                <label asp-for="CheckOutDate" class="control-label"></label>
+                <input asp-for="CheckOutDate" class="form-control" />
+                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>*@
+

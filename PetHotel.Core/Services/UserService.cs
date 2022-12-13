@@ -27,6 +27,20 @@ namespace PetHotel.Core.Services
             this.context = _context;
         }
 
+        public async Task<ICollection<MyOwnPetsViewModel>> GetMyPetsAsync(string userId)
+        {
+            return await context
+                .Pets
+                .Where(x => x.UserID == userId)
+                .Select(x => new MyOwnPetsViewModel()
+                {
+                    Id = x.Id,
+                    Type = x.PetType.Name,
+                    Name = x.Name
+
+                }).ToListAsync();
+        }
+
         public async Task<ProfileViewModel> GetProfileAsync(string userId)
         {
             var user = await context

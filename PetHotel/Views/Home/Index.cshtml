@@ -3,7 +3,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome the final layout in not finnished</h1>
     <section class="home-page">
         @if (this.User?.Identity?.IsAuthenticated ?? false)
         {
@@ -16,7 +16,8 @@
             @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
             {
                 <h1 class="display-4"> You have user rights</h1>
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create">Add a pet</a>
+                <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create">Add a new pet</a>
+                <a class="nav-link text-dark" asp-area="Client" asp-controller="User" asp-action="MyPets">Make a reservation</a>
                 <a class="nav-link text-dark" asp-area="Client" asp-controller="Hotel" asp-action="AllMine" >My checked in pets</a>
                 <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="Index">Upload to gallery</a>
             }

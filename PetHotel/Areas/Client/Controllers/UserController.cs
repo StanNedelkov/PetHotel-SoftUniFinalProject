@@ -107,7 +107,7 @@ namespace PetHotel.Areas.Client.Controllers
 
             try
             {
-                var userProfile = await service.GetProfileAsync(userId!); //userId can't be null because the user is logged
+                var userProfile = await service.GetProfileAsync(userId!); 
                 return View(userProfile);
             }
             catch (ArgumentNullException ne)
@@ -116,5 +116,24 @@ namespace PetHotel.Areas.Client.Controllers
                 return BadRequest(ne.Message);
             }
         }
+
+        [HttpGet]
+        [Route("MyPets")]
+
+        public async Task<IActionResult> MyPets()
+        {
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+
+            try
+            {
+                var pets = await service.GetMyPetsAsync(userId);
+                return View(pets);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+          
     }
 }

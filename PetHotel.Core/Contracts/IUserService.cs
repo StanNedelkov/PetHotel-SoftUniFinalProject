@@ -13,5 +13,6 @@ namespace PetHotel.Core.Contracts
         Task<ProfileViewModel> GetProfileAsync(string userId);
 
         Task<bool> UserOwnsPet(string userId, int petId);
+        Task<ICollection<MyOwnPetsViewModel>>GetMyPetsAsync(string userId);
     }
 }

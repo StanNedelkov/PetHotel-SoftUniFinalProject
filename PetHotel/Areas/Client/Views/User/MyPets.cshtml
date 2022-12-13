@@ -1,0 +1,21 @@
+﻿@model ICollection<PetHotel.Core.Models.UserModels.MyOwnPetsViewModel>
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <h2>Which pet would you like to make a reservation for?</h2>
+    <ul>
+        @foreach (var pet in Model)
+        {
+            <li>
+                <b>@pet.Name - @pet.Type</b>
+                </li>
+            <form asp-area="Client" asp-controller="Hotel" asp-action="Add" method="get">
+            <input type="hidden" asp-for="@pet.Id" name="Id" />
+            <input type="submit" value="select" class="btn btn-outline-info" />
+        </form>
+        }
+    </ul>
+</body>

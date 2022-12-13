@@ -45,10 +45,10 @@ namespace PetHotel.Areas.Client.Controllers
           }*/
 
         [Route("Upload")]
-        public async Task<IActionResult> Upload(UploadModel Upload)
+        public async Task<IActionResult> Upload(IFormFile File)
         {
             
-            await service.UploadFileAsync(Upload.File);
+            await service.UploadFileAsync(File);
 
             return RedirectToAction(nameof(Index));
         }

@@ -9,6 +9,10 @@
     {
       "library": "jquery-json@2.6.0",
       "destination": "wwwroot/Scripts/jquery/jquery-json/"
+    },
+    {
+      "library": "jquery-datetimepicker@2.5.20",
+      "destination": "wwwroot/Scripts/jquery-datetimepicker/"
     }
   ]
 }
