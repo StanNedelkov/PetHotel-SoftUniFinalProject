@@ -17,18 +17,32 @@ namespace PetHotel.Core.Services
             this.context = _context;
         }
 
-        private static DateTime CheckDateFormat(string checkinDate)
+        private static DateTime CheckDateFormat(string checkDate)
         {
-            DateTime admissionDate;
-            bool isAdmissonDate = DateTime
-                .TryParseExact(checkinDate,
+            DateTime date;
+            bool isValidDate = DateTime
+                .TryParseExact(checkDate,
                 GlobalConstants.DateTimeFormatConst,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out admissionDate);
+                out date);
 
-            if (!isAdmissonDate) throw new ArgumentException();
-            return admissionDate;
+            if (!isValidDate) CheckAlternateDateFormat(checkDate);
+            return date;
+        }
+
+        private static DateTime CheckAlternateDateFormat(string checkDate)
+        {
+            DateTime date;
+            bool isValidDate = DateTime
+                .TryParseExact(checkDate,
+                GlobalConstants.DateTimeAlternateFormatConst,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out date);
+
+            if (!isValidDate) throw new ArgumentException();
+            return date;
         }
 
         public async Task AddGuestAsync(AddGuestViewModel model)
