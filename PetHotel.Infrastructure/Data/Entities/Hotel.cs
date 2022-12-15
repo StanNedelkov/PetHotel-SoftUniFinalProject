@@ -10,7 +10,8 @@ namespace PetHotel.Infrastructure.Data.Entities
         {
             this.Pets = new HashSet<Pet>();
             this.Schedules = new HashSet<Schedule>();
-            
+            this.GalleryImages = new HashSet<GalleryImage>();
+
         }
         [Key]
         public int Id { get; set; }
@@ -25,5 +26,8 @@ namespace PetHotel.Infrastructure.Data.Entities
 
         public ICollection<Pet> Pets { get; set; }
         public ICollection<Schedule> Schedules{ get; set; }
+
+        public int GalleryID { get; set; }
+        public ICollection<GalleryImage> GalleryImages { get; set; }
     }
 }

@@ -21,4 +21,8 @@
     <ProjectReference Include="..\PetHotel.Common\PetHotel.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

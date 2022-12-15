@@ -43,14 +43,48 @@ namespace PetHotel.Areas.Client.Controllers
               string message = $"{files.Count} file(s) / {size}bytes uploaded successfully!";
               return Json(message);
           }*/
-
+/*
         [Route("Upload")]
         public async Task<IActionResult> Upload(IFormFile File)
         {
+            var model = new UploadModel 
+            { 
+                File = File,
+                Tags = "some tag",
+                Title= File.Name,
+                
+            };
             
             await service.UploadFileAsync(File);
-
+            return RedirectToActionPreserveMethod("UploadNewImage", "Image", model);
             return RedirectToAction(nameof(Index));
+        }*/
+
+        [Route("DisplayGallery")]
+        public IActionResult DisplayGallery()
+        {
+            var imageList = service.GetAll();
+            var model = new GalleryIndexModel()
+            {
+                Images = imageList,
+                SearchQuery = ""
+            };
+            return View(model);
+        }
+        [Route("Detail")]
+        public IActionResult Detail(int id)
+        {
+            var image = service.GetById(id);
+            var model = new GalleryDetailsModel()
+            {
+                Id = image.Id,
+                Created = image.Created,
+                Url = image.Url,
+                Title = image.Title,
+                Tags = image.Tags.Select(x => x.Description).ToList()
+            };
+
+            return View(model);
         }
     }
 }

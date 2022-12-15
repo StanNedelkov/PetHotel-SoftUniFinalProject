@@ -24,6 +24,8 @@ namespace PetHotel.Infrastructure.Data
         public DbSet<Pet> Pets { get; set; } = null!;
         public DbSet<PetType> PetTypes { get; set; } = null!;
         public DbSet<Schedule> Schedules { get; set; } = null!;
+        public DbSet<GalleryImage> GalleryImages { get; set; } = null!;
+        public DbSet<ImageTag> ImageTags { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -41,7 +43,24 @@ namespace PetHotel.Infrastructure.Data
                     RoleId = adminRoleId,
                     UserId = adminId,
                 });
-            
+
+
+
+            this.SeedClientRole();
+            builder.Entity<IdentityRole>()
+                .HasData(this.ClientRole);
+
+            this.SeedClientUsers();
+            builder.Entity<User>()
+                .HasData(this.ClientUser);
+
+            builder.Entity<IdentityUserRole<string>>()
+                .HasData(new IdentityUserRole<string>
+                {
+                    RoleId = userRoleId,
+                    UserId = userId,
+                });
+
             base.OnModelCreating(builder);
         }
         
@@ -51,6 +70,10 @@ namespace PetHotel.Infrastructure.Data
         private User AdminUser { get; set; } = null!;
 
         private IdentityRole AdminRole { get; set; } = null!;
+
+        private User ClientUser { get; set; } = null!;
+
+        private IdentityRole ClientRole { get; set; } = null!;
 
         //Seed Information
         private void SeedAdminRole()
@@ -76,6 +99,32 @@ namespace PetHotel.Infrastructure.Data
                 LastName = "User"
             };
             this.AdminUser.PasswordHash = hasher.HashPassword(this.AdminUser, "guest");
+        }
+
+
+        private void SeedClientRole()
+        {
+            ClientRole = new IdentityRole()
+            {
+                Id = userRoleId,
+                Name = "User",
+                NormalizedName = "USER"
+            };
+        }
+        private void SeedClientUsers()
+        {
+            var hasher = new PasswordHasher<User>();
+            this.ClientUser = new User()
+            {
+                Id = userId,
+                UserName = "Stan",
+                NormalizedUserName = "STAN",
+                Email = "stenly.nedelkov@gmail.com",
+                NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
+                FirstName = "Stanislav",
+                LastName = "Nedelkov"
+            };
+            this.ClientUser.PasswordHash = hasher.HashPassword(this.ClientUser, "Parola1!");
         }
     }
 }

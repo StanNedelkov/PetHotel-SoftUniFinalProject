@@ -12,5 +12,9 @@ namespace PetHotel.Core.Models.GalleryModels
     {
         [AllowedExtentions(new string[] { ".gif", ".jpeg", ".png" })]
         public IFormFile File { get; set; } = null!;
+
+        public string Title { get; set; } = null!;
+
+        public string Tags { get; set; } = null!;
     }
 }

@@ -1,0 +1,23 @@
+﻿@model PetHotel.Core.Models.GalleryModels.GalleryIndexModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="container body-content" >
+    <div class=" row gallery-content">
+        @foreach (var image in Model.Images)
+        {
+        <div class="gallery-image-container drop-shadow">
+            
+                <div class="gallery-image" style="background-image:url(@image.Url)"></div>
+
+                <div class="gallery">
+                    <a target="_blank" href="@image.Url">
+                        <img src="@image.Url" @*alt="Cinque Terre"*@ width="600" height="400">
+                    </a>
+                        <div class="desc">Add a description of the image here</div>
+</div>
+        </div>
+         }
+   
+    </div>
+</div>

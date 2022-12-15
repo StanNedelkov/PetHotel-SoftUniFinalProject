@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetHotel.Infrastructure.Data;
 
 #nullable disable
 
-namespace PetHotel.Infrastructure.Data.Migrations
+namespace PetHotel.Infrastructure.Migrations
 {
     [DbContext(typeof(PetHotelDbContext))]
-    [Migration("20221103181117_initialSchema")]
-    partial class initialSchema
+    partial class PetHotelDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,6 +47,22 @@ namespace PetHotel.Infrastructure.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e",
+                            ConcurrencyStamp = "27719f2d-185b-453e-b124-f6d555dc52c4",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "dea12856-c321-4129-b3f3-b893d8395082",
+                            ConcurrencyStamp = "e6d79a40-5bd3-4dd2-942a-8624cc4d50f7",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -138,6 +152,18 @@ namespace PetHotel.Infrastructure.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            RoleId = "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e"
+                        },
+                        new
+                        {
+                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
+                            RoleId = "dea12856-c321-4129-b3f3-b893d8395082"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -195,6 +221,35 @@ namespace PetHotel.Infrastructure.Data.Migrations
                     b.ToTable("Capacities");
                 });
 
+            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.GalleryImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HotelID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelID");
+
+                    b.ToTable("GalleryImages");
+                });
+
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Hotel", b =>
                 {
                     b.Property<int>("Id")
@@ -206,6 +261,9 @@ namespace PetHotel.Infrastructure.Data.Migrations
                     b.Property<int>("CapacityID")
                         .HasColumnType("int");
 
+                    b.Property<int>("GalleryID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -215,6 +273,28 @@ namespace PetHotel.Infrastructure.Data.Migrations
                     b.HasIndex("CapacityID");
 
                     b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.ImageTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GalleryImageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GalleryImageId");
+
+                    b.ToTable("ImageTags");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Pet", b =>
@@ -376,6 +456,44 @@ namespace PetHotel.Infrastructure.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e3357a0d-607b-4e12-a33c-ed32980a3a4e",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG6I2Pp3GQUb4wdpdJq3ce2EYRjcv5mOitjxHGVl4W4ZkaG7RaL8qWN42fzwPr4obg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b8ce0e28-686c-4a82-b070-277149c785db",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0c777bb4-5fa8-42fc-9e56-aabeff2a93b5",
+                            Email = "stenly.nedelkov@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Stanislav",
+                            LastName = "Nedelkov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
+                            NormalizedUserName = "STAN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMB8uIiTYVCyjyxgcCtfr1PBSlQgcU9KQzEKxc0OvNzG6XmIXHHC9bbdwjqw6EPqiQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "742ea6e8-12bc-468a-9aee-c64d7beb8951",
+                            TwoFactorEnabled = false,
+                            UserName = "Stan"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -429,6 +547,17 @@ namespace PetHotel.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.GalleryImage", b =>
+                {
+                    b.HasOne("PetHotel.Infrastructure.Data.Entities.Hotel", "Hotel")
+                        .WithMany("GalleryImages")
+                        .HasForeignKey("HotelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Hotel", b =>
                 {
                     b.HasOne("PetHotel.Infrastructure.Data.Entities.Capacity", "Capacity")
@@ -438,6 +567,13 @@ namespace PetHotel.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Capacity");
+                });
+
+            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.ImageTag", b =>
+                {
+                    b.HasOne("PetHotel.Infrastructure.Data.Entities.GalleryImage", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("GalleryImageId");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Pet", b =>
@@ -478,8 +614,15 @@ namespace PetHotel.Infrastructure.Data.Migrations
                     b.Navigation("Hotel");
                 });
 
+            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.GalleryImage", b =>
+                {
+                    b.Navigation("Tags");
+                });
+
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Hotel", b =>
                 {
+                    b.Navigation("GalleryImages");
+
                     b.Navigation("Pets");
 
                     b.Navigation("Schedules");

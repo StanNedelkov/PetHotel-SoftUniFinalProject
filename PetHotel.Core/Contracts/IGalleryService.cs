@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PetHotel.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace PetHotel.Core.Contracts
     public interface IGalleryService
     {
         Task UploadFileAsync(IFormFile file);
-       
+
+        IEnumerable<GalleryImage> GetAll();
+        Task<IEnumerable<GalleryImage>> GetWithTag(string tag);
+        GalleryImage GetById(int id);
+
     }
 }
