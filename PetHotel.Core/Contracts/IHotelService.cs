@@ -10,7 +10,7 @@ namespace PetHotel.Core.Contracts
 {
     public interface IHotelService
     {
-        Task<ICollection<GuestBasicViewModel>> GetAllGuestsAsync();
+        Task<ICollection<GuestDetailedViewModel>> GetAllGuestsAsync();
         Task<PetViewModel> GuestDetailsAsync(int id);
         Task<GuestOwnerViewModel> GetGuestOwnerAsync(int id);
 

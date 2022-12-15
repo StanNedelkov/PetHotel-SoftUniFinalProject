@@ -1,4 +1,5 @@
-﻿using PetHotel.Common.EntityConstants;
+﻿using Microsoft.EntityFrameworkCore;
+using PetHotel.Common.EntityConstants;
 using System.ComponentModel.DataAnnotations;
 
 namespace PetHotel.Infrastructure.Data.Entities
@@ -15,6 +16,9 @@ namespace PetHotel.Infrastructure.Data.Entities
         [MinLength(PetConstants.PetTypeNameMax)]
         public string Name { get; set; } = null!;
 
+        [Required]
+        [Precision(18,2)]
+        public decimal CostPerDay { get; set; }
         public ICollection<Pet> Pets { get; set; }
 
     }

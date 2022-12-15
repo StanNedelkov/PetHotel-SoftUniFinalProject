@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace PetHotel.Core.Models.HotelModels
 {
-    public class GuestBasicViewModel
+    public class GuestDetailedViewModel
     {
         public int PetId { get; set; }
-        
+
         public string PetName { get; set; } = null!;
 
+        public string UserId { get; set; } = null!;
+        public string UserName { get; set; } = null!;
         public string PetType { get; set; } = null!;
 
         public string CheckInDate { get; set; } = null!;
@@ -20,6 +22,6 @@ namespace PetHotel.Core.Models.HotelModels
 
         public int ReservationId { get; set; }
 
-        public string Status { get; set;} = null!;
+        public string Status { get; set; } = null!;
     }
 }

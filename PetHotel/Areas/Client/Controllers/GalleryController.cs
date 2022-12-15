@@ -72,9 +72,9 @@ namespace PetHotel.Areas.Client.Controllers
             return View(model);
         }
         [Route("Detail")]
-        public IActionResult Detail(int id)
+        public async Task <IActionResult> Detail(int id)
         {
-            var image = service.GetById(id);
+            var image = await service.GetById(id);
             var model = new GalleryDetailsModel()
             {
                 Id = image.Id,

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.GalleryModels;
 
 namespace PetHotel.Areas.Client.Controllers
 {
     [Area("Client")]
+    [Authorize]
     public class ImageController : Controller
     {
         private readonly ICloudinaryImageUpload imageUpload;

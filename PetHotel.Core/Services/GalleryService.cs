@@ -4,11 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using PetHotel.Core.Contracts;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Core.Services
 {
@@ -29,16 +24,19 @@ namespace PetHotel.Core.Services
         }
 
         //to do null check and async
-        public GalleryImage GetById(int id)
+        public async Task<GalleryImage> GetById(int id)
         {
-            return context.GalleryImages.FindAsync(id);
-        }
+            return await context
+                .GalleryImages
+                .FindAsync(id);
 
-        public async Task<IEnumerable<GalleryImage>> GetWithTag(string tag)
+            
+        }
+        //saves files to folder, not implemented, old version, TO BE REMOVED
+        public IEnumerable<GalleryImage> GetWithTag(string tag)
         {
-            return GetAll()
-                .Where(img => img.Tags
-                .Any(t => t.Description == tag));
+            return  GetAll()
+                .Where(img => img.Tags.Any(t => t.Description == tag));
         }
 
         public async Task UploadFileAsync(IFormFile file)

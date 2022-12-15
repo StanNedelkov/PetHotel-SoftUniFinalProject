@@ -1,12 +1,10 @@
-﻿@using PetHotel.Core.Models.HotelModels;
+﻿@using PetHotel.Common;
+@using PetHotel.Core.Models.HotelModels;
 @model IEnumerable<PetHotel.Core.Models.HotelModels.GuestBasicViewModel>
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    HashSet<GuestBasicViewModel> future = new HashSet<GuestBasicViewModel>();
-    HashSet<GuestBasicViewModel> current = new HashSet<GuestBasicViewModel>();
-    HashSet<GuestBasicViewModel> past = new HashSet<GuestBasicViewModel>();
-}
+   }
     
 <head>
     <meta charset="utf-8">
@@ -18,7 +16,7 @@
   
 </head>
 
-@foreach (var pet in Model)
+@*@foreach (var pet in Model)
 {
     <ul class="list-group">
         <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
@@ -31,29 +29,78 @@
         <input type="hidden" asp-for="@pet.PetId" name="Id" />
         <input type="submit" value="Edit" class="btn btn-outline-info" />
     </form>
-}
+}*@
 <body>
     <div class="container">
-        <h2>Dynamic Tabs</h2>
-        <p>The <strong>show</strong> method shows the tab.</p>
+        <h2>My reservations</h2>
+        <p>Plesase select a menu option.</p>
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" class="btn btn-info" role="button">Home</a></li>
-            <li><a href="#menu1" class="btn btn-info" role="button">Menu 1</a></li>
-            <li><a href="#menu2" class="btn btn-info" role="button">Menu 2</a></li>
+            <li class="active"><a href="#home" class="btn btn-info" role="button">Currently in hotel</a></li>
+            <li><a href="#menu1" class="btn btn-info" role="button">Expected</a></li>
+            <li><a href="#menu2" class="btn btn-info" role="button">Previous stays</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
                 <h3>Currently in hotel</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                 @foreach (var pet in Model)
+                {
+                   if (pet.Status == GlobalConstants.InProgressStatus)
+                    {
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
+                            </ul>
+                            <form asp-area="Client" asp-controller="Hotel" asp-action="Cancel">
+                          <input type="hidden" asp-for="@pet.ReservationId" name="id" />
+                          <input type="submit" value="Delete" class="btn btn-danger" />
+                            </form>
+                            <form asp-area="Client" asp-controller="Hotel" asp-action="Edit" method="get">
+                                 <input type="hidden" asp-for="@pet.PetId" name="Id" />
+                            <input type="submit" value="Edit" class="btn btn-outline-info" />
+                            </form>
+                    } 
+                }
+                
             </div>
             <div id="menu1" class="tab-pane fade">
                 <h3>Reservations</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                @foreach (var pet in Model)
+                {
+                   if (pet.Status == GlobalConstants.ExpectedStatus)
+                    {
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
+                            </ul>
+                            <form asp-area="Client" asp-controller="Hotel" asp-action="Cancel">
+                          <input type="hidden" asp-for="@pet.ReservationId" name="id" />
+                          <input type="submit" value="Delete" class="btn btn-danger" />
+                         </form>
+                         <form asp-area="Client" asp-controller="Hotel" asp-action="Edit" method="get">
+                                 <input type="hidden" asp-for="@pet.PetId" name="Id" />
+                            <input type="submit" value="Edit" class="btn btn-outline-info" />
+                         </form>
+                    } 
+                }
             </div>
             <div id="menu2" class="tab-pane fade">
                 <h3>Previous stays</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                @foreach (var pet in Model)
+                {
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
+                        </ul>
+                    if (pet.Status == GlobalConstants.CompletedStatus)
+                    {
+                        <form asp-area="Client" asp-controller="Hotel" asp-action="Cancel">
+                            <input type="hidden" asp-for="@pet.ReservationId" name="id" />
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                        <form asp-area="Client" asp-controller="Hotel" asp-action="Edit" method="get">
+                            <input type="hidden" asp-for="@pet.PetId" name="Id" />
+                            <input type="submit" value="Edit" class="btn btn-outline-info" />
+                        </form>
+                    }
+                }
             </div>
         </div>
     </div>

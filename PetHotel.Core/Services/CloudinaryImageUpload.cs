@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.GalleryModels;
 using PetHotel.Infrastructure.Data;
@@ -74,7 +75,7 @@ namespace PetHotel.Core.Services
                 Created = DateTime.Now,
                 Url = uploadResult.Url.AbsoluteUri,
                 Tags = ParseTags(model.Tags),
-                HotelID = 2
+                HotelID = GlobalConstants.CatsDogsAndCrocsHotelId
             };
             await context.AddAsync(image);
             await context.SaveChangesAsync();

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetHotel.Infrastructure.Migrations
 {
-    public partial class InitialWithGallery : Migration
+    public partial class InitialWithSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,11 +57,8 @@ namespace PetHotel.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CurCapacityDogs = table.Column<int>(type: "int", nullable: false),
-                    MaxCapacityDogs = table.Column<int>(type: "int", nullable: false),
                     CurCapacityCats = table.Column<int>(type: "int", nullable: false),
-                    MaxCapacityCats = table.Column<int>(type: "int", nullable: false),
                     CurCapacityGator = table.Column<int>(type: "int", nullable: false),
-                    MaxCapacityGator = table.Column<int>(type: "int", nullable: false),
                     HotelID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -75,7 +72,8 @@ namespace PetHotel.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CostPerDay = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,8 +193,7 @@ namespace PetHotel.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CapacityID = table.Column<int>(type: "int", nullable: false),
-                    GalleryID = table.Column<int>(type: "int", nullable: false)
+                    CapacityID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,7 +274,8 @@ namespace PetHotel.Infrastructure.Migrations
                     PetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HotelID = table.Column<int>(type: "int", nullable: false)
+                    HotelID = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -314,8 +312,9 @@ namespace PetHotel.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "27719f2d-185b-453e-b124-f6d555dc52c4", "Administrator", "ADMINISTRATOR" },
-                    { "dea12856-c321-4129-b3f3-b893d8395082", "e6d79a40-5bd3-4dd2-942a-8624cc4d50f7", "User", "USER" }
+                    { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "09b833b0-b7c5-4797-826e-87cdadfb19a4", "Administrator", "ADMINISTRATOR" },
+                    { "dea12856-c321-4129-b3f3-b893d8395082", "9e2ba927-c08f-4d82-93ba-1a2b24ab6acf", "User", "USER" },
+                    { "df93e740-41a6-474c-ba20-5505df682ae4", "6feb93e6-cab6-42c2-a499-3cefbbb95465", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(
@@ -323,14 +322,20 @@ namespace PetHotel.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "e3357a0d-607b-4e12-a33c-ed32980a3a4e", "admin@gmail.com", false, "Admin", "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEG6I2Pp3GQUb4wdpdJq3ce2EYRjcv5mOitjxHGVl4W4ZkaG7RaL8qWN42fzwPr4obg==", null, false, "b8ce0e28-686c-4a82-b070-277149c785db", false, "Admin" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "0c777bb4-5fa8-42fc-9e56-aabeff2a93b5", "stenly.nedelkov@gmail.com", false, "Stanislav", "Nedelkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "STAN", "AQAAAAEAACcQAAAAEMB8uIiTYVCyjyxgcCtfr1PBSlQgcU9KQzEKxc0OvNzG6XmIXHHC9bbdwjqw6EPqiQ==", null, false, "742ea6e8-12bc-468a-9aee-c64d7beb8951", false, "Stan" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "719cf91f-e5ca-4ea0-8522-1c88dd6cfb38", "admin@gmail.com", false, "Admin", "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEJfzxrjAG1hoxUWhUeU/776NXKWNUEpOesw2I4FnTW7lin4sey/Km3OXe2aQYrEAvA==", null, false, "47c61879-719e-4064-bb27-4f9eb77948e1", false, "Admin" },
+                    { "a841631e-8b01-4884-a23e-c0232e24aa29", 0, "904643dd-536c-4b54-9fe9-77f1703002d9", "stenly.nedelkov@gmail.com", false, "Mitko", "Mitkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "BOSS", null, null, false, "22f5fc9b-bb0f-4bf7-b25f-3c43683d5f56", false, "Boss" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "d9425841-dcda-481a-8c48-47da0906eb91", "stenly.nedelkov@gmail.com", false, "Stanislav", "Nedelkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "STAN", "AQAAAAEAACcQAAAAEMxcfKgWpg0dXC28M8BnmmW6mhJ9+coiLK5OdG08CFb4h03pXQJYQ9g4quhQHwDLPQ==", null, false, "daf10701-df62-4ad8-9f42-ba104b0774be", false, "Stan" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "df93e740-41a6-474c-ba20-5505df682ae4", "a841631e-8b01-4884-a23e-c0232e24aa29" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

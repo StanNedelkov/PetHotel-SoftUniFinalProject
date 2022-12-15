@@ -13,8 +13,8 @@ namespace PetHotel.Core.Contracts
         Task UploadFileAsync(IFormFile file);
 
         IEnumerable<GalleryImage> GetAll();
-        Task<IEnumerable<GalleryImage>> GetWithTag(string tag);
-        GalleryImage GetById(int id);
+        IEnumerable<GalleryImage> GetWithTag(string tag);
+        Task<GalleryImage> GetById(int id);
 
     }
 }
