@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PetHotel.Common;
+using PetHotel.Common.EntityConstants;
 using PetHotel.Core.Validations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace PetHotel.Core.Models.GalleryModels
 {
     public class UploadModel
     {
-        [AllowedExtentions(new string[] { ".gif", ".jpeg", ".png" })]
+        [Required]
+        [AllowedExtentions(new string[] { ".gif", ".jpg", ".png" }, ErrorMessage = ErrorMessagesConstants.fileExtentionInvalid)]
         public IFormFile File { get; set; } = null!;
-
+        [Required]
         public string Title { get; set; } = null!;
-
+        [Required]
         public string Tags { get; set; } = null!;
     }
 }

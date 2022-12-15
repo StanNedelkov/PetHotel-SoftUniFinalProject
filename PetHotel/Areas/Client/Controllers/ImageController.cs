@@ -12,8 +12,10 @@ namespace PetHotel.Areas.Client.Controllers
         {
             this.imageUpload = _imageUpload;
         }
-        [Route("Upload")]
-        public IActionResult Upload()
+
+        [HttpGet]
+        [Route("UploadNewImage")]
+        public IActionResult UploadNewImage()
         {
             var model = new UploadModel();
 
@@ -24,7 +26,10 @@ namespace PetHotel.Areas.Client.Controllers
         [Route("UploadNewImage")]
         public async Task<IActionResult> UploadNewImage(UploadModel model)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             await imageUpload.UploadPicture(model);
             return RedirectToAction("DisplayGallery", "Gallery");
 

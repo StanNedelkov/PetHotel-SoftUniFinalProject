@@ -31,7 +31,7 @@ namespace PetHotel.Core.Services
         //to do null check and async
         public GalleryImage GetById(int id)
         {
-            return context.GalleryImages.Find(id);
+            return context.GalleryImages.FindAsync(id);
         }
 
         public async Task<IEnumerable<GalleryImage>> GetWithTag(string tag)

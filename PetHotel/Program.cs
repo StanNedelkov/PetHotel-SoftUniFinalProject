@@ -49,6 +49,9 @@ namespace PetHotel
                 options.LogoutPath= "/Logout";
             });
 
+            builder.Services.AddMvcCore()
+                            .AddDataAnnotations();
+
             //Add services
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAdminService, AdminService>();

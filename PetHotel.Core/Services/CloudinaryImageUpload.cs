@@ -1,40 +1,36 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.GalleryModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Core.Services
 {
     public class CloudinaryImageUpload : ICloudinaryImageUpload
     {
         private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly PetHotelDbContext _ctx;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly PetHotelDbContext context;
 
-        public CloudinaryImageUpload(IConfiguration configuration, IWebHostEnvironment webHostEnvironment,
-            PetHotelDbContext ctx)
+
+        public CloudinaryImageUpload(
+            IConfiguration _configuration, 
+            IWebHostEnvironment _webHostEnvironment,
+            PetHotelDbContext _context)
         {
-
-
-            this.ApiKey = configuration["Cloudinary:ApiKey"];
-            this.ApiSecret = configuration["Cloudinary:ApiSecret"];
-            this.Cloud = configuration["Cloudinary:Cloud"];
+            this.ApiKey = _configuration["Cloudinary:ApiKey"];
+            this.ApiSecret = _configuration["Cloudinary:ApiSecret"];
+            this.Cloud = _configuration["Cloudinary:Cloud"];
             this.Account = new Account { ApiKey = this.ApiKey, ApiSecret = this.ApiSecret, Cloud = this.Cloud };
-            this.configuration = configuration;
-            _webHostEnvironment = webHostEnvironment;
-            _ctx = ctx;
+            this.configuration = _configuration;
+            webHostEnvironment = _webHostEnvironment;
+            context = _context;
         }
+
+
         private string ApiKey { get; set; }
         private string ApiSecret { get; set; }
         private string Cloud { get; set; }
@@ -44,21 +40,6 @@ namespace PetHotel.Core.Services
             var cloudinary = new Cloudinary(Account);
             cloudinary.Api.Secure = true;
 
-
-            //string uploads = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads");
-            //string path = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads", "endSars.jpg");
-            ////Create directory if it doesn't exist 
-            //Directory.CreateDirectory(path);
-
-            //    if (model.UploadImage.Length > 0)
-            //    {
-            //        string filePath = Path.Combine(path, model.UploadImage.FileName);
-
-            //        using (Stream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            //        {
-            //            model.UploadImage.CopyTo(fileStream);
-            //        }
-            //    }
 
 
             //reads the Image in the IFormFile into a string
@@ -72,16 +53,8 @@ namespace PetHotel.Core.Services
 
             var prefix = @"data:image/png;base64,";
             var imagePath = prefix + base64;
-            //var streamString = new MemoryStream(Encoding.UTF8.GetBytes(base64));
-
-
-            //byte[] data = Convert.FromBase64String(base64);
-            //string decodedString = Encoding.UTF8.GetString(data);
-
-
-            //var reader = new StreamReader(model.UploadImage.OpenReadStream());
-            //var @imagePath = reader.ReadToEnd().ToString();
-
+           
+            //File and path for Cloudinary upload
 
             var uploadParams = new ImageUploadParams()
 
@@ -91,7 +64,7 @@ namespace PetHotel.Core.Services
             };
 
             var uploadResult = await cloudinary.UploadAsync(@uploadParams);
-            //reader.Close();
+            
 
 
             // adds the new image to be uploaded to the databse
@@ -103,8 +76,8 @@ namespace PetHotel.Core.Services
                 Tags = ParseTags(model.Tags),
                 HotelID = 2
             };
-            _ctx.Add(image);
-            await _ctx.SaveChangesAsync();
+            await context.AddAsync(image);
+            await context.SaveChangesAsync();
 
            // return OkResult;
             return uploadResult.SecureUrl.AbsoluteUri;
@@ -117,7 +90,9 @@ namespace PetHotel.Core.Services
         {
             return tags.Split(",").Select(tag => new ImageTag
             {
+
                 Description = tag
+
             }).ToList();
 
         }
