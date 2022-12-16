@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetHotel.Common;
 using PetHotel.Core.Contracts;
+using PetHotel.Core.Models.EmployeeModels;
 using PetHotel.Core.Models.HotelModels;
 using PetHotel.Infrastructure.Data;
 
@@ -12,6 +13,136 @@ namespace PetHotel.Core.Services
         public EmployeeService(PetHotelDbContext _context)
         {
             this.context = _context;
+        }
+
+        public TasksCountViewModel Counter()
+        {
+            int expected = context
+                .Schedules
+                .Where(x => x.AdmissionDate.Day == DateTime.Today.Day && 
+                x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
+                .Count();
+
+            int overdue = context
+               .Schedules
+               .Where(x => x.AdmissionDate.Day < DateTime.Today.Day &&
+               x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
+               .Count();
+
+            int departures = context
+                .Schedules
+                .Where(x => x.DepartureDate.Day == DateTime.Today.Day &&
+                x.Status.ToLower() == GlobalConstants.InProgressStatus.ToLower())
+                .Count();
+
+            int total = context
+                .Schedules
+                .Where(x => x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
+                .Count();
+
+            int inHotel = context
+                .Schedules
+                .Where(x => x.Status.ToLower() == GlobalConstants.InProgressStatus.ToLower())
+                .Count();
+
+            return new TasksCountViewModel() 
+            { 
+                DepartCount = departures, 
+                TotalCount= total, 
+                ExpectedCount = expected,
+                OverdueCount= overdue,
+                CurrentlyIn = inHotel
+                
+            };
+        }
+
+        public async Task<IEnumerable<GuestDetailedViewModel>> GetAllAsync()
+        {
+            var expectedGuests = await context
+                 .Schedules
+                 .Where(x => x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
+                 .OrderBy(x => x.AdmissionDate)
+                 .ToListAsync();
+
+
+
+            if (expectedGuests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
+
+
+
+            var all = new List<GuestDetailedViewModel>();
+            foreach (var item in expectedGuests)
+            {
+                var petDto = await context
+                 .Pets
+                 .Where(x => item.PetID == x.Id)
+                 .Include(x => x.Hotel)
+                 .ThenInclude(x => x.Schedules)
+                 .Include(x => x.PetType)
+                 .AsNoTracking()
+                 .Select(x => new GuestDetailedViewModel()
+                 {
+                     PetId = x.Id,
+                     PetName = x.Name,
+                     PetType = x.PetType.Name,
+                     UserId = x.User.Id,
+                     UserName = x.User.UserName,
+                     CheckInDate = item.AdmissionDate.ToString("F"),
+                     CheckOutDate = item.DepartureDate.ToString("F"),
+                     ReservationId = item.Id,
+                     Status = item.Status
+                 })
+                 .FirstOrDefaultAsync();
+                all.Add(petDto!);
+            }
+            if (all == null) throw new ArgumentNullException();
+
+            return all;
+        }
+
+        public async Task<IEnumerable<GuestDetailedViewModel>> GetOverdueAsync()
+        {
+            var expectedGuests = await context
+                 .Schedules
+                 .Where(x => x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower() &&
+                 x.AdmissionDate.Day < DateTime.Now.Day && x.AdmissionDate.Month <= DateTime.Now.Month)
+                 .OrderBy(x => x.AdmissionDate)
+                 .ToListAsync();
+
+
+
+            if (expectedGuests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
+
+
+
+            var all = new List<GuestDetailedViewModel>();
+            foreach (var item in expectedGuests)
+            {
+                var petDto = await context
+                 .Pets
+                 .Where(x => item.PetID == x.Id)
+                 .Include(x => x.Hotel)
+                 .ThenInclude(x => x.Schedules)
+                 .Include(x => x.PetType)
+                 .AsNoTracking()
+                 .Select(x => new GuestDetailedViewModel()
+                 {
+                     PetId = x.Id,
+                     PetName = x.Name,
+                     PetType = x.PetType.Name,
+                     UserId = x.User.Id,
+                     UserName = x.User.UserName,
+                     CheckInDate = item.AdmissionDate.ToString("F"),
+                     CheckOutDate = item.DepartureDate.ToString("F"),
+                     ReservationId = item.Id,
+                     Status = item.Status
+                 })
+                 .FirstOrDefaultAsync();
+                all.Add(petDto!);
+            }
+            if (all == null) throw new ArgumentNullException();
+
+            return all;
         }
 
         public async Task<IEnumerable<GuestDetailedViewModel>> GetDeparturesTodayAsync()
@@ -139,5 +270,48 @@ namespace PetHotel.Core.Services
             newStatus.ToUpper() == GlobalConstants.ExpectedStatus.ToUpper(); /*||
             newStatus.ToUpper() == GlobalConstants.CanceledStatus.ToUpper() ||
             newStatus.ToUpper() == GlobalConstants.CompletedStatus.ToUpper();*/
+        public async Task<IEnumerable<GuestDetailedViewModel>> GetAllInHotelAsync()
+        {
+            var expectedGuests = await context
+                .Schedules
+                .Where(x => x.Status.ToLower() == GlobalConstants.InProgressStatus.ToLower())
+                .OrderBy(x => x.AdmissionDate)
+                .ToListAsync();
+
+
+
+            if (expectedGuests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
+
+
+
+            var all = new List<GuestDetailedViewModel>();
+            foreach (var item in expectedGuests)
+            {
+                var petDto = await context
+                 .Pets
+                 .Where(x => item.PetID == x.Id)
+                 .Include(x => x.Hotel)
+                 .ThenInclude(x => x.Schedules)
+                 .Include(x => x.PetType)
+                 .AsNoTracking()
+                 .Select(x => new GuestDetailedViewModel()
+                 {
+                     PetId = x.Id,
+                     PetName = x.Name,
+                     PetType = x.PetType.Name,
+                     UserId = x.User.Id,
+                     UserName = x.User.UserName,
+                     CheckInDate = item.AdmissionDate.ToString("F"),
+                     CheckOutDate = item.DepartureDate.ToString("F"),
+                     ReservationId = item.Id,
+                     Status = item.Status
+                 })
+                 .FirstOrDefaultAsync();
+                all.Add(petDto!);
+            }
+            if (all == null) throw new ArgumentNullException();
+
+            return all;
+        }
     }
 }

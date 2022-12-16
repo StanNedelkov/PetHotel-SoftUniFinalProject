@@ -1,4 +1,5 @@
-﻿using PetHotel.Core.Models.HotelModels;
+﻿using PetHotel.Core.Models.EmployeeModels;
+using PetHotel.Core.Models.HotelModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,14 @@ namespace PetHotel.Core.Contracts
 
         Task<IEnumerable<GuestDetailedViewModel>> GetDeparturesTodayAsync();
 
-        
+        TasksCountViewModel Counter();
+
+        Task<IEnumerable<GuestDetailedViewModel>> GetAllAsync();
+
+        Task<IEnumerable<GuestDetailedViewModel>> GetOverdueAsync();
+
+        Task<IEnumerable<GuestDetailedViewModel>> GetAllInHotelAsync();
+
+
     }
 }

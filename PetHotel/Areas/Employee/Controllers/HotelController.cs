@@ -27,7 +27,79 @@ namespace PetHotel.Areas.Employee.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = employeeService.Counter();
+            return View(model);
+        }
+
+
+
+        [Route("Overdue")]
+        /*[HttpPost]*/
+        public async Task<IActionResult> Overdue()
+        {
+            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
+             {
+                 //not authorized redirect
+                 return RedirectToAction("","");
+             }*/
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            try
+            {
+                var allMyPetsInHotel = await employeeService.GetOverdueAsync();
+                return View(allMyPetsInHotel);
+            }
+            catch (Exception)
+            {
+                //todo something
+                throw;
+            }
+
+        }
+
+        [Route("AllInHotel")]
+        /*[HttpPost]*/
+        public async Task<IActionResult> AllInHotel()
+        {
+            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
+             {
+                 //not authorized redirect
+                 return RedirectToAction("","");
+             }*/
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            try
+            {
+                var allMyPetsInHotel = await employeeService.GetAllInHotelAsync();
+                return View(allMyPetsInHotel);
+            }
+            catch (Exception)
+            {
+                //todo something
+                throw;
+            }
+
+        }
+
+        [Route("All")]
+        /*[HttpPost]*/
+        public async Task<IActionResult> All()
+        {
+            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
+             {
+                 //not authorized redirect
+                 return RedirectToAction("","");
+             }*/
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            try
+            {
+                var allMyPetsInHotel = await employeeService.GetAllAsync();
+                return View(allMyPetsInHotel);
+            }
+            catch (Exception)
+            {
+                //todo something
+                throw;
+            }
+
         }
 
         [Route("Today")]

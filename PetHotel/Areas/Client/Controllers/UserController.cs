@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.UserModels;
 using System.Security.Claims;
@@ -77,6 +78,11 @@ namespace PetHotel.Areas.Client.Controllers
             {
                 ModelState.AddModelError(string.Empty, ae.Message);
                 return View(model);
+            }
+
+            if (User.IsInRole(GlobalConstants.EmployeeRoleName))
+            {
+                return RedirectToPage("/Employee/Hotel/Index");
             }
             return RedirectToAction("Index", "Home");
         }

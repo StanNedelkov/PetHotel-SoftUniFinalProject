@@ -221,7 +221,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Capacities");
+                    b.ToTable("Capacities", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.GalleryImage", b =>
@@ -250,7 +250,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("HotelID");
 
-                    b.ToTable("GalleryImages");
+                    b.ToTable("GalleryImages", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Hotel", b =>
@@ -272,7 +272,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("CapacityID");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.ImageTag", b =>
@@ -294,7 +294,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("GalleryImageId");
 
-                    b.ToTable("ImageTags");
+                    b.ToTable("ImageTags", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Pet", b =>
@@ -334,7 +334,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Pets");
+                    b.ToTable("Pets", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.PetType", b =>
@@ -355,7 +355,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PetTypes");
+                    b.ToTable("PetTypes", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Reservation", b =>
@@ -390,7 +390,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("HotelID");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.User", b =>

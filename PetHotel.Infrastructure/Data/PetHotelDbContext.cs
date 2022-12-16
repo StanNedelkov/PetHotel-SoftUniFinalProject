@@ -17,6 +17,8 @@ namespace PetHotel.Infrastructure.Data
 
         private const string employeeId = "a841631e-8b01-4884-a23e-c0232e24aa29";
         private const string employeeRoleId = "df93e740-41a6-474c-ba20-5505df682ae4";
+
+        private const string employeeTwoId = "a841631e-8b01-4884-a23e-c0232e24aa30";
         public PetHotelDbContext(DbContextOptions<PetHotelDbContext> options)
             : base(options)
         {
@@ -80,6 +82,17 @@ namespace PetHotel.Infrastructure.Data
                     UserId = employeeId,
                 });
 
+            this.SeedEmployeeTwoUsers();
+            builder.Entity<User>()
+                .HasData(this.NewEmployeeUser);
+
+            builder.Entity<IdentityUserRole<string>>()
+                .HasData(new IdentityUserRole<string>
+                {
+                    RoleId = employeeRoleId,
+                    UserId = employeeTwoId,
+                });
+
 
             base.OnModelCreating(builder);
         }
@@ -98,6 +111,9 @@ namespace PetHotel.Infrastructure.Data
         private User EmployeeUser { get; set; } = null!;
 
         private IdentityRole EmployeeRole { get; set; } = null!;
+
+        private User NewEmployeeUser { get; set; } = null!;
+     
 
         /*//Capacity
         private Capacity HotelCapacity { get; set; } = null!;
@@ -182,9 +198,25 @@ namespace PetHotel.Infrastructure.Data
                 FirstName = "Mitko",
                 LastName = "Mitkov"
             };
-            this.ClientUser.PasswordHash = hasher.HashPassword(this.ClientUser, "Parola1!");
+            this.EmployeeUser.PasswordHash = hasher.HashPassword(this.EmployeeUser, "Parola1!");
         }
 
-        
+        private void SeedEmployeeTwoUsers()
+        {
+            var hasher = new PasswordHasher<User>();
+            this.NewEmployeeUser = new User()
+            {
+                Id = employeeId,
+                UserName = "Boss2",
+                NormalizedUserName = "BOSS2",
+                Email = "stenly.nedelkov@gmail.com",
+                NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
+                FirstName = "Mitko",
+                LastName = "Mitkov"
+            };
+            this.NewEmployeeUser.PasswordHash = hasher.HashPassword(this.NewEmployeeUser, "Parola1!");
+        }
+
+
     }
 }
