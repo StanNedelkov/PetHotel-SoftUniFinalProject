@@ -10,6 +10,11 @@
     {
          <ul class="list-group">
          <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate, @pet.Status, @pet.ReservationId, @pet.UserName</li>
-          </ul>
+         </ul>
+        <p> 
+            <a asp-controller="Hotel" asp-area="Employee" asp-action="CheckIn" asp-route-id="@pet.ReservationId">Check In</a>  
+            <a asp-controller="Hotel" asp-area="Employee" asp-action="Cancel" asp-route-id="@pet.ReservationId">Cancel</a>
+        </p>
+        
     }
 </body>

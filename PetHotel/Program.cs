@@ -59,6 +59,7 @@ namespace PetHotel
             builder.Services.AddScoped<IHotelService, HotelService>();
             builder.Services.AddScoped<IGalleryService, GalleryService>();
             builder.Services.AddScoped<ICloudinaryImageUpload, CloudinaryImageUpload>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
             var app = builder.Build();
 

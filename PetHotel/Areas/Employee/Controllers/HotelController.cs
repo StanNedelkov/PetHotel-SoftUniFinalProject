@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PetHotel.Common;
 using PetHotel.Core.Contracts;
+using PetHotel.Core.Models.HotelModels;
 using System.Security.Claims;
 
 namespace PetHotel.Areas.Employee.Controllers
@@ -14,12 +16,12 @@ namespace PetHotel.Areas.Employee.Controllers
 
         private readonly IHotelService service;
         private readonly IUserService userService;
-
-        public HotelController(IHotelService _service, IUserService _userService)
+        private readonly IEmployeeService employeeService;
+        public HotelController(IHotelService _service, IUserService _userService, IEmployeeService _employeeService)
         {
             this.service = _service;
             this.userService = _userService;
-
+            this.employeeService = _employeeService;
         }
 
 
@@ -50,5 +52,91 @@ namespace PetHotel.Areas.Employee.Controllers
             }
 
         }
+        [Route("CheckIn")]
+        [HttpGet]
+        public async Task<IActionResult> CheckIn(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var model = await employeeService.GetReservationAsync(id ?? 0);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Route("CheckIn")]
+        [HttpPost]
+        public async Task<IActionResult> CheckIn(GuestDetailedViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await employeeService.ManageStatusAsync(model.ReservationId, GlobalConstants.InProgressStatus);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return RedirectToAction("Today");
+        }
+
+
+        [Route("Cancel")]
+        [HttpGet]
+        public async Task<IActionResult> Cancel(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var model = await employeeService.GetReservationAsync(id ?? 0);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Route("Cancel")]
+        [HttpPost]
+        public async Task<IActionResult> Cancel(GuestDetailedViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await employeeService.ManageStatusAsync(model.ReservationId, GlobalConstants.CanceledStatus);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Today");
+
+        }
+        private IEnumerable<string> Statuses() 
+            => employeeService.GetStatusList();
     }
 }
