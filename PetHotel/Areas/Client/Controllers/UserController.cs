@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.UserModels;
+using PetHotel.Infrastructure.Data.Entities;
 using System.Security.Claims;
 
 namespace PetHotel.Areas.Client.Controllers
 {
+
     /// <summary>
     /// UserController handles login, register and logout functions by calling UserService.
     /// </summary>
@@ -15,9 +19,11 @@ namespace PetHotel.Areas.Client.Controllers
     public class UserController : Controller
     {
         private readonly IUserService service;
-        public UserController(IUserService _service)
+        private readonly UserManager<User> userManager;
+        public UserController(IUserService _service, UserManager<User> _userManager)
         {
             service = _service;
+            userManager = _userManager;
         }
         public IActionResult Index()
         {
@@ -79,11 +85,9 @@ namespace PetHotel.Areas.Client.Controllers
                 ModelState.AddModelError(string.Empty, ae.Message);
                 return View(model);
             }
-
-            if (User.IsInRole(GlobalConstants.EmployeeRoleName))
-            {
-                return RedirectToPage("/Employee/Hotel/Index");
-            }
+            var user = await service.EmployeeUser();
+            if (await userManager.IsInRoleAsync(user, "Employee")) return Redirect("Employee/Hotel/Index");
+            
             return RedirectToAction("Index", "Home");
         }
 

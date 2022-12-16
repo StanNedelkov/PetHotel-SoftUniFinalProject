@@ -30,12 +30,12 @@ namespace PetHotel.Core.Services
                 UserID = userId,
                 HotelID = 1
             };
-            //to do check if null
-            var capacity = await context.Capacities.FirstOrDefaultAsync(x => x.HotelID == 1);
+          /*  //to do check if null
+          *//*  var capacity = await context.Capacities.FirstOrDefaultAsync(x => x.HotelID == 1);*//*
             //to do constants or better way to get the Ids than just numbers!!!!
             if (pet.PetTypeID == 1) capacity.CurCapacityDogs++;
             if (pet.PetTypeID == 2) capacity.CurCapacityCats++;
-            if (pet.PetTypeID == 3) capacity.CurCapacityGator++;
+            if (pet.PetTypeID == 3) capacity.CurCapacityGator++;*/
             await context.Pets.AddAsync(pet);
             await context.SaveChangesAsync();
         }

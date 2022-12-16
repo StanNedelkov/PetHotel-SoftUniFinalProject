@@ -19,10 +19,10 @@ namespace PetHotel.Infrastructure.Data.Entities
         [MinLength(HotelConstants.HotelNameMax)]
         public string Name { get; set; } = null!;
 
-        public int CapacityID { get; set; }
+       /* public int CapacityID { get; set; }
         [Required]
         [ForeignKey(nameof(CapacityID))]
-        public Capacity Capacity { get; set; } = null!;
+        public Capacity Capacity { get; set; } = null!;*/
 
         public ICollection<Pet> Pets { get; set; }
         public ICollection<Reservation> Schedules{ get; set; }

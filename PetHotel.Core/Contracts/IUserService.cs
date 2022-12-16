@@ -1,4 +1,5 @@
 ﻿using PetHotel.Core.Models.UserModels;
+using PetHotel.Infrastructure.Data.Entities;
 
 namespace PetHotel.Core.Contracts
 {
@@ -14,5 +15,7 @@ namespace PetHotel.Core.Contracts
 
         Task<bool> UserOwnsPet(string userId, int petId);
         Task<ICollection<MyOwnPetsViewModel>>GetMyPetsAsync(string userId);
+
+        Task<User> EmployeeUser();
     }
 }

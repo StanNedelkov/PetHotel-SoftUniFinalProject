@@ -24,7 +24,7 @@ namespace PetHotel.Infrastructure.Data
         {
             
         }
-        public DbSet<Capacity> Capacities { get; set; } = null!;
+       /* public DbSet<Capacity> Capacities { get; set; } = null!;*/
         public DbSet<Hotel> Hotels { get; set; } = null!;
         public DbSet<Pet> Pets { get; set; } = null!;
         public DbSet<PetType> PetTypes { get; set; } = null!;
@@ -82,7 +82,7 @@ namespace PetHotel.Infrastructure.Data
                     UserId = employeeId,
                 });
 
-            this.SeedEmployeeTwoUsers();
+          /*  this.SeedEmployeeTwoUsers();
             builder.Entity<User>()
                 .HasData(this.NewEmployeeUser);
 
@@ -91,8 +91,8 @@ namespace PetHotel.Infrastructure.Data
                 {
                     RoleId = employeeRoleId,
                     UserId = employeeTwoId,
-                });
-
+                });*/
+            this.SeedHotel();
 
             base.OnModelCreating(builder);
         }
@@ -113,7 +113,9 @@ namespace PetHotel.Infrastructure.Data
         private IdentityRole EmployeeRole { get; set; } = null!;
 
         private User NewEmployeeUser { get; set; } = null!;
-     
+
+        public Hotel Hotel { get; set; }
+
 
         /*//Capacity
         private Capacity HotelCapacity { get; set; } = null!;
@@ -215,6 +217,12 @@ namespace PetHotel.Infrastructure.Data
                 LastName = "Mitkov"
             };
             this.NewEmployeeUser.PasswordHash = hasher.HashPassword(this.NewEmployeeUser, "Parola1!");
+        }
+
+        private void SeedHotel()
+        {
+            this.Hotel = new Hotel()
+            { Name = "Cats Dogs and Crocs" };
         }
 
 

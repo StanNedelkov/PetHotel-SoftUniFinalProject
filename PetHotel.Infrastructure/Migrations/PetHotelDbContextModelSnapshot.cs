@@ -52,21 +52,21 @@ namespace PetHotel.Infrastructure.Migrations
                         new
                         {
                             Id = "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e",
-                            ConcurrencyStamp = "09b833b0-b7c5-4797-826e-87cdadfb19a4",
+                            ConcurrencyStamp = "6147c441-5309-4c38-bad7-42aa085258ff",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "dea12856-c321-4129-b3f3-b893d8395082",
-                            ConcurrencyStamp = "9e2ba927-c08f-4d82-93ba-1a2b24ab6acf",
+                            ConcurrencyStamp = "67e431f6-ba57-46e8-8c82-d8307ab633a8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "df93e740-41a6-474c-ba20-5505df682ae4",
-                            ConcurrencyStamp = "6feb93e6-cab6-42c2-a499-3cefbbb95465",
+                            ConcurrencyStamp = "7965a4a9-22e5-4b6b-ae1a-2f1df8602052",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -199,31 +199,6 @@ namespace PetHotel.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Capacity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CurCapacityCats")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurCapacityDogs")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurCapacityGator")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HotelID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Capacities", (string)null);
-                });
-
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.GalleryImage", b =>
                 {
                     b.Property<int>("Id")
@@ -250,7 +225,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("HotelID");
 
-                    b.ToTable("GalleryImages", (string)null);
+                    b.ToTable("GalleryImages");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Hotel", b =>
@@ -261,18 +236,13 @@ namespace PetHotel.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CapacityID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CapacityID");
-
-                    b.ToTable("Hotels", (string)null);
+                    b.ToTable("Hotels");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.ImageTag", b =>
@@ -294,7 +264,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("GalleryImageId");
 
-                    b.ToTable("ImageTags", (string)null);
+                    b.ToTable("ImageTags");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Pet", b =>
@@ -334,7 +304,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Pets", (string)null);
+                    b.ToTable("Pets");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.PetType", b =>
@@ -355,7 +325,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PetTypes", (string)null);
+                    b.ToTable("PetTypes");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Reservation", b =>
@@ -390,7 +360,7 @@ namespace PetHotel.Infrastructure.Migrations
 
                     b.HasIndex("HotelID");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.User", b =>
@@ -470,7 +440,7 @@ namespace PetHotel.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "719cf91f-e5ca-4ea0-8522-1c88dd6cfb38",
+                            ConcurrencyStamp = "0efbe324-5a08-4641-ab03-435a18617ac5",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -478,9 +448,9 @@ namespace PetHotel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJfzxrjAG1hoxUWhUeU/776NXKWNUEpOesw2I4FnTW7lin4sey/Km3OXe2aQYrEAvA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENMMUqB+xLzBcoLScggjlf24j6dNazRo3/F95lPFI7L+aKxrIxDkY9/4pTIaWuU8jA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "47c61879-719e-4064-bb27-4f9eb77948e1",
+                            SecurityStamp = "650d6ad4-65d2-489d-83d1-27a4b70a2141",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
@@ -488,7 +458,7 @@ namespace PetHotel.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9425841-dcda-481a-8c48-47da0906eb91",
+                            ConcurrencyStamp = "3e46409a-d56a-4d4a-8204-528770244ca3",
                             Email = "stenly.nedelkov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Stanislav",
@@ -496,9 +466,9 @@ namespace PetHotel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                             NormalizedUserName = "STAN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMxcfKgWpg0dXC28M8BnmmW6mhJ9+coiLK5OdG08CFb4h03pXQJYQ9g4quhQHwDLPQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHRj0G5kUBG37odV35Nu3lVybidOSSFU3IzT8SAmZV+zOceJqSOTLPZ3i85sxJ6O5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "daf10701-df62-4ad8-9f42-ba104b0774be",
+                            SecurityStamp = "a45c9db6-a905-4edc-afc7-f15c3e892e13",
                             TwoFactorEnabled = false,
                             UserName = "Stan"
                         },
@@ -506,7 +476,7 @@ namespace PetHotel.Infrastructure.Migrations
                         {
                             Id = "a841631e-8b01-4884-a23e-c0232e24aa29",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "904643dd-536c-4b54-9fe9-77f1703002d9",
+                            ConcurrencyStamp = "92810e9b-a5d0-4e3a-bfb0-4daee7fd973c",
                             Email = "stenly.nedelkov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Mitko",
@@ -514,8 +484,9 @@ namespace PetHotel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                             NormalizedUserName = "BOSS",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBkgYmeGouIpLThYobOCt/5Q/xQFO10IwutAX1+WTvdH1U+MrSHHhOCCTOPvvecbXQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "22f5fc9b-bb0f-4bf7-b25f-3c43683d5f56",
+                            SecurityStamp = "1a534935-4b6d-4c5a-80ea-939b3866cb4b",
                             TwoFactorEnabled = false,
                             UserName = "Boss"
                         });
@@ -581,17 +552,6 @@ namespace PetHotel.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.Hotel", b =>
-                {
-                    b.HasOne("PetHotel.Infrastructure.Data.Entities.Capacity", "Capacity")
-                        .WithMany()
-                        .HasForeignKey("CapacityID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Capacity");
                 });
 
             modelBuilder.Entity("PetHotel.Infrastructure.Data.Entities.ImageTag", b =>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetHotel.Infrastructure.Migrations
 {
-    public partial class InitialWithSeed : Migration
+    public partial class employee : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,19 +51,16 @@ namespace PetHotel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Capacities",
+                name: "Hotels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CurCapacityDogs = table.Column<int>(type: "int", nullable: false),
-                    CurCapacityCats = table.Column<int>(type: "int", nullable: false),
-                    CurCapacityGator = table.Column<int>(type: "int", nullable: false),
-                    HotelID = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Capacities", x => x.Id);
+                    table.PrimaryKey("PK_Hotels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,26 +184,6 @@ namespace PetHotel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Hotels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CapacityID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hotels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Hotels_Capacities_CapacityID",
-                        column: x => x.CapacityID,
-                        principalTable: "Capacities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "GalleryImages",
                 columns: table => new
                 {
@@ -222,6 +199,30 @@ namespace PetHotel.Infrastructure.Migrations
                     table.PrimaryKey("PK_GalleryImages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_GalleryImages_Hotels_HotelID",
+                        column: x => x.HotelID,
+                        principalTable: "Hotels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PetID = table.Column<int>(type: "int", nullable: false),
+                    PetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HotelID = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Schedules_Hotels_HotelID",
                         column: x => x.HotelID,
                         principalTable: "Hotels",
                         principalColumn: "Id",
@@ -265,30 +266,6 @@ namespace PetHotel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedules",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PetID = table.Column<int>(type: "int", nullable: false),
-                    PetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HotelID = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Hotels_HotelID",
-                        column: x => x.HotelID,
-                        principalTable: "Hotels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ImageTags",
                 columns: table => new
                 {
@@ -312,9 +289,9 @@ namespace PetHotel.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "09b833b0-b7c5-4797-826e-87cdadfb19a4", "Administrator", "ADMINISTRATOR" },
-                    { "dea12856-c321-4129-b3f3-b893d8395082", "9e2ba927-c08f-4d82-93ba-1a2b24ab6acf", "User", "USER" },
-                    { "df93e740-41a6-474c-ba20-5505df682ae4", "6feb93e6-cab6-42c2-a499-3cefbbb95465", "Employee", "EMPLOYEE" }
+                    { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "6147c441-5309-4c38-bad7-42aa085258ff", "Administrator", "ADMINISTRATOR" },
+                    { "dea12856-c321-4129-b3f3-b893d8395082", "67e431f6-ba57-46e8-8c82-d8307ab633a8", "User", "USER" },
+                    { "df93e740-41a6-474c-ba20-5505df682ae4", "7965a4a9-22e5-4b6b-ae1a-2f1df8602052", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(
@@ -322,9 +299,9 @@ namespace PetHotel.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "719cf91f-e5ca-4ea0-8522-1c88dd6cfb38", "admin@gmail.com", false, "Admin", "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEJfzxrjAG1hoxUWhUeU/776NXKWNUEpOesw2I4FnTW7lin4sey/Km3OXe2aQYrEAvA==", null, false, "47c61879-719e-4064-bb27-4f9eb77948e1", false, "Admin" },
-                    { "a841631e-8b01-4884-a23e-c0232e24aa29", 0, "904643dd-536c-4b54-9fe9-77f1703002d9", "stenly.nedelkov@gmail.com", false, "Mitko", "Mitkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "BOSS", null, null, false, "22f5fc9b-bb0f-4bf7-b25f-3c43683d5f56", false, "Boss" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "d9425841-dcda-481a-8c48-47da0906eb91", "stenly.nedelkov@gmail.com", false, "Stanislav", "Nedelkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "STAN", "AQAAAAEAACcQAAAAEMxcfKgWpg0dXC28M8BnmmW6mhJ9+coiLK5OdG08CFb4h03pXQJYQ9g4quhQHwDLPQ==", null, false, "daf10701-df62-4ad8-9f42-ba104b0774be", false, "Stan" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "0efbe324-5a08-4641-ab03-435a18617ac5", "admin@gmail.com", false, "Admin", "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAENMMUqB+xLzBcoLScggjlf24j6dNazRo3/F95lPFI7L+aKxrIxDkY9/4pTIaWuU8jA==", null, false, "650d6ad4-65d2-489d-83d1-27a4b70a2141", false, "Admin" },
+                    { "a841631e-8b01-4884-a23e-c0232e24aa29", 0, "92810e9b-a5d0-4e3a-bfb0-4daee7fd973c", "stenly.nedelkov@gmail.com", false, "Mitko", "Mitkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "BOSS", "AQAAAAEAACcQAAAAEBkgYmeGouIpLThYobOCt/5Q/xQFO10IwutAX1+WTvdH1U+MrSHHhOCCTOPvvecbXQ==", null, false, "1a534935-4b6d-4c5a-80ea-939b3866cb4b", false, "Boss" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "3e46409a-d56a-4d4a-8204-528770244ca3", "stenly.nedelkov@gmail.com", false, "Stanislav", "Nedelkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "STAN", "AQAAAAEAACcQAAAAEHRj0G5kUBG37odV35Nu3lVybidOSSFU3IzT8SAmZV+zOceJqSOTLPZ3i85sxJ6O5Q==", null, false, "a45c9db6-a905-4edc-afc7-f15c3e892e13", false, "Stan" }
                 });
 
             migrationBuilder.InsertData(
@@ -385,11 +362,6 @@ namespace PetHotel.Infrastructure.Migrations
                 name: "IX_GalleryImages_HotelID",
                 table: "GalleryImages",
                 column: "HotelID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Hotels_CapacityID",
-                table: "Hotels",
-                column: "CapacityID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImageTags_GalleryImageId",
@@ -457,9 +429,6 @@ namespace PetHotel.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Hotels");
-
-            migrationBuilder.DropTable(
-                name: "Capacities");
         }
     }
 }
