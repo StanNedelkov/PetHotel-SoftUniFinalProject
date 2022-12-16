@@ -74,9 +74,9 @@ namespace PetHotel.Areas.Client.Controllers
         }
 
 
-        [Route("Cancel")]
+        [Route("CancelReserv")]
 
-        public async Task<IActionResult> Cancel(int id) //this is the id of the reservation
+        public async Task<IActionResult> CancelReserv(int id) //this is the id of the reservation
         {
             //check if pet is owned by logged in user.
             

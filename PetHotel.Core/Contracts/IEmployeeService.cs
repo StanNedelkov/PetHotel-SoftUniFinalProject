@@ -17,6 +17,8 @@ namespace PetHotel.Core.Contracts
 
         Task<GuestDetailedViewModel> GetReservationAsync(int reservationId);
 
+        Task<IEnumerable<GuestDetailedViewModel>> GetDeparturesTodayAsync();
+
         
     }
 }

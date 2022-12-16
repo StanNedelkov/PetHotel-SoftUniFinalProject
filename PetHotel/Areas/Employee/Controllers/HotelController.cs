@@ -42,7 +42,7 @@ namespace PetHotel.Areas.Employee.Controllers
             string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
             try
             {
-                var allMyPetsInHotel = await service.GetAllGuestsAsync();
+                var allMyPetsInHotel = await service.GetAllGuestsTodayAsync();
                 return View(allMyPetsInHotel);
             }
             catch (Exception)
@@ -134,9 +134,72 @@ namespace PetHotel.Areas.Employee.Controllers
                 throw;
             }
             return RedirectToAction("Today");
-
         }
         private IEnumerable<string> Statuses() 
             => employeeService.GetStatusList();
+
+        [Route("Depart")]
+        /*[HttpPost]*/
+        public async Task<IActionResult> Depart()
+        {
+            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
+             {
+                 //not authorized redirect
+                 return RedirectToAction("","");
+             }*/
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            try
+            {
+                var theDeparted = await employeeService.GetDeparturesTodayAsync();
+                return View(theDeparted);
+            }
+            catch (Exception)
+            {
+                //todo something
+                throw;
+            }
+        }
+
+
+        [Route("CheckOut")]
+        [HttpGet]
+        public async Task<IActionResult> CheckOut(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var model = await employeeService.GetReservationAsync(id ?? 0);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Route("CheckOut")]
+        [HttpPost]
+        public async Task<IActionResult> CheckOut(GuestDetailedViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await employeeService.ManageStatusAsync(model.ReservationId, GlobalConstants.CompletedStatus);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Today");
+        }
     }
 }

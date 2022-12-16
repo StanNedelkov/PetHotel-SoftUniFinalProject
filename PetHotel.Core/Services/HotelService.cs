@@ -27,7 +27,7 @@ namespace PetHotel.Core.Services
                 DateTimeStyles.None,
                 out date);
 
-            if (!isValidDate) CheckAlternateDateFormat(checkDate);
+            if (!isValidDate) return CheckAlternateDateFormat(checkDate);
             return date;
         }
 
@@ -111,43 +111,53 @@ namespace PetHotel.Core.Services
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-
-        //todo new DTO for more details
-        public async Task<ICollection<GuestDetailedViewModel>> GetAllGuestsAsync()
+        public async Task<ICollection<GuestDetailedViewModel>> GetAllGuestsTodayAsync()
         {
 
-            List<int> guests = await context
+            var expectedGuests = await context
                 .Schedules
-                .Where(x => x.AdmissionDate.Day == DateTime.Today.Day)
-                .Select(x => x.PetID)
+                .Where(x => x.AdmissionDate.Day == DateTime.Today.Day && 
+                x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower() &&
+                x.AdmissionDate.Month == DateTime.Today.Month)
                 .ToListAsync();
 
-            if (guests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
+            
 
-            var petDto = await context
-                .Pets
-                .Where(x => guests!.Contains(x.Id))
-                .Include(x => x.Hotel)
-                .ThenInclude(x => x.Schedules)
-                .Include(x => x.PetType)
-                .AsNoTracking()
-                .Select(x => new GuestDetailedViewModel()
-                {
-                    PetId = x.Id,
-                    PetName = x.Name,
-                    PetType = x.PetType.Name,
-                    UserId = x.User.Id,
-                    UserName= x.User.UserName,
-                    CheckInDate = x.Hotel.Schedules.FirstOrDefault(t => t.PetID == x.Id && t.AdmissionDate.Day == DateTime.Today.Day).AdmissionDate.ToString("F"),
-                    CheckOutDate = x.Hotel.Schedules.FirstOrDefault(t => t.PetID == x.Id && t.AdmissionDate.Day == DateTime.Today.Day).DepartureDate.ToString("F"),
-                    ReservationId = x.Hotel.Schedules.FirstOrDefault(t => t.PetID == x.Id && t.AdmissionDate.Day == DateTime.Today.Day).Id,
-                    Status = x.Hotel.Schedules.FirstOrDefault(t => t.PetID == x.Id && t.AdmissionDate.Day == DateTime.Today.Day).Status
-                })
-                .ToListAsync();
+            if (expectedGuests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
 
-            if (petDto == null) throw new ArgumentNullException();
 
-           return petDto;
+
+            var all = new List<GuestDetailedViewModel>();
+            foreach (var item in expectedGuests)
+            {
+                var petDto = await context
+                 .Pets
+                 .Where(x => item.PetID == x.Id)
+                 .Include(x => x.Hotel)
+                 .ThenInclude(x => x.Schedules)
+                 .Include(x => x.PetType)
+                 .AsNoTracking()
+                 .Select(x => new GuestDetailedViewModel()
+                 {
+                     PetId = x.Id,
+                     PetName = x.Name,
+                     PetType = x.PetType.Name,
+                     UserId = x.User.Id,
+                     UserName = x.User.UserName,
+                     CheckInDate = item.AdmissionDate.ToString("M"),
+                     CheckOutDate = item.DepartureDate.ToString("M"),
+                     ReservationId = item.Id,
+                     Status = item.Status
+                 })
+                 .FirstOrDefaultAsync();
+                all.Add(petDto!);
+            }
+
+            
+
+            if (all == null) throw new ArgumentNullException();
+
+           return all;
         }
 
 
@@ -253,13 +263,13 @@ namespace PetHotel.Core.Services
 
             var reservedPets = await context
                 .Schedules
-                .Where(x => petsOwnedByUser.Contains(x.PetID) && x.Status != GlobalConstants.CanceledStatus)
+                .Where(x => petsOwnedByUser.Contains(x.PetID))
                 .Select(x => new GuestBasicViewModel()
                 {
                     ReservationId = x.Id,
                     PetId= x.PetID,
-                    CheckInDate = x.AdmissionDate.ToString(),
-                    CheckOutDate= x.DepartureDate.ToString(),
+                    CheckInDate = x.AdmissionDate.ToString("M"),
+                    CheckOutDate= x.DepartureDate.ToString("M"),
                     Status = x.Status
                 })
                 .ToListAsync();

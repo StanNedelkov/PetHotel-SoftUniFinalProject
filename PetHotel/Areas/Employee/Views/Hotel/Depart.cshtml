@@ -1,0 +1,20 @@
+﻿@model IEnumerable<PetHotel.Core.Models.HotelModels.GuestDetailedViewModel>
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <h3>Departures for Today</h3>
+    @foreach (var pet in Model)
+    {
+             <ul class="list-group">
+             <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate, @pet.Status, @pet.ReservationId, @pet.UserName</li>
+             </ul>
+            <p> 
+                <a asp-controller="Hotel" asp-area="Employee" asp-action="CheckOut" asp-route-id="@pet.ReservationId">Check Out</a>  
+               
+            </p>
+
+    }
+</body>

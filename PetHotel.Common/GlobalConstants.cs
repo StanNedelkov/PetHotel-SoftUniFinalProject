@@ -12,7 +12,7 @@
 
         public const string DateTimeFormatConst = "dd.MM.yyyy HH:mm";
 
-        public const string DateTimeAlternateFormatConst = "yyyy-mm-dd";
+        public const string DateTimeAlternateFormatConst = "yyyy-MM-dd";
 
         public const string PetHotelName = "Dogs Crocs and Cats Hotel";
 

@@ -3,12 +3,6 @@ using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.HotelModels;
 using PetHotel.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Core.Services
 {
@@ -18,6 +12,51 @@ namespace PetHotel.Core.Services
         public EmployeeService(PetHotelDbContext _context)
         {
             this.context = _context;
+        }
+
+        public async Task<IEnumerable<GuestDetailedViewModel>> GetDeparturesTodayAsync()
+        {
+            var expectedGuests = await context
+                 .Schedules
+                 .Where(x => x.DepartureDate.Day == DateTime.Today.Day &&
+                 x.Status.ToLower() == GlobalConstants.InProgressStatus.ToLower() &&
+                 x.DepartureDate.Month == DateTime.Today.Month)
+                 .ToListAsync();
+
+            
+
+            if (expectedGuests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
+
+
+
+            var all = new List<GuestDetailedViewModel>();
+            foreach (var item in expectedGuests)
+            {
+                var petDto = await context
+                 .Pets
+                 .Where(x => item.PetID == x.Id)
+                 .Include(x => x.Hotel)
+                 .ThenInclude(x => x.Schedules)
+                 .Include(x => x.PetType)
+                 .AsNoTracking()
+                 .Select(x => new GuestDetailedViewModel()
+                 {
+                     PetId = x.Id,
+                     PetName = x.Name,
+                     PetType = x.PetType.Name,
+                     UserId = x.User.Id,
+                     UserName = x.User.UserName,
+                     CheckInDate = item.AdmissionDate.ToString("F"),
+                     CheckOutDate = item.DepartureDate.ToString("F"),
+                     ReservationId = item.Id,
+                     Status = item.Status
+                 })
+                 .FirstOrDefaultAsync();
+                all.Add(petDto!);
+            }
+            if (all == null) throw new ArgumentNullException();
+
+            return all;
         }
 
         public async Task<GuestDetailedViewModel> GetReservationAsync(int reservationId)
