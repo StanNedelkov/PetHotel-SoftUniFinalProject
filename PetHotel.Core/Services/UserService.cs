@@ -27,9 +27,9 @@ namespace PetHotel.Core.Services
             this.context = _context;
         }
 
-        public async Task<User> EmployeeUser()
+        public async Task<User> EmployeeUser(string userName)
         {
-           return  await context.Users.FirstOrDefaultAsync(x => x.UserName == "Boss");
+           return  await context.Users.FirstOrDefaultAsync(x => x.UserName.ToLower() == userName.ToLower());
         }
 
         public async Task<ICollection<MyOwnPetsViewModel>> GetMyPetsAsync(string userId)

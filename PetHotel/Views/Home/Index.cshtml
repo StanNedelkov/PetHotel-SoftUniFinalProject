@@ -1,19 +1,64 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <style>
+        h1 {
+            text-align: center;
+        }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome the final layout in not finnished</h1>
+        h3 {
+            text-align: center;
+        }
+        p {
+            text-align: center;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        a:link {
+            color: green;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: pink;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        a:active {
+            color: yellow;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="background-image: url('images/pngtree-calf-dog-pet-young-mammal-background-picture-image_436086.jpg');
+  background-size: cover; height:480px; padding-top:80px;">
+
+        <h3 class="display-4"><b>Welcome the Cats Dogs and Crocs Hote</b>l</h3>
     <section class="home-page">
         @if (this.User?.Identity?.IsAuthenticated ?? false)
         {
-            <h1 class="display-4">@this.User.Identity.Name</h1>
+            <h1 class="display-4">Hi @this.User.Identity.Name</h1>
 
             @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
             {
                 <h1 class="display-4"> You have admin rights</h1>
             }
-            @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
+            @*@if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
             {
                 <h1 class="display-4"> You have user rights</h1>
                 <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create">Add a new pet</a>
@@ -21,9 +66,38 @@
                 <a class="nav-link text-dark" asp-area="Client" asp-controller="Hotel" asp-action="AllMine" >My checked in pets</a>
                 <a class="nav-link text-dark" asp-area="Client" asp-controller="Image" asp-action="UploadNewImage">Upload to gallery</a>
                 <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="DisplayGallery">Gallery</a>
-            }
+            }*@
 
         }
     </section>
-  
-</div>
+    </div>
+    <div style="background-size: cover; height:240px; padding-top:80px;"></div>
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
+    {
+        <div style="background-image: url('images/6a215ba60967211f3bec3f6379b96ad2.jpg');
+  background-size: cover; height:480px; padding-top:80px;">
+        <h1 class="display-4"> You have user rights</h1>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create"><b>Add a new pet</b>
+
+        </a>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="User" asp-action="MyPets">
+                <b>Make a reservation</b>
+
+        </a>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="Hotel" asp-action="AllMine">
+                <b>My checked in pets</b>
+
+        </a>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="Image" asp-action="UploadNewImage">
+                <b>Upload to gallery</b>
+
+        </a>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="DisplayGallery">
+                <b>Gallery</b>
+
+        </a>
+        </div>
+        
+    }
+</body>
+

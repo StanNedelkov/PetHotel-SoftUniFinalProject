@@ -79,16 +79,17 @@ namespace PetHotel.Areas.Client.Controllers
             try
             {
                 await service.LoginUserAsync(model);
+                var user = await service.EmployeeUser(model.UserName);
+                if (await userManager.IsInRoleAsync(user, "Employee")) return Redirect("Employee/Hotel/Index");
+
+                return RedirectToAction("Index", "Home");
             }
             catch (ArgumentException ae)
             {
                 ModelState.AddModelError(string.Empty, ae.Message);
                 return View(model);
             }
-            var user = await service.EmployeeUser();
-            if (await userManager.IsInRoleAsync(user, "Employee")) return Redirect("Employee/Hotel/Index");
             
-            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>

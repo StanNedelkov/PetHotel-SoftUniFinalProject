@@ -16,6 +16,6 @@ namespace PetHotel.Core.Contracts
         Task<bool> UserOwnsPet(string userId, int petId);
         Task<ICollection<MyOwnPetsViewModel>>GetMyPetsAsync(string userId);
 
-        Task<User> EmployeeUser();
+        Task<User> EmployeeUser(string userName);
     }
 }
