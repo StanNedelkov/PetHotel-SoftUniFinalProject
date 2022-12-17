@@ -28,5 +28,25 @@ namespace PetHotel.Areas.Admin.Controllers
 
             return View(allUsers);
         }
+
+        [Route("ActivateAccount")]
+        public async Task<IActionResult>ActivateAccount(string Id)
+        {
+            if (!User.IsInRole(GlobalConstants.AdministratorRoleName)) return RedirectToAction("Index", "Home");
+
+            await service.ActivateUserAsync(Id);
+
+            return RedirectToAction(nameof(Profiles)); 
+        }
+
+        [Route("DeactivateAccount")]
+        public async Task<IActionResult> DeactivateAccount(string Id)
+        {
+            if (!User.IsInRole(GlobalConstants.AdministratorRoleName)) return RedirectToAction("Index", "Home");
+
+            await service.DeactivateUserAsync(Id);
+
+            return RedirectToAction(nameof(Profiles));
+        }
     }
 }

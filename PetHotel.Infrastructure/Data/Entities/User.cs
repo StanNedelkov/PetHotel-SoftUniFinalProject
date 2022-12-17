@@ -16,6 +16,9 @@ namespace PetHotel.Infrastructure.Data.Entities
         [Required]
         [MinLength(UserConstants.LastNameMin)]
         public string LastName { get; set; } = null!;
+
+        [Required]
+        public bool IsActive { get; set; }
         public ICollection<Pet> Pets { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using PetHotel.Core.Models.PetModels;
 using PetHotel.Core.Models.UserModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
+using System.Runtime.CompilerServices;
 
 namespace PetHotel.Core.Services
 {
@@ -17,6 +18,38 @@ namespace PetHotel.Core.Services
             this.context = _context;
             this.userManager = _userManager;
         }
+
+        public async Task ActivateUserAsync(string userId)
+        {
+           var user = await context
+                .Users
+                .FindAsync(userId);
+
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            if (user.IsActive == false)
+            {
+                user.IsActive = true;
+                await context.SaveChangesAsync();
+            }
+           
+        }
+
+        public async Task DeactivateUserAsync(string userId)
+        {
+           var user = await context
+                .Users
+                .FindAsync(userId);
+
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            if (user.IsActive == true)
+            {
+                user.IsActive = false;
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task<ICollection<ProfileViewModel>> GetAllUsersAsync()
         {
             var users = await context
@@ -43,7 +76,8 @@ namespace PetHotel.Core.Services
                     LastName = item.LastName,
                     Email = item.Email,
                     PhoneNumber = item.PhoneNumber,
-                    Role = role
+                    Role = role,
+                    IsActive= item.IsActive
                     
                 };
 
@@ -69,5 +103,7 @@ namespace PetHotel.Core.Services
 
             return usersDto;
         }
+
+
     }
 }

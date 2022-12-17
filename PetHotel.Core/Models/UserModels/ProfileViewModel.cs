@@ -12,6 +12,7 @@ namespace PetHotel.Core.Models.UserModels
         public string Email { get; set; } = null!;
         public string Role { get; set; } = null!;
         public string PasswordHidden { get; set; }
+        public bool IsActive { get; set; }
 
         public IEnumerable<PetViewModel> Pets = new List<PetViewModel>();
         

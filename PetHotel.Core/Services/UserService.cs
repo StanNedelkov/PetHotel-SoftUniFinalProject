@@ -90,7 +90,7 @@ namespace PetHotel.Core.Services
         public async Task LoginUserAsync(LoginViewModel model)
         {
             var user = await userManager.FindByNameAsync(model.UserName);
-            if (user == null)
+            if (user == null || user.IsActive == false)
             {
                 throw new ArgumentException(ErrorMessagesConstants.usernameOrPasswordInvalid);
             }
@@ -110,7 +110,8 @@ namespace PetHotel.Core.Services
                 Email = model.Email,
                 FirstName = model.FirstName,
                 PhoneNumber = model.PhoneNumber,
-                LastName = model.LastName
+                LastName = model.LastName,
+                IsActive = true
 
             };
 
