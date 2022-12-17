@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.GalleryModels;
 
@@ -19,6 +20,8 @@ namespace PetHotel.Areas.Client.Controllers
         [Route("UploadNewImage")]
         public IActionResult UploadNewImage()
         {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+
             var model = new UploadModel();
 
             return View(model);

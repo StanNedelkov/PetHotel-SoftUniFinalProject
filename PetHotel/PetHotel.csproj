@@ -31,6 +31,10 @@
     <Folder Include="Areas\Client\Models\" />
     <Folder Include="Areas\Employee\Data\" />
     <Folder Include="Areas\Employee\Models\" />
+    <Folder Include="Areas\Home\Controllers\" />
+    <Folder Include="Areas\Home\Data\" />
+    <Folder Include="Areas\Home\Models\" />
+    <Folder Include="Areas\Home\Views\Home\" />
     <Folder Include="wwwroot\Scripts\" />
     <Folder Include="wwwroot\UploadedFiles\" />
   </ItemGroup>

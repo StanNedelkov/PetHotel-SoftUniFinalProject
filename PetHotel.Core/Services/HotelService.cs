@@ -68,15 +68,23 @@ namespace PetHotel.Core.Services
         }
 
         
-        public async Task CancelHotelStayAsync(int id)
+        public async Task CancelHotelStayAsync(int id, string userId)
         {
             var petToCancel = await context.Schedules
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (petToCancel == null) throw new ArgumentNullException();
 
-            petToCancel.Status= GlobalConstants.CanceledStatus;
-            await context.SaveChangesAsync();
+            var user = await context.Users
+                .Include(x => x.Pets)
+                .FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (user.Pets.Any(x => x.Id == petToCancel.PetID))
+            {
+                petToCancel.Status = GlobalConstants.CanceledStatus;
+                await context.SaveChangesAsync();
+            }
+           
             
         }
 
@@ -87,7 +95,7 @@ namespace PetHotel.Core.Services
 
             DateTime departureDate = CheckDateFormat(model.CheckOutDate);
 
-            if (admissionDate < DateTime.Now || departureDate < DateTime.Now || admissionDate > departureDate)
+            if (admissionDate.Day < DateTime.Now.Day || departureDate.Day < DateTime.Now.Day || admissionDate.Day > departureDate.Day)
             {
                 throw new ArgumentException();
             }
@@ -225,7 +233,7 @@ namespace PetHotel.Core.Services
             var pet = await context
               .Schedules
               .AsNoTracking()
-              .FirstOrDefaultAsync(x => x.PetID == id);
+              .FirstOrDefaultAsync(x => x.Id == id);
             if (pet == null)
             {
                 throw new ArgumentNullException();
@@ -233,7 +241,7 @@ namespace PetHotel.Core.Services
 
             return new AddGuestViewModel()
             {
-                Id = id,
+                Id = pet.PetID,
                 Name = pet.PetName,
                 CheckInDate = pet.AdmissionDate.ToString(GlobalConstants.DateTimeFormatConst),
                 CheckOutDate = pet.DepartureDate.ToString(GlobalConstants.DateTimeFormatConst)

@@ -66,7 +66,9 @@ namespace PetHotel
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseMigrationsEndPoint();
+                app.UseExceptionHandler("/Home/Error");
+               
+               // app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -102,7 +104,7 @@ namespace PetHotel
            areaName: "Client",
            pattern: "Client/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-
+            
             });
 
             app.Run();

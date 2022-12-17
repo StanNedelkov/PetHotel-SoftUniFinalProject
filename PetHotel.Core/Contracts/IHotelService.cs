@@ -21,7 +21,7 @@ namespace PetHotel.Core.Contracts
 
         Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId);
 
-        Task CancelHotelStayAsync(int bookedId);
+        Task CancelHotelStayAsync(int bookedId, string userId);
 
         Task PickUpearly(int bookedId, string newCollectionDate);
 

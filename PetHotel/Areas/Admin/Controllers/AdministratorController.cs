@@ -20,8 +20,8 @@ namespace PetHotel.Areas.Admin.Controllers
             return View();
         }
 
-        [Route("Action")]
-        [HttpGet]
+        [Route("Profiles")]
+        
         public async Task<IActionResult> Profiles()
         {
             var allUsers = await service.GetAllUsersAsync();

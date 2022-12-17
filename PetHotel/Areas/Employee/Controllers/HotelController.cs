@@ -27,6 +27,8 @@ namespace PetHotel.Areas.Employee.Controllers
 
         public IActionResult Index()
         {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName))  return RedirectToAction("Index", "Home");
+            
             var model = employeeService.Counter();
             return View(model);
         }
@@ -37,22 +39,12 @@ namespace PetHotel.Areas.Employee.Controllers
         /*[HttpPost]*/
         public async Task<IActionResult> Overdue()
         {
-            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
-             {
-                 //not authorized redirect
-                 return RedirectToAction("","");
-             }*/
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            try
-            {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+
+          
+            
                 var allMyPetsInHotel = await employeeService.GetOverdueAsync();
                 return View(allMyPetsInHotel);
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
 
         }
 
@@ -60,22 +52,11 @@ namespace PetHotel.Areas.Employee.Controllers
         /*[HttpPost]*/
         public async Task<IActionResult> AllInHotel()
         {
-            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
-             {
-                 //not authorized redirect
-                 return RedirectToAction("","");
-             }*/
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            try
-            {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+            
                 var allMyPetsInHotel = await employeeService.GetAllInHotelAsync();
                 return View(allMyPetsInHotel);
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
+           
 
         }
 
@@ -83,22 +64,11 @@ namespace PetHotel.Areas.Employee.Controllers
         /*[HttpPost]*/
         public async Task<IActionResult> All()
         {
-            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
-             {
-                 //not authorized redirect
-                 return RedirectToAction("","");
-             }*/
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            try
-            {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+            
                 var allMyPetsInHotel = await employeeService.GetAllAsync();
                 return View(allMyPetsInHotel);
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
+            
 
         }
 
@@ -106,43 +76,27 @@ namespace PetHotel.Areas.Employee.Controllers
         /*[HttpPost]*/
         public async Task<IActionResult> Today()
         {
-           /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
-            {
-                //not authorized redirect
-                return RedirectToAction("","");
-            }*/
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            try
-            {
-                var allMyPetsInHotel = await service.GetAllGuestsTodayAsync();
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+
+            var allMyPetsInHotel = await service.GetAllGuestsTodayAsync();
                 return View(allMyPetsInHotel);
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
+            
 
         }
         [Route("CheckIn")]
         [HttpGet]
         public async Task<IActionResult> CheckIn(int? id)
         {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
             if (id == null)
             {
                 return NotFound();
             }
-            try
-            {
+            
                 var model = await employeeService.GetReservationAsync(id ?? 0);
 
                 return View(model);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            
         }
 
         [Route("CheckIn")]
@@ -154,15 +108,9 @@ namespace PetHotel.Areas.Employee.Controllers
                 return View(model);
             }
 
-            try
-            {
-                await employeeService.ManageStatusAsync(model.ReservationId, GlobalConstants.InProgressStatus);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            
+             await employeeService.ManageStatusAsync(model.ReservationId, GlobalConstants.InProgressStatus);
+            
             return RedirectToAction("Today");
         }
 
@@ -171,21 +119,17 @@ namespace PetHotel.Areas.Employee.Controllers
         [HttpGet]
         public async Task<IActionResult> Cancel(int? id)
         {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
             }
-            try
-            {
+            
                 var model = await employeeService.GetReservationAsync(id ?? 0);
 
                 return View(model);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+           
         }
 
         [Route("Cancel")]
@@ -207,29 +151,18 @@ namespace PetHotel.Areas.Employee.Controllers
             }
             return RedirectToAction("Today");
         }
-        private IEnumerable<string> Statuses() 
-            => employeeService.GetStatusList();
+       
 
         [Route("Depart")]
         /*[HttpPost]*/
         public async Task<IActionResult> Depart()
         {
-            /* if (!User.IsInRole(GlobalConstants.EmployeeRoleName))
-             {
-                 //not authorized redirect
-                 return RedirectToAction("","");
-             }*/
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            try
-            {
-                var theDeparted = await employeeService.GetDeparturesTodayAsync();
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
+
+            var theDeparted = await employeeService.GetDeparturesTodayAsync();
                 return View(theDeparted);
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
+            
+           
         }
 
 
@@ -237,21 +170,16 @@ namespace PetHotel.Areas.Employee.Controllers
         [HttpGet]
         public async Task<IActionResult> CheckOut(int? id)
         {
+            if (!User.IsInRole(GlobalConstants.EmployeeRoleName)) return RedirectToAction("Index", "Home");
             if (id == null)
             {
                 return NotFound();
             }
-            try
-            {
+            
                 var model = await employeeService.GetReservationAsync(id ?? 0);
 
                 return View(model);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            
         }
 
         [Route("CheckOut")]

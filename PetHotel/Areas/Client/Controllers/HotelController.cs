@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.HotelModels;
 using System.Security.Claims;
@@ -27,8 +28,10 @@ namespace PetHotel.Areas.Client.Controllers
 
         [Route("Add")]
         [HttpGet]
-        public async Task<IActionResult> Add(int Id)
+        public async Task<IActionResult> Add(int Id)//this is the id of the pet
         {
+            if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
+
             //check if pet is owned by logged in user.
             string loggedUserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
             if (!await userService.UserOwnsPet(loggedUserId, Id)) return RedirectToAction(nameof(AllMine));
@@ -59,66 +62,53 @@ namespace PetHotel.Areas.Client.Controllers
         /*[HttpPost]*/
         public async Task<IActionResult> AllMine()
         {
+            if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
             string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value; 
-            try
-            {
+            
                 var allMyPetsInHotel = await service.GetMyAllGuestsAsync(userId);
                 return View(allMyPetsInHotel);
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
+            
 
         }
 
 
         [Route("CancelReserv")]
 
-        public async Task<IActionResult> CancelReserv(int id) //this is the id of the reservation
+        public async Task<IActionResult> CancelReserv(int? id) //this is the id of the reservation
         {
-            //check if pet is owned by logged in user.
-            
+            if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
 
-            try
-            {
-                await service.CancelHotelStayAsync(id);
-                return RedirectToAction(nameof(AllMine));
-            }
-            catch (Exception)
-            {
-                //todo something
-                throw;
-            }
+            //here the user is checked in the service
+            await service.CancelHotelStayAsync(id ?? 0, userId);
+               return RedirectToAction(nameof(AllMine));
+            
         }
 
         [Route("EditReservation")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int Id) //this is the id of the pet
+        public async Task<IActionResult> EditReservation(int Id) //this is the id of the pet
+        {
+            if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
 
-        {   //check if pet is owned by logged in user.
+            //check if pet is owned by logged in user.
             string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
             if (!await userService.UserOwnsPet(userId, Id)) return RedirectToAction(nameof(AllMine));
+
             return View(await service.GetGuestToEditAsync(Id));
         }
 
         [Route("EditReservation")]
         [HttpPost]
-        public async Task<IActionResult> Edit(AddGuestViewModel model)
+        public async Task<IActionResult> EditReservation(AddGuestViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            try
-            {
+            
                 await service.EditGuestAsync(model);
 
                 return RedirectToAction("Profile", "User");
-            }
-            catch (ArgumentException)
-            {
-                return View(model);
-            }
+            
 
         }
     }

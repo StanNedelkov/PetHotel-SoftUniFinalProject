@@ -67,8 +67,7 @@ namespace PetHotel.Core.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                PasswordHidden = "******"
+                PhoneNumber = user.PhoneNumber
 
             };
           

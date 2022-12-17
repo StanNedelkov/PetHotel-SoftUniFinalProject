@@ -1,24 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PetHotel.Core.Contracts;
-using PetHotel.Core.Models.AdminModels;
 using PetHotel.Core.Models.PetModels;
 using PetHotel.Core.Models.UserModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Core.Services
 {
     public class AdminService : IAdminService
     {
         private readonly PetHotelDbContext context;
-        public AdminService(PetHotelDbContext _context)
+        private readonly UserManager<User> userManager;
+        public AdminService(PetHotelDbContext _context, UserManager<User> _userManager)
         {
             this.context = _context;
+            this.userManager = _userManager;
         }
         public async Task<ICollection<ProfileViewModel>> GetAllUsersAsync()
         {
@@ -36,13 +33,18 @@ namespace PetHotel.Core.Services
 
             foreach (var item in users)
             {
-                var profile = new ProfileViewModel() 
+               string? role = userManager.GetRolesAsync(item).Result.FirstOrDefault();
+
+                var profile = new ProfileViewModel()
                 {
+                    Id = item.Id,
                     UserName = item.UserName,
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     Email = item.Email,
-                    PhoneNumber = item.PhoneNumber
+                    PhoneNumber = item.PhoneNumber,
+                    Role = role
+                    
                 };
 
                 var petList = new List<PetViewModel>();

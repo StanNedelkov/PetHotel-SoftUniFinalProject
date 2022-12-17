@@ -5,18 +5,13 @@
     
 }
     @foreach (var item in Model)
-{
+{   <p>User ID: @item.Id</p>
     <p>User: @item.UserName</p>
+    <p>Role: @item.Role</p>
     <p>Name: @item.FirstName</p>
     <p>Last name: @item.LastName</p>
     <p>Email: @item.Email</p>
     <p>Phone: @item.PhoneNumber</p>
-    <p>Password: @item.PasswordHidden</p>
-    @foreach (var pet in item.Pets)
-    {
-        <p>@pet.PetType</p>
-        <p>@pet.Name</p>
-    }
 
 }
 <div>
