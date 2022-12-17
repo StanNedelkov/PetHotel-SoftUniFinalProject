@@ -146,7 +146,8 @@ namespace PetHotel.Infrastructure.Data
                 Email = "admin@gmail.com",
                 NormalizedEmail = "ADMIN@GMAIL.COM",
                 FirstName = "Admin",
-                LastName = "User"
+                LastName = "User",
+                IsActive = true,
             };
             this.AdminUser.PasswordHash = hasher.HashPassword(this.AdminUser, "guest");
         }
@@ -172,7 +173,8 @@ namespace PetHotel.Infrastructure.Data
                 Email = "stenly.nedelkov@gmail.com",
                 NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                 FirstName = "Stanislav",
-                LastName = "Nedelkov"
+                LastName = "Nedelkov",
+                IsActive = true,
             };
             this.ClientUser.PasswordHash = hasher.HashPassword(this.ClientUser, "Parola1!");
         }
@@ -198,7 +200,8 @@ namespace PetHotel.Infrastructure.Data
                 Email = "stenly.nedelkov@gmail.com",
                 NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                 FirstName = "Mitko",
-                LastName = "Mitkov"
+                LastName = "Mitkov",
+                IsActive= true,
             };
             this.EmployeeUser.PasswordHash = hasher.HashPassword(this.EmployeeUser, "Parola1!");
         }
@@ -214,7 +217,8 @@ namespace PetHotel.Infrastructure.Data
                 Email = "stenly.nedelkov@gmail.com",
                 NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                 FirstName = "Mitko",
-                LastName = "Mitkov"
+                LastName = "Mitkov",
+                IsActive = true,
             };
             this.NewEmployeeUser.PasswordHash = hasher.HashPassword(this.NewEmployeeUser, "Parola1!");
         }

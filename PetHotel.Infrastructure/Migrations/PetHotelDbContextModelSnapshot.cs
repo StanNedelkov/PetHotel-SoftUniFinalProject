@@ -52,21 +52,21 @@ namespace PetHotel.Infrastructure.Migrations
                         new
                         {
                             Id = "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e",
-                            ConcurrencyStamp = "6147c441-5309-4c38-bad7-42aa085258ff",
+                            ConcurrencyStamp = "5d882835-b584-42a8-abe6-0abda94ccf7f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "dea12856-c321-4129-b3f3-b893d8395082",
-                            ConcurrencyStamp = "67e431f6-ba57-46e8-8c82-d8307ab633a8",
+                            ConcurrencyStamp = "ad180d22-5499-4801-bb4c-4790e0cb2c83",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "df93e740-41a6-474c-ba20-5505df682ae4",
-                            ConcurrencyStamp = "7965a4a9-22e5-4b6b-ae1a-2f1df8602052",
+                            ConcurrencyStamp = "d832a928-b694-4f62-b282-f263eaffbaec",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -386,6 +386,9 @@ namespace PetHotel.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -440,17 +443,18 @@ namespace PetHotel.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0efbe324-5a08-4641-ab03-435a18617ac5",
+                            ConcurrencyStamp = "96b4e877-633a-4558-b6a4-03e0029e7b2e",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
+                            IsActive = false,
                             LastName = "User",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENMMUqB+xLzBcoLScggjlf24j6dNazRo3/F95lPFI7L+aKxrIxDkY9/4pTIaWuU8jA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELHyHgzFk2/2yR7woApaKIiik2dW+rEiafASK8q5/HEAvgCUbHGhYL27hpRJYzQ9JA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "650d6ad4-65d2-489d-83d1-27a4b70a2141",
+                            SecurityStamp = "aef34771-01bd-4618-9c84-46546ec066eb",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
@@ -458,17 +462,18 @@ namespace PetHotel.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e46409a-d56a-4d4a-8204-528770244ca3",
+                            ConcurrencyStamp = "c586fabb-1960-4d1a-a53c-4d1b5d73e0e7",
                             Email = "stenly.nedelkov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Stanislav",
+                            IsActive = false,
                             LastName = "Nedelkov",
                             LockoutEnabled = false,
                             NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                             NormalizedUserName = "STAN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHRj0G5kUBG37odV35Nu3lVybidOSSFU3IzT8SAmZV+zOceJqSOTLPZ3i85sxJ6O5Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB7onMwAjfiJ1CkidrGz/hnDJ6LNfKIpMuTqGTiJIEDXrHBMFL66OJ9al7Bfvp86vw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a45c9db6-a905-4edc-afc7-f15c3e892e13",
+                            SecurityStamp = "d722bb40-e134-4531-ba3c-20c891908f4a",
                             TwoFactorEnabled = false,
                             UserName = "Stan"
                         },
@@ -476,17 +481,18 @@ namespace PetHotel.Infrastructure.Migrations
                         {
                             Id = "a841631e-8b01-4884-a23e-c0232e24aa29",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "92810e9b-a5d0-4e3a-bfb0-4daee7fd973c",
+                            ConcurrencyStamp = "2f1a0d85-28cf-492a-949b-0ccfbfd14f94",
                             Email = "stenly.nedelkov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Mitko",
+                            IsActive = false,
                             LastName = "Mitkov",
                             LockoutEnabled = false,
                             NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
                             NormalizedUserName = "BOSS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBkgYmeGouIpLThYobOCt/5Q/xQFO10IwutAX1+WTvdH1U+MrSHHhOCCTOPvvecbXQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOHSkxtLeWc+PXXXGP7aoy76i12HQVXBwDxUZBWXj9Itgis91zcK2QMiKhachrXpow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1a534935-4b6d-4c5a-80ea-939b3866cb4b",
+                            SecurityStamp = "cef3a5a0-2def-4556-996d-7e468c3f06b1",
                             TwoFactorEnabled = false,
                             UserName = "Boss"
                         });

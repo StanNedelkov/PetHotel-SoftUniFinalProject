@@ -92,11 +92,13 @@ namespace PetHotel.Areas.Client.Controllers
             if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
 
             //check if pet is owned by logged in user.
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            if (!await userService.UserOwnsPet(userId, Id)) return RedirectToAction(nameof(AllMine));
+           /* string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            if (!await userService.UserOwnsPet(userId, Id)) return RedirectToAction(nameof(AllMine));*/
 
             return View(await service.GetGuestToEditAsync(Id));
         }
+
+
 
         [Route("EditReservation")]
         [HttpPost]

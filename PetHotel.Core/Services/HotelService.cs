@@ -6,6 +6,7 @@ using PetHotel.Core.Models.PetModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PetHotel.Core.Services
 {
@@ -102,7 +103,7 @@ namespace PetHotel.Core.Services
 
             var guest = await context
                 .Schedules
-                .Where(x => x.PetID == model.Id)
+                .Where(x => x.PetID == model.Id && x.Status == GlobalConstants.ExpectedStatus)
                 .FirstOrDefaultAsync();
 
             guest!.AdmissionDate = admissionDate;
@@ -233,7 +234,8 @@ namespace PetHotel.Core.Services
             var pet = await context
               .Schedules
               .AsNoTracking()
-              .FirstOrDefaultAsync(x => x.Id == id);
+              .Where(x => x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
+              .FirstOrDefaultAsync(x => x.PetID == id);
             if (pet == null)
             {
                 throw new ArgumentNullException();

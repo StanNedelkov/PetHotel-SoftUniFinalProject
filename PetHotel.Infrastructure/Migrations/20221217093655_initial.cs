@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetHotel.Infrastructure.Migrations
 {
-    public partial class employee : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,6 +30,7 @@ namespace PetHotel.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -289,19 +290,19 @@ namespace PetHotel.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "6147c441-5309-4c38-bad7-42aa085258ff", "Administrator", "ADMINISTRATOR" },
-                    { "dea12856-c321-4129-b3f3-b893d8395082", "67e431f6-ba57-46e8-8c82-d8307ab633a8", "User", "USER" },
-                    { "df93e740-41a6-474c-ba20-5505df682ae4", "7965a4a9-22e5-4b6b-ae1a-2f1df8602052", "Employee", "EMPLOYEE" }
+                    { "6d5800ce-d123-4fc8-83d9-d6b3ac1f591e", "5d882835-b584-42a8-abe6-0abda94ccf7f", "Administrator", "ADMINISTRATOR" },
+                    { "dea12856-c321-4129-b3f3-b893d8395082", "ad180d22-5499-4801-bb4c-4790e0cb2c83", "User", "USER" },
+                    { "df93e740-41a6-474c-ba20-5505df682ae4", "d832a928-b694-4f62-b282-f263eaffbaec", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "0efbe324-5a08-4641-ab03-435a18617ac5", "admin@gmail.com", false, "Admin", "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAENMMUqB+xLzBcoLScggjlf24j6dNazRo3/F95lPFI7L+aKxrIxDkY9/4pTIaWuU8jA==", null, false, "650d6ad4-65d2-489d-83d1-27a4b70a2141", false, "Admin" },
-                    { "a841631e-8b01-4884-a23e-c0232e24aa29", 0, "92810e9b-a5d0-4e3a-bfb0-4daee7fd973c", "stenly.nedelkov@gmail.com", false, "Mitko", "Mitkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "BOSS", "AQAAAAEAACcQAAAAEBkgYmeGouIpLThYobOCt/5Q/xQFO10IwutAX1+WTvdH1U+MrSHHhOCCTOPvvecbXQ==", null, false, "1a534935-4b6d-4c5a-80ea-939b3866cb4b", false, "Boss" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "3e46409a-d56a-4d4a-8204-528770244ca3", "stenly.nedelkov@gmail.com", false, "Stanislav", "Nedelkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "STAN", "AQAAAAEAACcQAAAAEHRj0G5kUBG37odV35Nu3lVybidOSSFU3IzT8SAmZV+zOceJqSOTLPZ3i85sxJ6O5Q==", null, false, "a45c9db6-a905-4edc-afc7-f15c3e892e13", false, "Stan" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "96b4e877-633a-4558-b6a4-03e0029e7b2e", "admin@gmail.com", false, "Admin", false, "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAELHyHgzFk2/2yR7woApaKIiik2dW+rEiafASK8q5/HEAvgCUbHGhYL27hpRJYzQ9JA==", null, false, "aef34771-01bd-4618-9c84-46546ec066eb", false, "Admin" },
+                    { "a841631e-8b01-4884-a23e-c0232e24aa29", 0, "2f1a0d85-28cf-492a-949b-0ccfbfd14f94", "stenly.nedelkov@gmail.com", false, "Mitko", false, "Mitkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "BOSS", "AQAAAAEAACcQAAAAEOHSkxtLeWc+PXXXGP7aoy76i12HQVXBwDxUZBWXj9Itgis91zcK2QMiKhachrXpow==", null, false, "cef3a5a0-2def-4556-996d-7e468c3f06b1", false, "Boss" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "c586fabb-1960-4d1a-a53c-4d1b5d73e0e7", "stenly.nedelkov@gmail.com", false, "Stanislav", false, "Nedelkov", false, null, "STENLY.NEDELKOV@GMAIL.COM", "STAN", "AQAAAAEAACcQAAAAEB7onMwAjfiJ1CkidrGz/hnDJ6LNfKIpMuTqGTiJIEDXrHBMFL66OJ9al7Bfvp86vw==", null, false, "d722bb40-e134-4531-ba3c-20c891908f4a", false, "Stan" }
                 });
 
             migrationBuilder.InsertData(
