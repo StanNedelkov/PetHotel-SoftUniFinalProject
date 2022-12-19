@@ -2,18 +2,19 @@
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
-<div class="container card-body-content" >
-    <div class="row image-detail-container">
-        <div class="image-detail">
+<div class="container ">
+    <div class="container ">
+        <div class="background-image  background-size: cover; height:480px; padding-top:80px; ">
             <img  src="@Model.Url" alt="@Model.Title"/>
         </div>
     </div>
-    <div class="row image-detail-meta">
+    <div class="container ">
         <span> Title: @Model.Title</span>
         <span> Uploaded: @Model.Created</span>
+        <div class="row controlls">
+            <a class="btn btn-primary" asp-controller="Gallery" asp-action="DisplayGallery">Back To Gallery</a>
+        </div>
     </div>
-    <div class="row controlls">
-        <a class="btn btn-primary" asp-controller="Gallery" asp-action="Index">Back To Gallery</a>
-    </div>
+    
 
 </div>

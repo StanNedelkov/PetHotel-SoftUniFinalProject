@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetHotel.Core.Contracts;
-using PetHotel.Core.Models.GalleryModels;
 
 namespace PetHotel.Areas.Client.Controllers
 {
@@ -23,66 +21,26 @@ namespace PetHotel.Areas.Client.Controllers
             return View();
         }
 
-        /*  [Route("UploadFiles")]
-          [HttpPost]
-          public IActionResult UploadFiles()
-          {
-              long size = 0;
-              var files = Request.Form.Files;
-
-              foreach (var file in files)
-              {
-                  string filename = hostingEnv.WebRootPath + $@"\uploadedfiles\{file.FileName}";
-                  size += file.Length;
-                  using (FileStream fs = System.IO.File.Create(filename))
-                  {
-                      file.CopyTo(fs);
-                      fs.Flush();
-                  }
-              }
-              string message = $"{files.Count} file(s) / {size}bytes uploaded successfully!";
-              return Json(message);
-          }*/
-/*
-        [Route("Upload")]
-        public async Task<IActionResult> Upload(IFormFile File)
-        {
-            var model = new UploadModel 
-            { 
-                File = File,
-                Tags = "some tag",
-                Title= File.Name,
-                
-            };
-            
-            await service.UploadFileAsync(File);
-            return RedirectToActionPreserveMethod("UploadNewImage", "Image", model);
-            return RedirectToAction(nameof(Index));
-        }*/
 
         [Route("DisplayGallery")]
         public IActionResult DisplayGallery()
         {
             var imageList = service.GetAll();
-            var model = new GalleryIndexModel()
-            {
-                Images = imageList,
-                SearchQuery = ""
-            };
+
+            var model = service.GetIndexModel(imageList);
+
             return View(model);
         }
-        [Route("Detail")]
-        public async Task <IActionResult> Detail(int id)
+        [Route("Details")]
+        public async Task <IActionResult> Details(int? id)
         {
-            var image = await service.GetById(id);
-            var model = new GalleryDetailsModel()
-            {
-                Id = image.Id,
-                Created = image.Created,
-                Url = image.Url,
-                Title = image.Title,
-                Tags = image.Tags.Select(x => x.Description).ToList()
-            };
+            if (id == null) return RedirectToAction(nameof(DisplayGallery));
+
+            var image = await service.GetById(id ?? 0);
+
+            if (image == null) return RedirectToAction(nameof(DisplayGallery));
+
+            var model = service.GetDetailsModel(image);
 
             return View(model);
         }

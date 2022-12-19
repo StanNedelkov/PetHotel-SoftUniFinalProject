@@ -36,8 +36,16 @@
              <a target="_blank" href="@image.Url">
             <img src="@image.Url" alt="Cinque Terre" width="600" height="400">
                  </a>
-        <div class="desc">@image.Title #@hashtags</div>
+        <div 
+            class="desc">@image.Title #@hashtags
+                <form asp-area="Client" asp-controller="Gallery" asp-action="Details" method="get">
+                    <input type="hidden" asp-for="@image.Id" name="id" />
+                    <input type="submit" value="Details" class="btn btn-info" />
+                </form>
+        </div>
+        
                 </div>
+        
         }
 
 </body>

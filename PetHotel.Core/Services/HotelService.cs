@@ -69,22 +69,16 @@ namespace PetHotel.Core.Services
         }
 
         
-        public async Task CancelHotelStayAsync(int id, string userId)
+        public async Task CancelHotelStayAsync(int id)
         {
             var petToCancel = await context.Schedules
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (petToCancel == null) throw new ArgumentNullException();
 
-            var user = await context.Users
-                .Include(x => x.Pets)
-                .FirstOrDefaultAsync(x => x.Id == userId);
-
-            if (user.Pets.Any(x => x.Id == petToCancel.PetID))
-            {
                 petToCancel.Status = GlobalConstants.CanceledStatus;
                 await context.SaveChangesAsync();
-            }
+            
            
             
         }
@@ -235,7 +229,8 @@ namespace PetHotel.Core.Services
               .Schedules
               .AsNoTracking()
               .Where(x => x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
-              .FirstOrDefaultAsync(x => x.PetID == id);
+              .FirstOrDefaultAsync(x => x.Id == id);
+
             if (pet == null)
             {
                 throw new ArgumentNullException();
@@ -365,6 +360,23 @@ namespace PetHotel.Core.Services
 
             petToCancel.DepartureDate = departureDate;
             await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsGuestOwnedByUser(int reservationId, string userId)
+        {
+            int petId = await context
+                .Schedules
+                .Where(x => x.Id == reservationId)
+                .Select(x => x.PetID)
+                .FirstOrDefaultAsync();
+
+            var user = await context
+                .Users
+                .Include(x => x.Pets)
+                .FirstOrDefaultAsync(x => x.Id == userId);
+
+            return user.Pets.Any(x => x.Id == petId);
+           
         }
     }
 }

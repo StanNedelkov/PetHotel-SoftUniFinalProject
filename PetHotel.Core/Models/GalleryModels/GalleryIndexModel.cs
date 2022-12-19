@@ -9,6 +9,10 @@ namespace PetHotel.Core.Models.GalleryModels
 {
     public class GalleryIndexModel
     {
+        public GalleryIndexModel()
+        {
+            this.Images = new HashSet<GalleryImage>();
+        }
         public IEnumerable<GalleryImage> Images { get; set; }
         public string SearchQuery { get; set; } = null!;
     }

@@ -67,8 +67,6 @@ namespace PetHotel.Areas.Client.Controllers
             
                 var allMyPetsInHotel = await service.GetMyAllGuestsAsync(userId);
                 return View(allMyPetsInHotel);
-            
-
         }
 
 
@@ -77,25 +75,27 @@ namespace PetHotel.Areas.Client.Controllers
         public async Task<IActionResult> CancelReserv(int? id) //this is the id of the reservation
         {
             if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
-            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
 
-            //here the user is checked in the service
-            await service.CancelHotelStayAsync(id ?? 0, userId);
+            //user is checked if they own the pet guest 
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            if (!await service.IsGuestOwnedByUser(id ?? 0, userId)) return RedirectToAction("Index", "Home");
+
+            await service.CancelHotelStayAsync(id ?? 0);
+
                return RedirectToAction(nameof(AllMine));
-            
         }
 
         [Route("EditReservation")]
         [HttpGet]
-        public async Task<IActionResult> EditReservation(int Id) //this is the id of the pet
+        public async Task<IActionResult> EditReservation(int? Id) //this is the id of the reservation
         {
             if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
 
-            //check if pet is owned by logged in user.
-           /* string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-            if (!await userService.UserOwnsPet(userId, Id)) return RedirectToAction(nameof(AllMine));*/
+            //user is checked if they own the pet guest 
+            string userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            if (!await service.IsGuestOwnedByUser(Id ?? 0, userId)) return RedirectToAction("Index", "Home");
 
-            return View(await service.GetGuestToEditAsync(Id));
+            return View(await service.GetGuestToEditAsync(Id ?? 0));
         }
 
 

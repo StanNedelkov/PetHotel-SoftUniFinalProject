@@ -58,16 +58,6 @@
             {
                 <h1 class="display-4"> You have admin rights</h1>
             }
-            @*@if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
-            {
-                <h1 class="display-4"> You have user rights</h1>
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create">Add a new pet</a>
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="User" asp-action="MyPets">Make a reservation</a>
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="Hotel" asp-action="AllMine" >My checked in pets</a>
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="Image" asp-action="UploadNewImage">Upload to gallery</a>
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="DisplayGallery">Gallery</a>
-            }*@
-
         }
     </section>
     </div>
@@ -97,7 +87,20 @@
 
         </a>
         </div>
-        
+    }
+
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.EmployeeRoleName) ?? false)
+    {
+            <div style="background-image: url('images/6a215ba60967211f3bec3f6379b96ad2.jpg');
+  background-size: cover; height:480px; padding-top:80px;">
+            <h1 class="display-4"> You have user rights</h1>
+               
+                <a class="nav-link text-dark" asp-area="Client" asp-controller="Image" asp-action="UploadNewImage">
+                    <b>Upload to gallery</b>
+                    </a>
+           
+            </div>
+
     }
 </body>
 

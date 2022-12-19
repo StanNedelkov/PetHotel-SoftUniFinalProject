@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHotel.Core", "PetHotel.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHotel.Common", "PetHotel.Common\PetHotel.Common.csproj", "{7E3EE544-BDD9-4389-80D6-765A8F7B22DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHotel.UnitTests", "PetHotel.UnitTests\PetHotel.UnitTests.csproj", "{9C20AD32-9FF1-47F4-8EE3-BB7868E76EBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7E3EE544-BDD9-4389-80D6-765A8F7B22DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E3EE544-BDD9-4389-80D6-765A8F7B22DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E3EE544-BDD9-4389-80D6-765A8F7B22DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C20AD32-9FF1-47F4-8EE3-BB7868E76EBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C20AD32-9FF1-47F4-8EE3-BB7868E76EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C20AD32-9FF1-47F4-8EE3-BB7868E76EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C20AD32-9FF1-47F4-8EE3-BB7868E76EBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

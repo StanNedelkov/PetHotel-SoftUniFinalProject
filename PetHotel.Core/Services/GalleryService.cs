@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PetHotel.Core.Contracts;
+using PetHotel.Core.Models.GalleryModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
 
@@ -29,14 +30,13 @@ namespace PetHotel.Core.Services
             return await context
                 .GalleryImages
                 .FindAsync(id);
-
-            
         }
-        //saves files to folder, not implemented, old version, TO BE REMOVED
+        //saves files to folder, not implemented, old version, TO BE REMOVED?
         public IEnumerable<GalleryImage> GetWithTag(string tag)
         {
             return  GetAll()
-                .Where(img => img.Tags.Any(t => t.Description == tag));
+                .Where(img => img.Tags
+                .Any(t => t.Description == tag));
         }
 
         public async Task UploadFileAsync(IFormFile file)
@@ -59,6 +59,29 @@ namespace PetHotel.Core.Services
             using (FileStream stream = System.IO.File.Create(filePath))
                 await file.CopyToAsync(stream);
 
+        }
+
+        public GalleryDetailsModel GetDetailsModel(GalleryImage image)
+        {
+           var model = new GalleryDetailsModel()
+            {
+                Id = image.Id,
+                Created = image.Created,
+                Url = image.Url,
+                Title = image.Title,
+                Tags =  image.Tags.Select(x => x.Description).ToList()
+            };
+            return model;
+            
+        }
+
+        public GalleryIndexModel GetIndexModel(IEnumerable<GalleryImage> imageList)
+        {
+            return new GalleryIndexModel()
+            {
+                Images = imageList,
+                SearchQuery = ""
+            };
         }
     }
 }
