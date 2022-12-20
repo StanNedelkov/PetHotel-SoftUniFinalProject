@@ -22,9 +22,6 @@ namespace PetHotel.Core.Contracts
         Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId);
 
         Task CancelHotelStayAsync(int bookedId);
-
-        Task PickUpearly(int bookedId, string newCollectionDate);
-
         Task EditGuestAsync(AddGuestViewModel model);
 
         Task<bool> IsGuestOwnedByUser(int reservationId, string userId);

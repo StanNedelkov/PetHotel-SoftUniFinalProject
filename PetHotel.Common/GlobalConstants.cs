@@ -10,7 +10,7 @@
 
         public const string EmployeeRoleName = "Employee";
 
-        public const string DateTimeFormatConst = "dd.MM.yyyy HH:mm";
+        public const string DateTimeFormatConst = "yyyy-dd-MM";
 
         public const string DateTimeAlternateFormatConst = "yyyy-MM-dd";
 

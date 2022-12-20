@@ -11,25 +11,23 @@ namespace PetHotel.Core.Validations
 {
     public class AllowedExtentionsAttribute : ValidationAttribute
     {
-        private readonly string[] _extensions;
-        public AllowedExtentionsAttribute(string[] extensions)
+        private readonly string[] extensions;
+        public AllowedExtentionsAttribute(string[] _extensions)
         {
-            _extensions = extensions;
+            this.extensions = _extensions;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var file = value as IFormFile;
             if (file != null)
             {
                 var extension = Path.GetExtension(file.FileName);
-                if (!_extensions.Contains(extension.ToLower()))
-                {
-                    return new ValidationResult(ErrorMessagesConstants.fileExtentionInvalid);
-                }
+                if (!extensions.Contains(extension.ToLower())) return new ValidationResult(ErrorMessagesConstants.fileExtentionInvalid);
+                
             }
 
-            return ValidationResult.Success!;
+            return ValidationResult.Success;
         }
 
      

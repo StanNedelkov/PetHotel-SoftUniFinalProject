@@ -78,9 +78,6 @@ namespace PetHotel.Core.Services
 
                 petToCancel.Status = GlobalConstants.CanceledStatus;
                 await context.SaveChangesAsync();
-            
-           
-            
         }
 
         //edit reservation dates
@@ -126,12 +123,12 @@ namespace PetHotel.Core.Services
 
             
 
-            if (expectedGuests == null) Enumerable.Empty<GuestDetailedViewModel>().ToList();
+            if (expectedGuests == null) return Enumerable.Empty<GuestDetailedViewModel>().ToList();
 
 
 
             var all = new List<GuestDetailedViewModel>();
-            foreach (var item in expectedGuests)
+            foreach (var item in expectedGuests!)
             {
                 var petDto = await context
                  .Pets
@@ -331,36 +328,7 @@ namespace PetHotel.Core.Services
 
             return petDto;
         }
-        /// <summary>
-        /// Change collection date to an earlier time
-        /// </summary>
-        /// <param name="bookedId"></param>
-        /// <param name="newCollectionDate"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public async Task PickUpearly(int bookedId, string newCollectionDate)
-        {
-            var petToCancel = await context.Schedules
-               .FirstOrDefaultAsync(x => x.Id == bookedId);
-
-            if (petToCancel == null) throw new ArgumentNullException(); // check if pet guest exists
-
-            if (petToCancel.AdmissionDate > DateTime.Now && 
-                petToCancel.DepartureDate == DateTime.Now) throw new ArgumentException(); // check if pet guest is staying in the hotel
-
-
-
-            DateTime departureDate = CheckDateFormat(newCollectionDate); // check if new collection date format is ok
-
-            if (petToCancel.AdmissionDate > departureDate &&
-           petToCancel.DepartureDate == departureDate &&
-           departureDate >= DateTime.Now) throw new ArgumentException(); // check if new collection date is not earlier or later
-                                                                         // than the stay in the hotel
-
-            petToCancel.DepartureDate = departureDate;
-            await context.SaveChangesAsync();
-        }
+       
 
         public async Task<bool> IsGuestOwnedByUser(int reservationId, string userId)
         {
@@ -375,7 +343,7 @@ namespace PetHotel.Core.Services
                 .Include(x => x.Pets)
                 .FirstOrDefaultAsync(x => x.Id == userId);
 
-            return user.Pets.Any(x => x.Id == petId);
+            return user!.Pets.Any(x => x.Id == petId);
            
         }
     }
