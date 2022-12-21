@@ -6,7 +6,6 @@ using PetHotel.Core.Models.PetModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
 using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
 
 namespace PetHotel.Core.Services
 {
@@ -168,7 +167,7 @@ namespace PetHotel.Core.Services
         /// <param name="id"></param>
         /// <returns>specific user's details</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task<GuestOwnerViewModel> GetGuestOwnerAsync(int id)
+        public async Task<GuestOwnerViewModel> GetGuestOwnerAsync(int id) //id of the pet
         {
             var user = 
                 await context.Pets
@@ -186,6 +185,7 @@ namespace PetHotel.Core.Services
                     UserName = x.User.UserName
                 })
                 .FirstOrDefaultAsync();
+
             if (user == null) throw new ArgumentNullException();
 
             return user;
@@ -228,10 +228,8 @@ namespace PetHotel.Core.Services
               .Where(x => x.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
               .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (pet == null)
-            {
-                throw new ArgumentNullException();
-            }
+            if (pet == null) throw new ArgumentNullException();
+            
 
             return new AddGuestViewModel()
             {
@@ -249,7 +247,7 @@ namespace PetHotel.Core.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+       
         public async Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId)
         {
             List<int> petsOwnedByUser = await context
@@ -346,5 +344,7 @@ namespace PetHotel.Core.Services
             return user!.Pets.Any(x => x.Id == petId);
            
         }
+
+
     }
 }

@@ -3,11 +3,6 @@ using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.PetModels;
 using PetHotel.Infrastructure.Data;
 using PetHotel.Infrastructure.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetHotel.Core.Services
 {
@@ -30,31 +25,21 @@ namespace PetHotel.Core.Services
                 UserID = userId,
                 HotelID = 1
             };
-          /*  //to do check if null
-          *//*  var capacity = await context.Capacities.FirstOrDefaultAsync(x => x.HotelID == 1);*//*
-            //to do constants or better way to get the Ids than just numbers!!!!
-            if (pet.PetTypeID == 1) capacity.CurCapacityDogs++;
-            if (pet.PetTypeID == 2) capacity.CurCapacityCats++;
-            if (pet.PetTypeID == 3) capacity.CurCapacityGator++;*/
+          
             await context.Pets.AddAsync(pet);
             await context.SaveChangesAsync();
         }
 
-        //TODO change delete with bool is active, edit all entities
+       
         public async Task DeletePetAsync(int Id)
         {
             var petToDelete = await context
                 .Pets
                 .FirstOrDefaultAsync(x => x.Id == Id);
-            if (petToDelete == null)
-            {
-                //do something that makse sence
-                throw new ArgumentNullException();
-            }
+            if (petToDelete == null) throw new ArgumentNullException();
+            
             context.Pets.Remove(petToDelete);
             await context.SaveChangesAsync();
-
-           
         }
 
         public async Task EditPetAsync(CreatePetViewModel model)
