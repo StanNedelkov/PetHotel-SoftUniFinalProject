@@ -1,7 +1,9 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+
 using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.GalleryModels;
@@ -64,6 +66,7 @@ namespace PetHotel.Core.Services
                 Folder = "EndSars/img"
             };
 
+            //the url of the uploaded picture
             var uploadResult = await cloudinary.UploadAsync(@uploadParams);
             
 

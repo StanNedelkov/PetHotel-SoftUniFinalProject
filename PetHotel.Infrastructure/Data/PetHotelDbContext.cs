@@ -24,7 +24,7 @@ namespace PetHotel.Infrastructure.Data
         {
             
         }
-       /* public DbSet<Capacity> Capacities { get; set; } = null!;*/
+       
         public DbSet<Hotel> Hotels { get; set; } = null!;
         public DbSet<Pet> Pets { get; set; } = null!;
         public DbSet<PetType> PetTypes { get; set; } = null!;
@@ -82,16 +82,11 @@ namespace PetHotel.Infrastructure.Data
                     UserId = employeeId,
                 });
 
-          /*  this.SeedEmployeeTwoUsers();
-            builder.Entity<User>()
-                .HasData(this.NewEmployeeUser);
 
-            builder.Entity<IdentityUserRole<string>>()
-                .HasData(new IdentityUserRole<string>
-                {
-                    RoleId = employeeRoleId,
-                    UserId = employeeTwoId,
-                });*/
+
+            this.SeedCatType();
+            this.SeedDogType();
+            this.SeedCrocType();
             this.SeedHotel();
 
             base.OnModelCreating(builder);
@@ -114,7 +109,9 @@ namespace PetHotel.Infrastructure.Data
 
         private User NewEmployeeUser { get; set; } = null!;
 
-        public Hotel Hotel { get; set; }
+        public Hotel Hotel { get; set; } = null!;
+
+        public PetType Types { get; set; } = null!;
 
 
         /*//Capacity
@@ -226,9 +223,43 @@ namespace PetHotel.Infrastructure.Data
         private void SeedHotel()
         {
             this.Hotel = new Hotel()
-            { Name = "Cats Dogs and Crocs" };
+            { 
+                Id = 1,
+                Name = "Cats Dogs and Crocs" 
+            };
         }
 
+        private void SeedCatType()
+        {
+            this.Types = new PetType()
+            {
+                Id = 1,
+                CostPerDay = 8,
+                Name = "Cat",
+
+            };
+        }
+        private void SeedDogType()
+        {
+            this.Types = new PetType()
+            {
+                Id = 1,
+                CostPerDay = 10,
+                Name = "Dog",
+
+            };
+        }
+
+        private void SeedCrocType()
+        {
+            this.Types = new PetType()
+            {
+                Id = 1,
+                CostPerDay = 40,
+                Name = "Crocodile",
+
+            };
+        }
 
     }
 }

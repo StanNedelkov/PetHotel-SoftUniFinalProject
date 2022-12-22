@@ -62,6 +62,11 @@ namespace PetHotel.Core.Services
             };
         }
 
+        /// <summary>
+        /// Returns all expected guests
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<IEnumerable<GuestDetailedViewModel>> GetAllAsync()
         {
             var expectedGuests = await context
@@ -100,6 +105,9 @@ namespace PetHotel.Core.Services
                      Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
+
+                if (petDto == null) throw new ArgumentNullException();
+
                 all.Add(petDto!);
             }
             if (all == null) throw new ArgumentNullException();
@@ -146,6 +154,8 @@ namespace PetHotel.Core.Services
                      Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
+
+                if (petDto == null) throw new ArgumentNullException();
                 all.Add(petDto!);
             }
             if (all == null) throw new ArgumentNullException();
@@ -215,6 +225,9 @@ namespace PetHotel.Core.Services
                      
                 }).FirstOrDefaultAsync();
 
+            if (reservation == null) throw new ArgumentNullException();
+           
+
             //get pet type
             string? type = await context
                 .Pets
@@ -241,7 +254,9 @@ namespace PetHotel.Core.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
-            decimal totalCost = CalcCost(reservationDates.AdmissionDate, reservationDates.DepartureDate, cost);
+            decimal totalCost = 
+                CalcCost(reservationDates.AdmissionDate, 
+                reservationDates.DepartureDate, cost);
 
             reservation.StayCost= totalCost;
 
@@ -346,6 +361,8 @@ namespace PetHotel.Core.Services
                      Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
+
+                if (petDto == null) throw new ArgumentNullException();
                 all.Add(petDto!);
             }
             if (all == null) throw new ArgumentNullException();

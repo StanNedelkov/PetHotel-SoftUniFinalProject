@@ -1,6 +1,6 @@
 ﻿@model PetHotel.Core.Models.GalleryModels.UploadModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_LayoutClient.cshtml";
 }
 
 <div class="container body-content">
@@ -8,32 +8,7 @@
         <div class="upload-form drop-shadow">
 
             <form asp-action="UploadNewImage" method="post"enctype="multipart/form-data" id="upload-form">
-                @*<table border="0" cellpadding="2" cellspacing="2">
-                    <tr>
-                        <td>Title</td>
-                        <td>
-                            <input asp-for="Title" />
-                            <span asp-validation-for="Title" class="text-danger"></span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Tags</td>
-                        <td>
-                            <input asp-for="Tags" />
-                              <span asp-validation-for="Tags" class="text-danger"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Upload Image</td>
-                        <td>
-                            <input asp-for="File" />
-                            <span asp-validation-for="File" class="text-danger"></span>
-                            <input type="submit" class="btn btn-primary" />
-                        </td>
-                    </tr>
-
-                </table>*@
+               
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">

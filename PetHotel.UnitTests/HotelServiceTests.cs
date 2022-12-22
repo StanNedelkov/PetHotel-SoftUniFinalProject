@@ -46,6 +46,9 @@ namespace PetHotel.UnitTests
             Assert.That(guest.PetID, Is.EqualTo(2));
         }
 
+
+        //if this test fails after 29/12/22 please check the dates bellow
+
         [Test]
         public async Task TestCancelReservation()
         {
@@ -68,6 +71,34 @@ namespace PetHotel.UnitTests
             Assert.That(guest.Status, Is.EqualTo("Canceled"));
         }
 
+        //if this test fails after 29/12/22 please check the dates bellow
+        [Test]
+        public async Task TestCancelReservationException()
+        {
+            hotelService = new HotelService(context);
+
+            await hotelService.AddGuestAsync(new AddGuestViewModel()
+            {
+                Id = 2,
+                CheckInDate = "2022-12-29",
+                CheckOutDate = "2022-12-30",
+                Name = "Doggy"
+            });
+
+            try
+            {
+                await hotelService.CancelHotelStayAsync(7);
+                Assert.Pass();
+            }
+            catch (ArgumentNullException)
+            {
+
+                Assert.Pass();
+            }
+            
+
+            
+        }
 
         [Test]
         public async Task TestGuestModelById()
@@ -437,8 +468,226 @@ namespace PetHotel.UnitTests
             bool result = await hotelService.IsGuestOwnedByUser(fakeId, userId);
 
             Assert.That(result, Is.False);
+        }
+
+        //If this test fails after 29.12 please check dates bellow
+
+        [Test]
+        public async Task TestEditGuest()
+        {
+            hotelService = new HotelService(context);
+            string petName = "testName";
+            int fakeId = 54;
 
 
+            var hasher = new PasswordHasher();
+
+            var userModel = new User()
+            {
+                UserName = "Stan",
+                NormalizedUserName = "STAN",
+                Email = "stenly.nedelkov@gmail.com",
+                NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
+                FirstName = "Stanislav",
+                LastName = "Nedelkov",
+                IsActive = true,
+            };
+            userModel.PasswordHash = hasher.HashPassword("Parola1!");
+
+            await context.Users.AddAsync(userModel);
+            await context.SaveChangesAsync();
+
+            string userId = await context
+                .Users
+                .Select(x => x.Id)
+                .FirstOrDefaultAsync();
+
+            var pet = new Pet()
+            {
+                Name = petName,
+                UserID = userId,
+                PetTypeID = 1,
+                HotelID = 1,
+                Alergies = "none",
+                Age = 5
+            };
+            var reservation = new Reservation()
+            {
+                HotelID = 1,
+                PetID = 1,
+                PetName = petName,
+                Status = GlobalConstants.ExpectedStatus,
+                AdmissionDate = DateTime.Now,
+                DepartureDate = DateTime.Now,
+            };
+            await context.Pets.AddAsync(pet);
+            await context.Schedules.AddAsync(reservation);
+            await context.SaveChangesAsync();
+
+            var model = new AddGuestViewModel()
+            {
+                CheckInDate = "2022-12-29",
+                CheckOutDate = "2022-12-30",
+                Id = 1,
+                Name = petName
+            };
+
+            await hotelService.EditGuestAsync(model);
+
+            var resultModel = await context
+                .Schedules
+                .FirstOrDefaultAsync();
+
+            Assert.IsNotNull(resultModel);
+            string newDay = resultModel.AdmissionDate.Day.ToString();
+            Assert.That(newDay, Is.EqualTo("29"));
+
+        }
+
+        //If this test fails after 29.12 please check dates bellow
+
+        [Test]
+        public async Task TestEditGuestException()
+        {
+            hotelService = new HotelService(context);
+            string petName = "testName";
+            int fakeId = 54;
+
+
+            var hasher = new PasswordHasher();
+
+            var userModel = new User()
+            {
+                UserName = "Stan",
+                NormalizedUserName = "STAN",
+                Email = "stenly.nedelkov@gmail.com",
+                NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
+                FirstName = "Stanislav",
+                LastName = "Nedelkov",
+                IsActive = true,
+            };
+            userModel.PasswordHash = hasher.HashPassword("Parola1!");
+
+            await context.Users.AddAsync(userModel);
+            await context.SaveChangesAsync();
+
+            string userId = await context
+                .Users
+                .Select(x => x.Id)
+                .FirstOrDefaultAsync();
+
+            var pet = new Pet()
+            {
+                Name = petName,
+                UserID = userId,
+                PetTypeID = 1,
+                HotelID = 1,
+                Alergies = "none",
+                Age = 5
+            };
+            var reservation = new Reservation()
+            {
+                HotelID = 1,
+                PetID = 1,
+                PetName = petName,
+                Status = GlobalConstants.ExpectedStatus,
+                AdmissionDate = DateTime.Now,
+                DepartureDate = DateTime.Now,
+            };
+            await context.Pets.AddAsync(pet);
+            await context.Schedules.AddAsync(reservation);
+            await context.SaveChangesAsync();
+
+            var model = new AddGuestViewModel()
+            {
+                CheckInDate = "2022-12-10",
+                CheckOutDate = "2022-12-11",
+                Id = 1,
+                Name = petName
+            };
+
+            
+
+            try
+            {
+                await hotelService.EditGuestAsync(model);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+
+                Assert.Pass();
+            }
+
+        }
+
+        [Test]
+        public async Task TestGuestForToday()
+        {
+            hotelService = new HotelService(context);
+
+            var modelList = await hotelService.GetAllGuestsTodayAsync();
+
+            Assert.That(modelList, Is.Empty);
+        }
+
+        [Test]
+        public async Task TestGuestsForTodayWithResult()
+        {
+
+            hotelService = new HotelService(context);
+            string petName = "testName";
+            int fakeId = 54;
+
+
+            var hasher = new PasswordHasher();
+
+            var userModel = new User()
+            {
+                UserName = "Stan",
+                NormalizedUserName = "STAN",
+                Email = "stenly.nedelkov@gmail.com",
+                NormalizedEmail = "STENLY.NEDELKOV@GMAIL.COM",
+                FirstName = "Stanislav",
+                LastName = "Nedelkov",
+                IsActive = true,
+            };
+            userModel.PasswordHash = hasher.HashPassword("Parola1!");
+
+            await context.Users.AddAsync(userModel);
+            await context.SaveChangesAsync();
+
+            string userId = await context
+                .Users
+                .Select(x => x.Id)
+                .FirstOrDefaultAsync();
+
+            var pet = new Pet()
+            {
+                Name = petName,
+                UserID = userId,
+                PetTypeID = 1,
+                HotelID = 1,
+                Alergies = "none",
+                Age = 5
+            };
+            var reservation = new Reservation()
+            {
+                HotelID = 1,
+                PetID = 1,
+                PetName = petName,
+                Status = GlobalConstants.ExpectedStatus,
+                AdmissionDate = DateTime.Now,
+                DepartureDate = DateTime.Now,
+            };
+            await context.Pets.AddAsync(pet);
+            await context.Schedules.AddAsync(reservation);
+            await context.SaveChangesAsync();
+
+           var modelList = await hotelService.GetAllGuestsTodayAsync();
+
+            Assert.IsNotNull(modelList);
+            Assert.AreEqual(1, modelList.Count);
         }
     }
 }

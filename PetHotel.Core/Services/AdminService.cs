@@ -13,6 +13,7 @@ namespace PetHotel.Core.Services
     {
         private readonly PetHotelDbContext context;
         private readonly UserManager<User> userManager;
+
         public AdminService(PetHotelDbContext _context, UserManager<User> _userManager)
         {
             this.context = _context;
@@ -57,10 +58,8 @@ namespace PetHotel.Core.Services
                 .Include(x => x.Pets)
                 .ToListAsync();
 
-            if (users == null)
-            {
-                throw new ArgumentNullException();
-            }
+            if (users == null) throw new ArgumentNullException();
+            
 
             var usersDto = new List<ProfileViewModel>();
 
