@@ -14,15 +14,15 @@ Calendar - a calendar with occupancy count on each day.
 Galery - a galery using Cloudinary API.
 Location - using Google Maps API
 
-AREAS
-Admin - account with administrator rights.
-Employee - account with employee rights.
+AREAS  
+Admin - account with administrator rights.  
+Employee - account with employee rights.  
 
-USAGE
-Please use the .sql file DBScriptWithData.sql in the repo. It contains created user/employee/admin accounts and all other neccessary tables.
-ADMIN ACCOUNT: admin
-ADMIN PASSWORD: guest
-EMPLOYEE ACCOUNT: boss
-EMPLOYEE PASSWORD: Parola1!
-USER ACCOUNT: stan
-USER PASSWORD: Parola1!
+USAGE  
+Please use the .sql file DBScriptWithData.sql in the repo. It contains created user/employee/admin accounts and all other neccessary tables.  
+ADMIN ACCOUNT: admin  
+ADMIN PASSWORD: guest  
+EMPLOYEE ACCOUNT: boss  
+EMPLOYEE PASSWORD: Parola1!  
+USER ACCOUNT: stan  
+USER PASSWORD: Parola1!  
