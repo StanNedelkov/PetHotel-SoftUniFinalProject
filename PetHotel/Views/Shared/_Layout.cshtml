@@ -41,16 +41,13 @@
             border-radius: 30px;
             box-shadow: 0 5px #999;
         }
-        /*   .button:hover {
-                    background-color: #3e8e41
-                }*/
+        
         .button:active {
-            /*  background-color: #3e8e41;*/
+           
             box-shadow: 0 4px #666;
             transform: translateY(4px);
         }
 
-       
 
             li a {
                 display: block;
@@ -89,7 +86,24 @@
                       
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                          
                         </li>
+                        <li class="nav-item">
+                           
+                            <a class="nav-link text-dark" asp-area="Client" asp-controller="Location" asp-action="MAP">Contacts</a>
+                            
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="DisplayGallery">Gallery</a>
+                        </li>
+
+                        @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Client" asp-controller="Hotel" asp-action="AllMine">My reservations</a>
+                        </li>
+                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

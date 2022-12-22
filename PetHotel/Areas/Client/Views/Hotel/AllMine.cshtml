@@ -64,8 +64,8 @@
                         <div class="row  d-flex justify-content-center">
                             @foreach (var pet in Model)
                             {
-                if (pet.Status.ToLower() == GlobalConstants.CompletedStatus.ToLower() || pet.Status.ToLower() == GlobalConstants.CanceledStatus.ToLower())
-                {
+                                 if (pet.Status.ToLower() == GlobalConstants.CompletedStatus.ToLower())
+                                 {       
                                     <ul class="list-group">
                                      <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate
                             <p>Total cost: @pet.CostForStay</p>
@@ -75,7 +75,7 @@
                             }
                         </div>
                 </div>
-
+    <div style="background-size: cover; height:240px; padding-top:80px;"></div>
 </body>
 
 
