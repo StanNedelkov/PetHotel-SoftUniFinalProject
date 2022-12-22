@@ -8,12 +8,9 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.Name)
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+            <h3><b>Edit: @Model.Name</b></h3>
             <div class="form-group">
                 <label asp-for="Age" class="control-label"></label>
                 <input asp-for="Age" class="form-control" />

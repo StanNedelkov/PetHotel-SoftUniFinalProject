@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PetHotel.Core.Models.HotelModels.GuestDetailedViewModel>
 
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_LayoutClient.cshtml";
 }
 
 <body>
@@ -9,8 +9,10 @@
     @foreach (var pet in Model)
     {
              <ul class="list-group">
-             <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate, @pet.Status, @pet.ReservationId, @pet.UserName</li>
-             </ul>
+         <li class="list-group-item list-group-item-primary">
+             <p>Guest</p>
+             @pet.PetName, @pet.PetType, Allergies: @pet.Allergies - Stay: @pet.CheckInDate-@pet.CheckOutDate, @pet.Status, @pet.ReservationId, Owner: @pet.UserName</li>
+        </ul>
             <p> 
                 <a asp-controller="Hotel" asp-area="Employee" asp-action="CheckOut" asp-route-id="@pet.ReservationId">Check Out</a>  
                

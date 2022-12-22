@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PetHotel.Core.Contracts;
 using PetHotel.Core.Models;
 using System.Diagnostics;
 
 namespace PetHotel.Controllers
 {
-
+    [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHomeService service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHomeService _service)
         {
-            _logger = logger;
+            this.service = _service;
         }
 
         public IActionResult Index()
@@ -28,6 +30,13 @@ namespace PetHotel.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> Prices()
+        {
+            var model = await service.GetPricesAsync();
+            
+            return View(model);
         }
     }
 }

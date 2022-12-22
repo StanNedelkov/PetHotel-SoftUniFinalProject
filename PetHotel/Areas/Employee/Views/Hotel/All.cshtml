@@ -1,15 +1,17 @@
 ﻿@model IEnumerable<PetHotel.Core.Models.HotelModels.GuestDetailedViewModel>
 
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_LayoutClient.cshtml";
 }
 
 <body>
     <h3>Every Expected</h3>
     @foreach (var pet in Model)
     {
-             <ul class="list-group">
-             <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate, @pet.Status, @pet.ReservationId, @pet.UserName</li>
-             </ul>
+        <ul class="list-group">
+         <li class="list-group-item list-group-item-primary">
+             <p>Guest</p>
+             @pet.PetName, @pet.PetType, Allergies: @pet.Allergies - Stay: @pet.CheckInDate-@pet.CheckOutDate, @pet.Status, @pet.ReservationId, Owner: @pet.UserName</li>
+        </ul>
     }
 </body>

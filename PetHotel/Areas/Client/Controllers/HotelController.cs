@@ -32,7 +32,7 @@ namespace PetHotel.Areas.Client.Controllers
         {
             if (!User.IsInRole(GlobalConstants.UserRoleName)) return RedirectToAction("Index", "Home");
 
-            //check if pet is owned by logged in user.
+            //check if pet is owned by the logged in user.
             string loggedUserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
             if (!await userService.UserOwnsPet(loggedUserId, Id)) return RedirectToAction(nameof(AllMine));
 
@@ -48,7 +48,7 @@ namespace PetHotel.Areas.Client.Controllers
             
                 await service.AddGuestAsync(model);
 
-                return RedirectToAction("Profile", "User");
+                return RedirectToAction(nameof(AllMine));
         }
 
         [Route("AllMine")]
@@ -102,7 +102,7 @@ namespace PetHotel.Areas.Client.Controllers
             
                 await service.EditGuestAsync(model);
 
-                return RedirectToAction("Profile", "User");
+                return RedirectToAction(nameof(AllMine));
             
 
         }

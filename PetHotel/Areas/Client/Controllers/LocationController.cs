@@ -3,10 +3,10 @@
 namespace PetHotel.Areas.Client.Controllers
 {
     [Area("Client")]
-    public class Location : Controller
+    public class LocationController : Controller
     {
         [Route("Map")]
-        public IActionResult Map()
+        public IActionResult MAP()
         {
             return View();
         }

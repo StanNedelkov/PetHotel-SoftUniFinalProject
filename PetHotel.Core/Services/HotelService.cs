@@ -93,8 +93,10 @@ namespace PetHotel.Core.Services
 
             var guest = await context
                 .Schedules
-                .Where(x => x.PetID == model.Id && x.Status == GlobalConstants.ExpectedStatus)
+                .Where(x => x.Id == model.Id && x.Status == GlobalConstants.ExpectedStatus)
                 .FirstOrDefaultAsync();
+
+            if (guest == null) throw new ArgumentNullException();
 
             guest!.AdmissionDate = admissionDate;
             guest!.DepartureDate = departureDate;
@@ -240,14 +242,19 @@ namespace PetHotel.Core.Services
             };
         }
 
+        private decimal CalcCost(DateTime checkIn, DateTime checkOut, decimal costPerDay)
+        {
+            double days = (checkOut - checkIn).TotalDays;
 
+            return (decimal)days * costPerDay;
+        }
         /// <summary>
         /// List of all user's pets in hotel.
         /// To be used by clients.
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-       
+
         public async Task<ICollection<GuestBasicViewModel>> GetMyAllGuestsAsync(string userId)
         {
             List<int> petsOwnedByUser = await context
@@ -298,6 +305,25 @@ namespace PetHotel.Core.Services
                     .Select(x => x.PetType.Name)
                     .FirstOrDefaultAsync();
                 pet.PetType = type!;
+
+
+                //get stay cost
+                decimal cost = await context
+                   .Pets
+                   .Include(x => x.PetType)
+                   .AsNoTracking()
+                   .Where(x => x.Id == pet!.PetId)
+                   .Select(x => x.PetType.CostPerDay)
+                   .FirstOrDefaultAsync();
+
+                var reservationDates = await context.Schedules
+                    .Where(x => x.Id == pet.ReservationId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                decimal totalCost = CalcCost(reservationDates.AdmissionDate, reservationDates.DepartureDate, cost);
+
+                pet.CostForStay = totalCost;
             }
 
             return reservedPets;

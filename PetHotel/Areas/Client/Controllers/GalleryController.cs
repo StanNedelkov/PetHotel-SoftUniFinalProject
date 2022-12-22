@@ -4,7 +4,7 @@ using PetHotel.Core.Contracts;
 
 namespace PetHotel.Areas.Client.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Area("Client")]
     public class GalleryController : Controller
     {
@@ -16,6 +16,7 @@ namespace PetHotel.Areas.Client.Controllers
             this.service = _service;
         }
         [Route("Index")]
+        
         public IActionResult Index()
         {
             return View();
@@ -23,6 +24,7 @@ namespace PetHotel.Areas.Client.Controllers
 
 
         [Route("DisplayGallery")]
+       
         public IActionResult DisplayGallery()
         {
             var imageList = service.GetAll();
@@ -32,6 +34,7 @@ namespace PetHotel.Areas.Client.Controllers
             return View(model);
         }
         [Route("Details")]
+        
         public async Task <IActionResult> Details(int? id)
         {
             if (id == null) return RedirectToAction(nameof(DisplayGallery));

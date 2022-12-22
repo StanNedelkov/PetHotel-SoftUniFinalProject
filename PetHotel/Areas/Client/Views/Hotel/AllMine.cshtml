@@ -7,9 +7,7 @@
  }
     
 <head>
-    @*<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>*@
+   
 </head>
 
 <body>
@@ -23,7 +21,11 @@
                                 if (pet.Status.ToLower() == GlobalConstants.InProgressStatus.ToLower())
                                  {
                                     <ul class="list-group">
-                                     <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
+                                     <li class="list-group-item list-group-item-primary">
+                                         @pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate
+                                        <p>Total cost: @pet.CostForStay</p>
+                                    </li>
+                                     
                                     </ul>
                                  } 
                             }
@@ -39,7 +41,9 @@
                 if (pet.Status.ToLower() == GlobalConstants.ExpectedStatus.ToLower())
                 {
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
+                        <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate
+                            <p>Total cost: @pet.CostForStay</p>
+                        </li>
                     <form asp-area="Client" asp-controller="Hotel" asp-action="CancelReserv">
                           <input type="hidden" asp-for="@pet.ReservationId" name="id" />
                           <input type="submit" value="Cancel" class="btn btn-danger" />
@@ -63,7 +67,9 @@
                 if (pet.Status.ToLower() == GlobalConstants.CompletedStatus.ToLower() || pet.Status.ToLower() == GlobalConstants.CanceledStatus.ToLower())
                 {
                                     <ul class="list-group">
-                                     <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate</li>
+                                     <li class="list-group-item list-group-item-primary">@pet.PetName, @pet.PetType - @pet.CheckInDate-@pet.CheckOutDate
+                            <p>Total cost: @pet.CostForStay</p>
+                        </li>
                                     </ul>
                                  } 
                             }

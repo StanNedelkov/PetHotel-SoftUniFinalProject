@@ -3,18 +3,24 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+<body>
 <p>User: @Model.UserName</p>
 <p>Name: @Model.FirstName</p>
 <p>Last name: @Model.LastName</p>
 <p>Email: @Model.Email</p>
 <p>Phone: @Model.PhoneNumber</p>
-<p>Password: @Model.PasswordHidden</p>
+<p></p>
 <p>MY PETS</p>
 @foreach (var pet in Model.Pets)
 {
-    <p>@pet.PetType</p>
+    <ul>
+        <li>
     <p>@pet.Name</p>
-    <form asp-area="Client" asp-controller="Pet" asp-action="Delete">
+    <p>Type: @pet.PetType</p>
+    <p>Alergies: @pet.Alergies</p>
+    <p>Age: @pet.Age</p>
+        </li>
+         <form asp-area="Client" asp-controller="Pet" asp-action="Delete">
         <input type="hidden" asp-for="@pet.Id" name="Id"/>
         <input type="submit" value="Delete" class="btn btn-danger" /> 
     </form>
@@ -22,8 +28,7 @@
         <input type="hidden" asp-for="@pet.Id" name="Id" />
         <input type="submit" value="Edit" class="btn btn-outline-info" />
     </form>
-    <form asp-area="Client" asp-controller="Hotel" asp-action="Add" method="get">
-        <input type="hidden" asp-for="@pet.Id" name="Id" />
-        <input type="submit" value="Add" class="btn btn-outline-info" />
-    </form>
+    </ul>
 }
+
+</body>

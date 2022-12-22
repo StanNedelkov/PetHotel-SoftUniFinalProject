@@ -1,7 +1,7 @@
 ﻿@model PetHotel.Core.Models.HotelModels.GuestDetailedViewModel
 
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_LayoutClient.cshtml";
 }
 
 <body>
@@ -15,12 +15,14 @@
         @Html.HiddenFor(x => x.UserName)
         @Html.HiddenFor(x => x.PetType)
         @Html.HiddenFor(x => x.Status)
+        @Html.HiddenFor(x => x.Allergies)
     <div class="d-flex justify-content-center">
     <div class="card " style="width: 50rem;">
         <div class="card-body">
             <h3 class="card-title text-center">@Model.PetName</h3>
             <p class="card-text"><span class="fw-bold">Type: </span>@Model.PetType</p>
             <p class="card-text"><span class="fw-bold">Owner: </span>@Model.UserName</p>
+            <p class="card-text"><span class="fw-bold">Type: </span>@Model.Allergies</p>
             <p class="card-text"><span class="fw-bold">Admission day: </span>@Model.CheckInDate</p>
             <p class="card-text"><span class="fw-bold">Departure day: </span>@Model.CheckOutDate</p>
 

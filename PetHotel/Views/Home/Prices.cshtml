@@ -1,0 +1,25 @@
+﻿@model ICollection<PetHotel.Core.Models.HomeModels.PricesViewModel>
+@{
+}
+
+<head>
+<style>
+img {
+  width:400px;
+  height:300px;
+}
+</style>
+</head>
+<body>
+    <img src="~/Images/rooms.jpg"  width="400" height="300">
+    <div>
+ <h2>Price List:</h2>
+    @foreach (var item in Model)
+    {
+              <ul>
+               <li>@item.Title - @item.Price.ToString("0.00") lv. Per Day</li>
+              </ul>
+    }
+    </div>
+    
+</body>

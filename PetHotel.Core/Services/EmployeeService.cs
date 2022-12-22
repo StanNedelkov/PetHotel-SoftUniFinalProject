@@ -15,6 +15,12 @@ namespace PetHotel.Core.Services
             this.context = _context;
         }
 
+        private  decimal CalcCost(DateTime checkIn, DateTime checkOut, decimal costPerDay)
+        {
+            double days = (checkOut - checkIn).TotalDays;
+
+            return (decimal)days*costPerDay;
+        }
         public TasksCountViewModel Counter()
         {
             int expected = context
@@ -90,7 +96,8 @@ namespace PetHotel.Core.Services
                      CheckInDate = item.AdmissionDate.ToString("F"),
                      CheckOutDate = item.DepartureDate.ToString("F"),
                      ReservationId = item.Id,
-                     Status = item.Status
+                     Status = item.Status,
+                     Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
                 all.Add(petDto!);
@@ -135,7 +142,8 @@ namespace PetHotel.Core.Services
                      CheckInDate = item.AdmissionDate.ToString("F"),
                      CheckOutDate = item.DepartureDate.ToString("F"),
                      ReservationId = item.Id,
-                     Status = item.Status
+                     Status = item.Status,
+                     Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
                 all.Add(petDto!);
@@ -180,7 +188,8 @@ namespace PetHotel.Core.Services
                      CheckInDate = item.AdmissionDate.ToString("F"),
                      CheckOutDate = item.DepartureDate.ToString("F"),
                      ReservationId = item.Id,
-                     Status = item.Status
+                     Status = item.Status,
+                     Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
                 all.Add(petDto!);
@@ -206,6 +215,7 @@ namespace PetHotel.Core.Services
                      
                 }).FirstOrDefaultAsync();
 
+            //get pet type
             string? type = await context
                 .Pets
                 .Include(x => x.PetType)
@@ -216,6 +226,25 @@ namespace PetHotel.Core.Services
 
             reservation!.PetType = type!;
 
+
+            //get stay cost
+            decimal cost = await context
+               .Pets
+               .Include(x => x.PetType)
+               .AsNoTracking()
+               .Where(x => x.Id == reservation!.PetId)
+               .Select(x => x.PetType.CostPerDay)
+               .FirstOrDefaultAsync();
+
+            var reservationDates = await context.Schedules
+                .Where(x => x.Id == reservationId)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            decimal totalCost = CalcCost(reservationDates.AdmissionDate, reservationDates.DepartureDate, cost);
+
+            reservation.StayCost= totalCost;
+
             var userName = await context
                 .Pets
                 .Include(x => x.User)
@@ -225,6 +254,15 @@ namespace PetHotel.Core.Services
                 .FirstOrDefaultAsync();
 
             reservation.UserName = userName!;
+
+            var allergies = await context
+                .Pets
+                .AsNoTracking()
+                .Where(x => x.Id == reservation!.PetId)
+                .Select(x => x.Alergies)
+                .FirstOrDefaultAsync();
+
+            reservation.Allergies = allergies;
 
             var userId = await context
                .Pets
@@ -304,7 +342,8 @@ namespace PetHotel.Core.Services
                      CheckInDate = item.AdmissionDate.ToString("F"),
                      CheckOutDate = item.DepartureDate.ToString("F"),
                      ReservationId = item.Id,
-                     Status = item.Status
+                     Status = item.Status,
+                     Allergies = x.Alergies
                  })
                  .FirstOrDefaultAsync();
                 all.Add(petDto!);

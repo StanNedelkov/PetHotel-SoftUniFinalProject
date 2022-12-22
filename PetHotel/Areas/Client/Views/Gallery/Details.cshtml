@@ -1,20 +1,26 @@
 ﻿@model PetHotel.Core.Models.GalleryModels.GalleryDetailsModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+  
 }
-<div class="container ">
-    <div class="container ">
-        <div class="background-image  background-size: cover; height:480px; padding-top:80px; ">
-            <img  src="@Model.Url" alt="@Model.Title"/>
-        </div>
+
+<style>
+    img {
+        width: 600px;
+        height: 700px;
+    }
+</style>
+<body>
+    <div>
+    <h2>@Model.Title</h2>
+        <img src=" @Model.Url" alt="Paris" width="400" height="300">
     </div>
+
     <div class="container ">
-        <span> Title: @Model.Title</span>
         <span> Uploaded: @Model.Created</span>
-        <div class="row controlls">
-            <a class="btn btn-primary" asp-controller="Gallery" asp-action="DisplayGallery">Back To Gallery</a>
+        <div>
+        <a class="btn btn-primary" asp-controller="Gallery" asp-action="DisplayGallery">Back To Gallery</a>
         </div>
     </div>
     
-
-</div>
+</body>

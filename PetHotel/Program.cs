@@ -60,15 +60,16 @@ namespace PetHotel
             builder.Services.AddScoped<IGalleryService, GalleryService>();
             builder.Services.AddScoped<ICloudinaryImageUpload, CloudinaryImageUpload>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IHomeService, HomeService>();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+               // app.UseExceptionHandler("/Home/Error");
                
-               // app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -104,7 +105,12 @@ namespace PetHotel
            areaName: "Client",
            pattern: "Client/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-            
+                endpoints.MapAreaControllerRoute(
+           name: "MyAreaEmployee",
+           areaName: "Employee",
+           pattern: "Employee/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+
             });
 
             app.Run();

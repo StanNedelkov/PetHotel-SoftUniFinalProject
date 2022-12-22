@@ -4,16 +4,16 @@ using PetHotel.Common;
 using PetHotel.Core.Contracts;
 using PetHotel.Core.Models.GalleryModels;
 
-namespace PetHotel.Areas.Client.Controllers
+namespace PetHotel.Areas.Employee.Controllers
 {
-    [Area("Client")]
+    [Area("Employee")]
     [Authorize]
     public class ImageController : Controller
     {
         private readonly ICloudinaryImageUpload imageUpload;
         public ImageController(ICloudinaryImageUpload _imageUpload)
         {
-            this.imageUpload = _imageUpload;
+            imageUpload = _imageUpload;
         }
 
         [HttpGet]
@@ -36,7 +36,7 @@ namespace PetHotel.Areas.Client.Controllers
                 return View(model);
             }
             await imageUpload.UploadPicture(model);
-            return RedirectToAction("DisplayGallery", "Gallery");
+            return RedirectToAction("DisplayGallery", "Gallery", new { area = "Client" });
 
         }
     }

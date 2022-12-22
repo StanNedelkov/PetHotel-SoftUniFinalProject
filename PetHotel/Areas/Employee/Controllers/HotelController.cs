@@ -24,8 +24,8 @@ namespace PetHotel.Areas.Employee.Controllers
             this.employeeService = _employeeService;
         }
 
-
-        public IActionResult Index()
+        [Route("ControlMenu")]
+        public IActionResult ControlMenu()
         {
             if (!User.IsInRole(GlobalConstants.EmployeeRoleName))  return RedirectToAction("Index", "Home");
             

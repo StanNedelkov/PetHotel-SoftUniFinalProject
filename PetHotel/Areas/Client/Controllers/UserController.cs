@@ -80,7 +80,7 @@ namespace PetHotel.Areas.Client.Controllers
             {
                 await service.LoginUserAsync(model);
                 var user = await service.EmployeeUser(model.UserName);
-                if (await userManager.IsInRoleAsync(user, "Employee")) return Redirect("Employee/Hotel/Index");
+                /*if (await userManager.IsInRoleAsync(user, "Employee")) return RedirectToAction("ControlMenu");*/
 
                 return RedirectToAction("Index", "Home");
             }

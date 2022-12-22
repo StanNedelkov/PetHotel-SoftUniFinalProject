@@ -1,5 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
+    {
+        Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.EmployeeRoleName) ?? false)
+    {
+        Layout = "/Views/Shared/_LayoutClient.cshtml";
+    }
 }
 <head>
     <style>
@@ -10,6 +18,7 @@
         h3 {
             text-align: center;
         }
+
         p {
             text-align: center;
         }
@@ -42,65 +51,149 @@
             text-decoration: underline;
         }
     </style>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <body>
-    <div style="background-image: url('images/pngtree-calf-dog-pet-young-mammal-background-picture-image_436086.jpg');
-  background-size: cover; height:480px; padding-top:80px;">
+    <div style="background-image: url('images/pet-first-aid-banner-1400x815.jpg');
+  background-size: cover; height:400px; padding-top:80px;">
 
-        <h3 class="display-4"><b>Welcome the Cats Dogs and Crocs Hote</b>l</h3>
-    <section class="home-page">
-        @if (this.User?.Identity?.IsAuthenticated ?? false)
-        {
-            <h1 class="display-4">Hi @this.User.Identity.Name</h1>
-
-            @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
+        <h5 class="display-4" style="color:ghostwhite"><b>The Cats Dogs and Crocs</b></h5>
+        <h5 class="display-4" style="color:ghostwhite"><b>Hotel</b></h5>
+        <section class="home-page">
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
-                <h1 class="display-4"> You have admin rights</h1>
-            }
-        }
-    </section>
-    </div>
-    <div style="background-size: cover; height:240px; padding-top:80px;"></div>
-    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
-    {
-        <div style="background-image: url('images/6a215ba60967211f3bec3f6379b96ad2.jpg');
-  background-size: cover; height:480px; padding-top:80px;">
-        <h1 class="display-4"> You have user rights</h1>
-            <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create"><b>Add a new pet</b>
+                <h1 class="display-4" style="color:ghostwhite">Hi @this.User.Identity.Name</h1>
 
-        </a>
+                @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
+                {
+                    <h1 class="display-4"> You have admin rights</h1>
+                }
+            }
+        </section>
+    </div>
+    <div style="background-size: cover; height:50px; padding-top:80px;"></div>
+
+    <div class="w3-container">
+
+
+        <div class="w3-card-4" style="width:50%; float:left;">
+    <header class="w3-container w3-blue">
+      <h1>About Us</h1>
+    </header>
+
+    <div class="w3-container">
+      <p>We are a great team filled with proffessionals who love pets. We are conviniently located in Sofia.</p>
+    </div>
+
+    <footer class="w3-container w3-blue">
+      <a class="nav-link text-dark" asp-area="Client" asp-controller="Location" asp-action="MAP">
+                <b>You can find us here</b>
+      </a>
+    </footer>
+  </div>
+        <div class="w3-card-4" style="width:50%; float:left; ">
+    <header class="w3-container w3-blue">
+      <h1>Our Services</h1>
+    </header>
+
+    <div class="w3-container">
+      <p>We'll look after your cat, dog or even crocodile 365 days a year. We work every holiday so you can ejoy yours.</p>
+    </div>
+
+    <footer class="w3-container w3-blue">
+                <a class="nav-link text-dark" asp-controller="Home" asp-action="Prices">
+                    <b>See our prices</b>
+                </a>
+    </footer>
+  </div>
+</div>
+
+
+
+
+<div class="w3-container">
+        <div class="w3-panel w3-card">
+            <p><h2 style="color:ghostwhite">Gallery</h2></p>
+            <p>
+                <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="DisplayGallery">
+                    <b>Click Here To Check Our Gallery</b>
+
+                </a>
+            </p>
+        </div>
+</div>
+
+@{
+
+    if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
+    {
+       <div class="w3-container">
+        <div class="w3-panel w3-card">
+                <h1 class="display-4" style="color:ghostwhite"> Control your reservations and pets</h1>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="Pet" asp-action="Create">
+                <b>Add a new pet</b>
+
+            </a>
             <a class="nav-link text-dark" asp-area="Client" asp-controller="User" asp-action="MyPets">
                 <b>Make a reservation</b>
 
-        </a>
+            </a>
             <a class="nav-link text-dark" asp-area="Client" asp-controller="Hotel" asp-action="AllMine">
-                <b>My checked in pets</b>
+                <b>My reservations</b>
 
-        </a>
-            <a class="nav-link text-dark" asp-area="Client" asp-controller="Image" asp-action="UploadNewImage">
-                <b>Upload to gallery</b>
-
-        </a>
-            <a class="nav-link text-dark" asp-area="Client" asp-controller="Gallery" asp-action="DisplayGallery">
-                <b>Gallery</b>
-
-        </a>
+            </a>
+           
+           
+        </div>
         </div>
     }
+        else if (!User.Identity.IsAuthenticated && !this.User.IsInRole(PetHotel.Common.GlobalConstants.EmployeeRoleName))
+        {
+            <div class="w3-container">
+        <div class="w3-panel w3-card">
+                <h1 class="display-4" style="color:ghostwhite"> Don't have an account?</h1>
+            <a class="nav-link text-dark" asp-area="Client" asp-controller="User" asp-action="Register">
+                <b>Create one here</b>
 
-    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.EmployeeRoleName) ?? false)
-    {
-            <div style="background-image: url('images/6a215ba60967211f3bec3f6379b96ad2.jpg');
-  background-size: cover; height:480px; padding-top:80px;">
-            <h1 class="display-4"> You have user rights</h1>
-               
-                <a class="nav-link text-dark" asp-area="Client" asp-controller="Image" asp-action="UploadNewImage">
-                    <b>Upload to gallery</b>
-                    </a>
+            </a>
+            
            
-            </div>
+        </div>
+        </div>
+        }
 
-    }
+        else if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.EmployeeRoleName) ?? false)
+        {
+            <div class="w3-container">
+        <div class="w3-panel w3-card">
+                <h1 class="display-4" style="color:ghostwhite"> You have Employee rights</h1>
+            <a class="nav-link text-dark" asp-area="Employee" asp-controller="Hotel" asp-action="ControlMenu">
+                <b>Reservations control panel</b>
+
+            </a>
+            
+           
+        </div>
+        </div>
+        }
+
+         else if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
+        {
+            <div class="w3-container">
+        <div class="w3-panel w3-card">
+                <h1 class="display-4" style="color:ghostwhite"> You have Admin rights</h1>
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Administrator" asp-action="Profiles">
+                <b>Accounts control panel</b>
+
+            </a>
+            
+           
+        </div>
+        </div>
+        }
+}    
+    <div style="background-size: cover; height:240px; padding-top:80px;"></div>
+   
 </body>
-
