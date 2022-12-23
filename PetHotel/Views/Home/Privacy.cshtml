@@ -1,5 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.EmployeeRoleName) ?? false)
+    {
+        Layout = "/Views/Shared/_LayoutClient.cshtml";
+    }
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.UserRoleName) ?? false)
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+    if (this.User.Identity.IsAuthenticated == false)
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+
+    @if (this.User?.IsInRole(PetHotel.Common.GlobalConstants.AdministratorRoleName) ?? false)
+    {
+        Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+    }
 }
 <h1>@ViewData["Title"]</h1>
 
