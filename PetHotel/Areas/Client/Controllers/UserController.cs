@@ -19,11 +19,11 @@ namespace PetHotel.Areas.Client.Controllers
     public class UserController : Controller
     {
         private readonly IUserService service;
-        private readonly UserManager<User> userManager;
-        public UserController(IUserService _service, UserManager<User> _userManager)
+       
+        public UserController(IUserService _service)
         {
             service = _service;
-            userManager = _userManager;
+            
         }
         public IActionResult Index()
         {
@@ -80,7 +80,7 @@ namespace PetHotel.Areas.Client.Controllers
             {
                 await service.LoginUserAsync(model);
                 var user = await service.EmployeeUser(model.UserName);
-                /*if (await userManager.IsInRoleAsync(user, "Employee")) return RedirectToAction("ControlMenu");*/
+               
 
                 return RedirectToAction("Index", "Home");
             }
@@ -123,7 +123,7 @@ namespace PetHotel.Areas.Client.Controllers
             }
             catch (ArgumentNullException ne)
             {
-                //TODO error page redirect
+                
                 return BadRequest(ne.Message);
             }
         }
